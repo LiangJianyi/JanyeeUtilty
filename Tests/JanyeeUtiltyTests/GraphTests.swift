@@ -3,8 +3,8 @@ import JanyeeUtilty
 import Graph
 
 class GraphTests {
-    let graph1 = Graph(vertex: 13, edges: 13)
-    let graph2 = Graph(vertex: 6, edges: 8)
+    let graph1 = UndirectedGraph(vertex: 13, edges: 13)
+    let graph2 = UndirectedGraph(vertex: 6, edges: 8)
     
     init() {
         // init graph1
@@ -68,7 +68,7 @@ class GraphTests {
         // 将 GraphTest1.txt 的文本 parse 为 Graph 对象
         let graphText = JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt")
         do {
-            let graph = try Graph(readText: graphText)
+            let graph = try UndirectedGraph(readText: graphText)
             XCTAssertEqual(graph.depthFirstSearch(source: 0).connected.sorted(),
                            (0...40).map( {e in e} ))
             let depthFirstSearch = DepthFirstSearch(graph: graph, source: 0)
