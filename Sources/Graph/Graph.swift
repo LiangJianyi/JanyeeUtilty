@@ -84,19 +84,9 @@ public class Graph {
     // 深度优先搜索
     // 返回二元组，vertex属性与source参数相同，connected表示与vertex相连通的顶点组成的序列
     public func depthFirstSearch (source: Int) -> (vertex: Int, connected: [Int]) {
-        var count = 0
-        var marked = Array<Bool>(repeating: false, count: self.vertex)
-        func dfs(_ v: Int) {
-            marked[v] = true
-            count += 1
-            for w in self.adjust[v] {
-                if marked[w] == false {
-                    dfs(w)
-                }
-            }
-        }
-        dfs(source)
-        return (source, self.connectedVertexes(marked))
+        let dfs = DepthFirstSearch(graph: self, source: source)
+        dfs.search(graph: self, v: 0)
+        return (source, dfs.connectedVertexes())
     }
     // 无向图的字符串表示
     public func toString() -> String {

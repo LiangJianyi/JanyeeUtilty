@@ -1,6 +1,6 @@
 protocol Searchable {
     // 找到和 v 连同的所有顶点
-    func dfs(graph: Graph, v: Int)
+    func search(graph: Graph, v: Int)
     // v 和 s 是连通的吗
     func isMarked(vertex: Int) -> Bool
     // 与 s 连同的顶点总数
@@ -18,16 +18,16 @@ public class DepthFirstSearch: Searchable {
         self.edgeTo = [Int](repeating: 0, count: graph.vertex)
         self.source = source
         self.count = 0
-        dfs(graph: graph, v: self.source)
+        search(graph: graph, v: self.source)
     }
     
-    public func dfs(graph: Graph, v: Int) {
+    public func search(graph: Graph, v: Int) {
         self.marked[v] = true
         self.count += 1
         for w in graph.adjust[v] {
             if self.marked[w] == false {
                 self.edgeTo[w] = v
-                dfs(graph: graph, v: w)
+                search(graph: graph, v: w)
             }
         }
     }
