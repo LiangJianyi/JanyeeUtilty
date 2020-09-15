@@ -6,13 +6,19 @@ public class DirectedGraph: Graphable {
     private var adj: Array<Array<Int>> // maybe could change to Dictionary<Int, Array<Int>>
     
     public var edges: Int {
-        return self.e
+        get {
+            return self.e
+        }
     }
     public var vertex: Int {
-        return self.v
+        get {
+            return self.v
+        }
     }
     public var adjust: Array<Array<Int>> {
-        return self.adj
+        get {
+            return self.adj
+        }
     }
     
     public required init(vertex: Int, edges: Int) {
