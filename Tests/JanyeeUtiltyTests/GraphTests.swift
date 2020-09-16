@@ -53,7 +53,7 @@ class GraphTests {
         XCTAssertEqual(graph2.depthFirstSearch(source: 0).connected.sorted(), [0, 1, 2, 3, 4, 5])
         
         let depthFirstSearch = DepthFirstSearch(graph: graph2, source: 0)
-        depthFirstSearch.search(graph: graph2, v: 0)
+//        depthFirstSearch.search(graph: graph2, v: 0)
         XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
         // 从 source 到 5 的路径
         let path = depthFirstSearch.pathTo(5)
@@ -72,7 +72,7 @@ class GraphTests {
             XCTAssertEqual(graph.depthFirstSearch(source: 0).connected.sorted(),
                            (0...40).map( {e in e} ))
             let depthFirstSearch = DepthFirstSearch(graph: graph, source: 0)
-            depthFirstSearch.search(graph: graph, v: 0)
+//            depthFirstSearch.search(graph: graph, v: 0)
             XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(),
                            (0...40).map( {e in e} ))
             

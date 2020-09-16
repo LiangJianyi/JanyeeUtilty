@@ -1,5 +1,6 @@
 protocol Searchable {
     // 找到和 v 连同的所有顶点
+    // 能否去掉这个函数的强制声明？
     func search(graph: Graphable, v: Int)
     // v 和 s 是连通的吗
     func isMarked(vertex: Int) -> Bool
@@ -8,9 +9,13 @@ protocol Searchable {
 }
 
 public class DepthFirstSearch: Searchable {
+    // 标记能够与 source 连通的顶点
     private var marked: [Bool]
+    // 记录搜索过程中路过的顶点
     private var edgeTo: [Int]
-    private var source: Int
+    // 出发顶点
+    private let source: Int
+    // 连通的顶点数目
     private var count: Int
     
     public init(graph: Graphable, source: Int) {
@@ -32,6 +37,7 @@ public class DepthFirstSearch: Searchable {
         }
     }
     
+    // source 到 v 的路径
     public func pathTo(_ v: Int) -> [Int] {
         var path: [Int] = [Int]()
         if hasPathTo(v) == false {
@@ -47,6 +53,7 @@ public class DepthFirstSearch: Searchable {
         }
     }
     
+    // 判断顶点 v 能否抵达
     public func hasPathTo(_ v: Int) -> Bool {
         return self.marked[v]
     }
