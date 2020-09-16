@@ -1,37 +1,47 @@
-protocol Searchable {
+public protocol Searchable {
     // 找到和 v 连同的所有顶点
     // 能否去掉这个函数的强制声明？
     func search(graph: Graphable, v: Int)
     // v 和 s 是连通的吗
     func isMarked(vertex: Int) -> Bool
-    // 与 s 连同的顶点总数
-    func getCount() -> Int
 }
 
-public class DepthFirstSearch: Searchable {
+public class BaseSearch {
     // 标记能够与 source 连通的顶点
-    private var marked: [Bool]
+    fileprivate var marked: [Bool]
     // 记录搜索过程中路过的顶点
-    private var edgeTo: [Int]
+    fileprivate var edgeTo: [Int]
     // 出发顶点
-    private let source: Int
+    fileprivate let source: Int
     // 连通的顶点数目
-    private var count: Int
+    fileprivate var count: Int
     
-    public init(graph: Graphable, source: Int) {
-        self.marked = [Bool](repeating: false, count: graph.vertex)
-        self.edgeTo = [Int](repeating: 0, count: graph.vertex)
+    fileprivate init(marked: [Bool], edgeTo: [Int], source: Int, count: Int) {
+        self.marked = marked
+        self.edgeTo = edgeTo
         self.source = source
-        self.count = 0
-        search(graph: graph, v: self.source)
+        self.count = count
+    }
+}
+
+// 深度优先搜索
+public class DepthFirstSearch: BaseSearch, Searchable {
+    public init(graph: Graphable, source: Int) {
+        super.init(
+            marked: [Bool](repeating: false, count: graph.vertex),
+            edgeTo: [Int](repeating: 0, count: graph.vertex),
+            source: source,
+            count: 0
+        )
+        search(graph: graph, v: super.source)
     }
     
     public func search(graph: Graphable, v: Int) {
-        self.marked[v] = true
-        self.count += 1
+        super.marked[v] = true
+        super.count += 1
         for w in graph.adjust[v] {
-            if self.marked[w] == false {
-                self.edgeTo[w] = v
+            if super.marked[w] == false {
+                super.edgeTo[w] = v
                 search(graph: graph, v: w)
             }
         }
@@ -44,26 +54,22 @@ public class DepthFirstSearch: Searchable {
             return path
         } else {
             var x = v
-            while x != self.source {
+            while x != super.source {
                 path.append(x)
-                x = self.edgeTo[x]
+                x = super.edgeTo[x]
             }
-            path.append(self.source)
+            path.append(super.source)
             return path
         }
     }
     
     // 判断顶点 v 能否抵达
     public func hasPathTo(_ v: Int) -> Bool {
-        return self.marked[v]
+        return super.marked[v]
     }
     
     public func isMarked(vertex: Int) -> Bool {
-        return self.marked[vertex]
-    }
-    
-    public func getCount() -> Int {
-        return self.count
+        return super.marked[vertex]
     }
     
     // 提取已标记的顶点的下标；
@@ -71,8 +77,81 @@ public class DepthFirstSearch: Searchable {
     // 表示该顶点能否连通；
     public func connectedVertexes() -> [Int] {
         var res = [Int]()
-        for i in 0..<self.marked.count {
-            if self.marked[i] {
+        for i in 0..<super.marked.count {
+            if super.marked[i] {
+                res.append(i)
+            }
+        }
+        return res
+    }
+}
+
+// 广度优先搜素
+public class BreadthFirstSearch: BaseSearch, Searchable {
+    public init(graph: Graphable, source: Int) {
+        super.init(
+            marked: [Bool](repeating: false, count: graph.vertex),
+            edgeTo: [Int](repeating: 0, count: graph.vertex),
+            source: source,
+            count: 0
+        )
+        search(graph: graph, v: super.source)
+    }
+    
+    public func search(graph: Graphable, v: Int) {
+//        super.marked[v] = true
+//        super.count += 1
+//        for w in graph.adjust[v] {
+//            if super.marked[w] == false {
+//                super.edgeTo[w] = v
+//                search(graph: graph, v: w)
+//            }
+//        }
+        var queue = [Int]()
+        super.marked[v] = true
+        queue.append(v)
+        while queue.isEmpty == false {
+            let nextVertex = queue.removeFirst()
+            for w in graph.adjust[nextVertex] {
+                super.edgeTo[w] = v
+                super.marked[w] = true
+                queue.append(w)
+            }
+        }
+    }
+    
+    // source 到 v 的路径
+    public func pathTo(_ v: Int) -> [Int] {
+        var path: [Int] = [Int]()
+        if hasPathTo(v) == false {
+            return path
+        } else {
+            var x = v
+            while x != super.source {
+                path.append(x)
+                x = super.edgeTo[x]
+            }
+            path.append(super.source)
+            return path
+        }
+    }
+    
+    // 判断顶点 v 能否抵达
+    public func hasPathTo(_ v: Int) -> Bool {
+        return super.marked[v]
+    }
+    
+    public func isMarked(vertex: Int) -> Bool {
+        return super.marked[vertex]
+    }
+    
+    // 提取已标记的顶点的下标；
+    // arr 由 dfs 和 bfs 返回，数组的下标是顶点编号，对应的布尔值
+    // 表示该顶点能否连通；
+    public func connectedVertexes() -> [Int] {
+        var res = [Int]()
+        for i in 0..<super.marked.count {
+            if super.marked[i] {
                 res.append(i)
             }
         }
