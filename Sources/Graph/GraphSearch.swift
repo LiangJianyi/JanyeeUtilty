@@ -99,21 +99,13 @@ public class BreadthFirstSearch: BaseSearch, Searchable {
     }
     
     public func search(graph: Graphable, v: Int) {
-//        super.marked[v] = true
-//        super.count += 1
-//        for w in graph.adjust[v] {
-//            if super.marked[w] == false {
-//                super.edgeTo[w] = v
-//                search(graph: graph, v: w)
-//            }
-//        }
         var queue = [Int]()
         super.marked[v] = true
         queue.append(v)
         while queue.isEmpty == false {
             let nextVertex = queue.removeFirst()
             for w in graph.adjust[nextVertex] {
-                super.edgeTo[w] = v
+                super.edgeTo[w] = nextVertex
                 super.marked[w] = true
                 queue.append(w)
             }
@@ -126,6 +118,7 @@ public class BreadthFirstSearch: BaseSearch, Searchable {
         if hasPathTo(v) == false {
             return path
         } else {
+            // 能否改 for
             var x = v
             while x != super.source {
                 path.append(x)
