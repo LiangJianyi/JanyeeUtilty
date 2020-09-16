@@ -1,7 +1,5 @@
 public protocol Searchable {
-    // 找到和 v 连同的所有顶点
-    // 能否去掉这个函数的强制声明？
-    func search(graph: Graphable, v: Int)
+    init(graph: Graphable, source: Int)
     // v 和 s 是连通的吗
     func isMarked(vertex: Int) -> Bool
 }
@@ -26,7 +24,7 @@ public class BaseSearch {
 
 // 深度优先搜索
 public class DepthFirstSearch: BaseSearch, Searchable {
-    public init(graph: Graphable, source: Int) {
+    public required init(graph: Graphable, source: Int) {
         super.init(
             marked: [Bool](repeating: false, count: graph.vertex),
             edgeTo: [Int](repeating: 0, count: graph.vertex),
@@ -36,7 +34,7 @@ public class DepthFirstSearch: BaseSearch, Searchable {
         search(graph: graph, v: super.source)
     }
     
-    public func search(graph: Graphable, v: Int) {
+    private func search(graph: Graphable, v: Int) {
         super.marked[v] = true
         super.count += 1
         for w in graph.adjust[v] {
@@ -88,7 +86,7 @@ public class DepthFirstSearch: BaseSearch, Searchable {
 
 // 广度优先搜素
 public class BreadthFirstSearch: BaseSearch, Searchable {
-    public init(graph: Graphable, source: Int) {
+    public required init(graph: Graphable, source: Int) {
         super.init(
             marked: [Bool](repeating: false, count: graph.vertex),
             edgeTo: [Int](repeating: 0, count: graph.vertex),
@@ -98,7 +96,7 @@ public class BreadthFirstSearch: BaseSearch, Searchable {
         search(graph: graph, v: super.source)
     }
     
-    public func search(graph: Graphable, v: Int) {
+    private func search(graph: Graphable, v: Int) {
         var queue = [Int]()
         super.marked[v] = true
         queue.append(v)

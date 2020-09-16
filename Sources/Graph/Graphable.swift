@@ -48,7 +48,6 @@ extension Graphable {
     // 返回二元组，vertex属性与source参数相同，connected表示与vertex相连通的顶点组成的序列
     public func depthFirstSearch (source: Int) -> (vertex: Int, connected: [Int]) {
         let dfs = DepthFirstSearch(graph: self, source: source)
-        dfs.search(graph: self, v: 0)
         return (source, dfs.connectedVertexes())
     }
     // 图的字符串表示
