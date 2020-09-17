@@ -2,7 +2,7 @@ import XCTest
 import JanyeeUtilty
 import Graph
 
-class GraphTests {
+class UndirectedGraphTests {
     let graph1 = UndirectedGraph(vertex: 13, edges: 13)
     let graph2 = UndirectedGraph(vertex: 6, edges: 8)
     
