@@ -40,6 +40,7 @@ class UndirectedGraphTests {
         graph3.addEdge(v: 9, w: 12)
         graph3.addEdge(v: 6, w: 4)
         graph3.addEdge(v: 5, w: 4)
+        graph3.addEdge(v: 0, w: 2)
         graph3.addEdge(v: 11, w: 12)
         graph3.addEdge(v: 9, w: 10)
         graph3.addEdge(v: 0, w: 6)
@@ -113,6 +114,46 @@ class UndirectedGraphTests {
         XCTAssert(graph2.adjust[5].sorted() == [0, 3].sorted(), "graph.adjust[\(5)] = \(graph2.adjust[5])")
     }
     
+    func checkAdjustOfGraph3() {
+        XCTAssert(graph3.adjust[0].sorted() == [6, 2, 1, 5, 30].sorted())
+        XCTAssert(graph3.adjust[1].sorted() == [0].sorted())
+        XCTAssert(graph3.adjust[2].sorted() == [0].sorted())
+        XCTAssert(graph3.adjust[3].sorted() == [5, 4].sorted())
+        XCTAssert(graph3.adjust[4].sorted() == [6, 3, 5].sorted())
+        XCTAssert(graph3.adjust[5].sorted() == [3, 4, 0].sorted())
+        XCTAssert(graph3.adjust[6].sorted() == [0, 4].sorted())
+        XCTAssert(graph3.adjust[7].sorted() == [8].sorted())
+        XCTAssert(graph3.adjust[8].sorted() == [7, 30].sorted())
+        XCTAssert(graph3.adjust[9].sorted() == [11, 10, 12].sorted())
+        XCTAssert(graph3.adjust[10].sorted() == [9].sorted())
+        XCTAssert(graph3.adjust[11].sorted() == [9, 12, 30].sorted())
+        XCTAssert(graph3.adjust[12].sorted() == [11, 9, 30].sorted())
+        XCTAssert(graph3.adjust[13].sorted() == [30, 14, 20].sorted())
+        XCTAssert(graph3.adjust[14].sorted() == [30, 13, 15].sorted())
+        XCTAssert(graph3.adjust[15].sorted() == [30, 16, 14].sorted())
+        XCTAssert(graph3.adjust[16].sorted() == [30, 17, 15].sorted())
+        XCTAssert(graph3.adjust[17].sorted() == [30, 18, 16].sorted())
+        XCTAssert(graph3.adjust[18].sorted() == [30, 19, 25, 17].sorted())
+        XCTAssert(graph3.adjust[19].sorted() == [30, 25, 18].sorted())
+        XCTAssert(graph3.adjust[20].sorted() == [13, 21, 24].sorted())
+        XCTAssert(graph3.adjust[21].sorted() == [20, 22, 24].sorted())
+        XCTAssert(graph3.adjust[22].sorted() == [21, 23, 24].sorted())
+        XCTAssert(graph3.adjust[23].sorted() == [22, 24].sorted())
+        XCTAssert(graph3.adjust[24].sorted() == [20, 21, 22, 23, 28].sorted())
+        XCTAssert(graph3.adjust[25].sorted() == [18, 19, 28].sorted())
+        XCTAssert(graph3.adjust[26].sorted() == [28].sorted())
+        XCTAssert(graph3.adjust[27].sorted() == [28].sorted())
+        XCTAssert(graph3.adjust[28].sorted() == [24, 25, 26, 27].sorted())
+        XCTAssert(graph3.adjust[29].sorted() == [30, 31, 36].sorted())
+        XCTAssert(graph3.adjust[30].sorted() == [0, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 29, 31].sorted())
+        XCTAssert(graph3.adjust[31].sorted() == [30, 29 ,32].sorted())
+        XCTAssert(graph3.adjust[32].sorted() == [31, 33].sorted())
+        XCTAssert(graph3.adjust[33].sorted() == [32, 34].sorted())
+        XCTAssert(graph3.adjust[34].sorted() == [33, 35].sorted())
+        XCTAssert(graph3.adjust[35].sorted() == [34, 36].sorted())
+        XCTAssert(graph3.adjust[36].sorted() == [35, 29].sorted())
+    }
+    
     func graph2DepthFirstSearchTest() {
         XCTAssertEqual(graph2.depthFirstSearch(source: 0).connected.sorted(), [0, 1, 2, 3, 4, 5])
         
@@ -158,6 +199,7 @@ class UndirectedGraphTests {
 
     static var allTests = [
         ("checkAdjustOfGraph1", checkAdjustOfGraph1),
+        ("checkAdjustOfGraph3", checkAdjustOfGraph3),
         ("graph2DepthFirstSearchTest", graph2DepthFirstSearchTest),
         ("parseGraphAndDepthFirstSearchTest", parseGraphAndDepthFirstSearchTest),
     ]
