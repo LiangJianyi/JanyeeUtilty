@@ -169,6 +169,47 @@ class UndirectedGraphTests {
         XCTAssertFalse(path.contains(where: { e in depthFirstSearch.hasPathTo(e) == false }))
     }
     
+    // 测试 graph3 所有顶点的度数
+    func graph3DegreeTest() {
+        XCTAssert(graph3.degree(vertex: 0) == 5)
+        XCTAssert(graph3.degree(vertex: 1) == 1)
+        XCTAssert(graph3.degree(vertex: 2) == 1)
+        XCTAssert(graph3.degree(vertex: 3) == 2)
+        XCTAssert(graph3.degree(vertex: 4) == 3)
+        XCTAssert(graph3.degree(vertex: 5) == 3)
+        XCTAssert(graph3.degree(vertex: 6) == 2)
+        XCTAssert(graph3.degree(vertex: 7) == 1)
+        XCTAssert(graph3.degree(vertex: 8) == 2)
+        XCTAssert(graph3.degree(vertex: 9) == 3)
+        XCTAssert(graph3.degree(vertex: 10) == 1)
+        XCTAssert(graph3.degree(vertex: 11) == 3)
+        XCTAssert(graph3.degree(vertex: 12) == 3)
+        XCTAssert(graph3.degree(vertex: 13) == 3)
+        XCTAssert(graph3.degree(vertex: 14) == 3)
+        XCTAssert(graph3.degree(vertex: 15) == 3)
+        XCTAssert(graph3.degree(vertex: 16) == 3)
+        XCTAssert(graph3.degree(vertex: 17) == 3)
+        XCTAssert(graph3.degree(vertex: 18) == 4)
+        XCTAssert(graph3.degree(vertex: 19) == 3)
+        XCTAssert(graph3.degree(vertex: 20) == 3)
+        XCTAssert(graph3.degree(vertex: 21) == 3)
+        XCTAssert(graph3.degree(vertex: 22) == 3)
+        XCTAssert(graph3.degree(vertex: 23) == 2)
+        XCTAssert(graph3.degree(vertex: 24) == 5)
+        XCTAssert(graph3.degree(vertex: 25) == 3)
+        XCTAssert(graph3.degree(vertex: 26) == 1)
+        XCTAssert(graph3.degree(vertex: 27) == 1)
+        XCTAssert(graph3.degree(vertex: 28) == 4)
+        XCTAssert(graph3.degree(vertex: 29) == 3)
+        XCTAssert(graph3.degree(vertex: 30) == 13)
+        XCTAssert(graph3.degree(vertex: 31) == 3)
+        XCTAssert(graph3.degree(vertex: 32) == 2)
+        XCTAssert(graph3.degree(vertex: 33) == 2)
+        XCTAssert(graph3.degree(vertex: 34) == 2)
+        XCTAssert(graph3.degree(vertex: 35) == 2)
+        XCTAssert(graph3.degree(vertex: 36) == 2)
+    }
+    
     func parseGraphAndDepthFirstSearchTest() {
         // 将 GraphTest1.txt 的文本 parse 为 Graph 对象
         let graphText = JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt")
@@ -202,5 +243,6 @@ class UndirectedGraphTests {
         ("checkAdjustOfGraph3", checkAdjustOfGraph3),
         ("graph2DepthFirstSearchTest", graph2DepthFirstSearchTest),
         ("parseGraphAndDepthFirstSearchTest", parseGraphAndDepthFirstSearchTest),
+        ("graph3DegreeTest", graph3DegreeTest)
     ]
 }
