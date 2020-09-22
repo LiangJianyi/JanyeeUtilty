@@ -4,7 +4,7 @@ public protocol Searchable {
     func isMarked(vertex: Int) -> Bool
 }
 
-public class BaseSearch {
+public class GraphSearch {
     // 标记能够与 source 连通的顶点
     fileprivate var marked: [Bool]
     // 记录搜索过程中路过的顶点
@@ -23,7 +23,7 @@ public class BaseSearch {
 }
 
 // 深度优先搜索
-public class DepthFirstSearch: BaseSearch, Searchable {
+public class DepthFirstSearch: GraphSearch, Searchable {
     public required init(graph: Graphable, source: Int) {
         super.init(
             marked: [Bool](repeating: false, count: graph.vertex),
@@ -85,7 +85,7 @@ public class DepthFirstSearch: BaseSearch, Searchable {
 }
 
 // 广度优先搜素
-public class BreadthFirstSearch: BaseSearch, Searchable {
+public class BreadthFirstSearch: GraphSearch, Searchable {
     public required init(graph: Graphable, source: Int) {
         super.init(
             marked: [Bool](repeating: false, count: graph.vertex),
