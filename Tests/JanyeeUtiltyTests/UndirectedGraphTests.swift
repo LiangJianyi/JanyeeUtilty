@@ -6,6 +6,8 @@ class UndirectedGraphTests {
     let graph1 = UndirectedGraph(vertex: 13, edges: 13)
     let graph2 = UndirectedGraph(vertex: 6, edges: 8)
     let graph3 = UndirectedGraph(vertex: 37, edges: 44)
+    // 将 GraphTest1.txt 的文本 parse 为 Graph 对象
+    let graph4 = JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt")
     
     init() {
         // init graph1
@@ -211,18 +213,12 @@ class UndirectedGraphTests {
     }
     
     func parseGraphAndDepthFirstSearchTest() {
-        // 将 GraphTest1.txt 的文本 parse 为 Graph 对象
-        let graphText = JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt")
         do {
-            let graph = try UndirectedGraph(readText: graphText)
+            let graph = try UndirectedGraph(readText: graph4)
             XCTAssertEqual(graph.depthFirstSearch(source: 0).connected.sorted(),
                            (0...40).map( {e in e} ))
-            let depthFirstSearch = DepthFirstSearch(graph: graph, source: 0)
-//            depthFirstSearch.search(graph: graph, v: 0)
-            XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(),
-                           (0...40).map( {e in e} ))
             
-            
+            // 打印出发点(0...40)与目标(0...40)的交叉连接产生的路径
             for v in 0...40 {
                 let dfs = DepthFirstSearch(graph: graph, source: v)
                 for item in 0...40 {
