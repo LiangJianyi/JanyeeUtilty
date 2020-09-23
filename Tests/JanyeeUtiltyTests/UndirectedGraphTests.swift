@@ -171,6 +171,26 @@ class UndirectedGraphTests {
         XCTAssertFalse(path.contains(where: { e in depthFirstSearch.hasPathTo(e) == false }))
     }
     
+    // 测试通过 DFS 产生的路径列表中的每个 vertex 是否能与 source 连通
+    func graph2DFSPathTest() {
+        for s in 0...5 {
+            let dfs = graph2.depthFirstSearcher(source: s)
+            for v in 0...5 {
+                XCTAssert(dfs.hasPathTo(v))
+            }
+        }
+    }
+    
+    // 测试通过 DFS 产生的路径列表中的每个 vertex 是否能与 source 连通
+    func graph3DFSPathTest() {
+        for s in 0...36 {
+            let dfs = graph3.depthFirstSearcher(source: s)
+            for v in 0...36 {
+                XCTAssert(dfs.hasPathTo(v))
+            }
+        }
+    }
+    
     // 测试 graph3 所有顶点的度数
     func graph3DegreeTest() {
         XCTAssert(graph3.degree(vertex: 0) == 5)
@@ -233,11 +253,18 @@ class UndirectedGraphTests {
             fatalError("Unkown error.")
         }
     }
+    
+    // 检测 graph 的连通性
+    func connectedGraphTest() {
+        
+    }
 
     static var allTests = [
         ("checkAdjustOfGraph1", checkAdjustOfGraph1),
         ("checkAdjustOfGraph3", checkAdjustOfGraph3),
         ("graph2DepthFirstSearchTest", graph2DepthFirstSearchTest),
+        ("graph2DFSPathTest", graph2DFSPathTest),
+        ("graph3DFSPathTest", graph3DFSPathTest),
         ("parseGraphAndDepthFirstSearchTest", parseGraphAndDepthFirstSearchTest),
         ("graph3DegreeTest", graph3DegreeTest)
     ]
