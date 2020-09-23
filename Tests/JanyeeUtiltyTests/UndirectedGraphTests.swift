@@ -157,9 +157,9 @@ class UndirectedGraphTests {
     }
     
     func graph2DepthFirstSearchTest() {
-        XCTAssertEqual(graph2.depthFirstSearch(source: 0).connected.sorted(), [0, 1, 2, 3, 4, 5])
+        let depthFirstSearch = graph2.depthFirstSearcher(source: 0)
+        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
         
-        let depthFirstSearch = DepthFirstSearch(graph: graph2, source: 0)
 //        depthFirstSearch.search(graph: graph2, v: 0)
         XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
         // 从 source 到 5 的路径
@@ -215,7 +215,7 @@ class UndirectedGraphTests {
     func parseGraphAndDepthFirstSearchTest() {
         do {
             let graph = try UndirectedGraph(readText: graph4)
-            XCTAssertEqual(graph.depthFirstSearch(source: 0).connected.sorted(),
+            XCTAssertEqual(graph.depthFirstSearcher(source: 0).connectedVertexes().sorted(),
                            (0...40).map( {e in e} ))
             
             // 打印出发点(0...40)与目标(0...40)的交叉连接产生的路径

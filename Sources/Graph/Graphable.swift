@@ -13,7 +13,7 @@ public protocol Graphable {
     func maxDegree() -> Int
     func avgDegree() -> Double
     func numberOfSelfLoops() -> Int
-    func depthFirstSearch (source: Int) -> (vertex: Int, connected: [Int])
+    func depthFirstSearcher (source: Int) -> DepthFirstSearch
     func toString() -> String
 }
 
@@ -44,11 +44,9 @@ extension Graphable {
         }
         return count / 2
     }
-    // 深度优先搜索
-    // 返回二元组，vertex属性与source参数相同，connected表示与vertex相连通的顶点组成的序列
-    public func depthFirstSearch (source: Int) -> (vertex: Int, connected: [Int]) {
-        let dfs = DepthFirstSearch(graph: self, source: source)
-        return (source, dfs.connectedVertexes())
+    // 返回深度优先搜索器
+    public func depthFirstSearcher (source: Int) -> DepthFirstSearch {
+        return DepthFirstSearch(graph: self, source: source)
     }
     // 图的字符串表示
     public func toString() -> String {
