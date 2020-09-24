@@ -7,7 +7,7 @@ class UndirectedGraphTests {
     let graph2 = UndirectedGraph(vertex: 6, edges: 8)
     let graph3 = UndirectedGraph(vertex: 37, edges: 44)
     // 将 GraphTest1.txt 的文本 parse 为 Graph 对象
-    let graph4 = JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt")
+    let graph4: UndirectedGraph
     
     init() {
         // init graph1
@@ -89,6 +89,15 @@ class UndirectedGraphTests {
         graph3.addEdge(v: 27, w: 28)
         graph3.addEdge(v: 26, w: 28)
         graph3.addEdge(v: 25, w: 28)
+        
+        // init graph4
+        do {
+            graph4 = try UndirectedGraph(readText: JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt"))
+        } catch is GraphError {
+            fatalError("Throwing a GraphError.")
+        } catch {
+            fatalError("Unkown error.")
+        }
     }
     
     func checkAdjustOfGraph1() {
@@ -233,30 +242,33 @@ class UndirectedGraphTests {
     }
     
     func parseGraphAndDepthFirstSearchTest() {
-        do {
-            let graph = try UndirectedGraph(readText: graph4)
-            XCTAssertEqual(graph.depthFirstSearcher(source: 0).connectedVertexes().sorted(),
-                           (0...40).map( {e in e} ))
-            
-            // 打印出发点(0...40)与目标(0...40)的交叉连接产生的路径
-            for v in 0...40 {
-                let dfs = DepthFirstSearch(graph: graph, source: v)
-                for item in 0...40 {
-                    let path = dfs.pathTo(item)
-                    print("\(v)-\(item) pathTo: \(path)")
-                }
+        XCTAssertEqual(graph4.depthFirstSearcher(source: 0).connectedVertexes().sorted(),
+                       (0...40).map( {e in e} ))
+        
+        // 打印出发点(0...40)与目标(0...40)的交叉连接产生的路径
+        for v in 0...40 {
+            let dfs = DepthFirstSearch(graph: graph4, source: v)
+            for item in 0...40 {
+                let path = dfs.pathTo(item)
+                print("\(v)-\(item) pathTo: \(path)")
             }
-            
-        } catch is GraphError {
-            fatalError("Throwing a GraphError.")
-        } catch {
-            fatalError("Unkown error.")
         }
     }
     
     // 检测 graph 的连通性
     func connectedGraphTest() {
+        // by dfs
+        let graphs = [graph1, graph2, graph3, graph4]
+        for graph in graphs {
+            for s in 0..<graph.adjust.count {
+                let dfs = graph.depthFirstSearcher(source: s)
+                for v in graph.adjust[s] {
+                    XCTAssert(dfs.hasPathTo(v))
+                }
+            }
+        }
         
+        // by bfs
     }
 
     static var allTests = [
@@ -266,6 +278,7 @@ class UndirectedGraphTests {
         ("graph2DFSPathTest", graph2DFSPathTest),
         ("graph3DFSPathTest", graph3DFSPathTest),
         ("parseGraphAndDepthFirstSearchTest", parseGraphAndDepthFirstSearchTest),
-        ("graph3DegreeTest", graph3DegreeTest)
+        ("graph3DegreeTest", graph3DegreeTest),
+        ("connectedGraphTest", connectedGraphTest)
     ]
 }
