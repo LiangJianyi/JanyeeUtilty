@@ -257,16 +257,34 @@ class UndirectedGraphTests {
     
     // 检测 graph 的连通性
     func connectedGraphTest() {
-        // by dfs
-        let graphs = [graph1, graph2, graph3, graph4]
-        for graph in graphs {
+        func isConnectedGraph(graph: Graphable) -> Bool {
             for s in 0..<graph.adjust.count {
                 let dfs = graph.depthFirstSearcher(source: s)
-                for v in graph.adjust[s] {
-                    XCTAssert(dfs.hasPathTo(v))
+                for s2 in 0..<graph.adjust.count {
+                    if dfs.hasPathTo(s2) == false {
+                        return false
+                    }
                 }
             }
+            return true
         }
+        /*
+         在这个测试用例中，graph1是不连通图，
+         graph2 、 graph3 和 graph4 是连通图
+         */
+        // by dfs
+        XCTAssertFalse(isConnectedGraph(graph: graph1))
+        XCTAssertTrue(isConnectedGraph(graph: graph2))
+        XCTAssertTrue(isConnectedGraph(graph: graph3))
+        XCTAssertTrue(isConnectedGraph(graph: graph4))
+        
+        // 让 graph3 不再连通
+        graph3.addEdge(v: graph3.adjust.count, w: graph3.adjust.count + 1)
+        XCTAssertFalse(isConnectedGraph(graph: graph3))
+        
+        // 让 graph4 不再连通
+        graph4.addEdge(v: 41, w: 42)
+        XCTAssertFalse(isConnectedGraph(graph: graph4))
         
         // by bfs
     }
