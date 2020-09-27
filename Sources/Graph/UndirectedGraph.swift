@@ -52,8 +52,12 @@ public class UndirectedGraph: Graphable {
     
     // 添加一条边 v-w
     public func addEdge(v: Int, w: Int) {
-        self.adj[v].append(w)
-        self.adj[w].append(v)
+        if self.adj.insertVertex(v: v, w: w) ||
+            self.adj.insertVertex(v: w, w: v) {
+            // 如果其中一个 insertVertex 返回 true，表明 adjust 增加了顶点，
+            // 需要修改 vertex 的计数
+            self.v += 1
+        }
         self.e += 1
     }
     

@@ -61,3 +61,25 @@ extension Graphable {
         return s
     }
 }
+
+// 给邻接表（adj）做扩展。
+// 如果 v 已经存在，则直接把 w 追加到 v 的邻接表，
+// 否则扩充 adjust 列表的长度，增加 adjust.endIndex 到 v 范围的顶点并创建其邻接表。
+// 如果无需扩充 adjust 列表的长度，返回 false，否则返回 true。
+extension Array where Element == Array<Int> {
+    mutating func insertVertex(v: Element.Element, w: Element.Element) -> Bool {
+        if v < self.endIndex {
+            self[v].append(w)
+            return false
+        } else {
+            for _ in self.endIndex..<v {
+                self.append([])
+            }
+            if endIndex == v {
+                self.append([])
+            }
+            self[v].append(w)
+            return true
+        }
+    }
+}
