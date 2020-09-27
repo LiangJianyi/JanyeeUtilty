@@ -165,7 +165,7 @@ class UndirectedGraphTests {
         XCTAssert(graph3.adjust[36].sorted() == [35, 29].sorted())
     }
     
-    func graph2DepthFirstSearchTest() {
+    func graph2DFSTest() {
         let depthFirstSearch = graph2.depthFirstSearcher(source: 0)
         XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
         
@@ -178,6 +178,10 @@ class UndirectedGraphTests {
         // 当路径中有一个顶点与 source 不连通，那么这个 path 的设计有问题。
         // 因为正确的情况下，path 中的每个顶点都是与 source 连通的。
         XCTAssertFalse(path.contains(where: { e in depthFirstSearch.hasPathTo(e) == false }))
+    }
+    
+    func graph2BFSTest() {
+        
     }
     
     // 测试通过 DFS 产生的路径列表中的每个 vertex 是否能与 source 连通
@@ -198,6 +202,10 @@ class UndirectedGraphTests {
                 XCTAssert(dfs.hasPathTo(v))
             }
         }
+    }
+    
+    func graph3BFSTest() {
+        
     }
     
     // 测试 graph3 所有顶点的度数
@@ -241,7 +249,7 @@ class UndirectedGraphTests {
         XCTAssert(graph3.degree(vertex: 36) == 2)
     }
     
-    func parseGraphAndDepthFirstSearchTest() {
+    func graph4DFSTest() {
         XCTAssertEqual(graph4.depthFirstSearcher(source: 0).connectedVertexes().sorted(),
                        (0...40).map( {e in e} ))
         
@@ -253,6 +261,10 @@ class UndirectedGraphTests {
                 print("\(v)-\(item) pathTo: \(path)")
             }
         }
+    }
+    
+    func graph4BFSTest() {
+        
     }
     
     // 检测 graph 的连通性
@@ -292,11 +304,14 @@ class UndirectedGraphTests {
     static var allTests = [
         ("checkAdjustOfGraph1", checkAdjustOfGraph1),
         ("checkAdjustOfGraph3", checkAdjustOfGraph3),
-        ("graph2DepthFirstSearchTest", graph2DepthFirstSearchTest),
+        ("graph2DFSTest", graph2DFSTest),
         ("graph2DFSPathTest", graph2DFSPathTest),
         ("graph3DFSPathTest", graph3DFSPathTest),
-        ("parseGraphAndDepthFirstSearchTest", parseGraphAndDepthFirstSearchTest),
+        ("graph4DFSTest", graph4DFSTest),
+        ("graph4BFSTest", graph4BFSTest),
         ("graph3DegreeTest", graph3DegreeTest),
-        ("connectedGraphTest", connectedGraphTest)
+        ("connectedGraphTest", connectedGraphTest),
+        ("graph2BFSTest", graph2BFSTest),
+        ("graph3BFSTest", graph3BFSTest),
     ]
 }
