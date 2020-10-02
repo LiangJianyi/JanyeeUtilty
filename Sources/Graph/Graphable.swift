@@ -14,6 +14,7 @@ public protocol Graphable {
     func avgDegree() -> Double
     func numberOfSelfLoops() -> Int
     func depthFirstSearcher (source: Int) -> DepthFirstSearch
+    func breadthFirstSearcher (source: Int) -> BreadthFirstSearch
     func toString() -> String
 }
 
@@ -47,6 +48,10 @@ extension Graphable {
     // 返回深度优先搜索器
     public func depthFirstSearcher (source: Int) -> DepthFirstSearch {
         return DepthFirstSearch(graph: self, source: source)
+    }
+    // 返回广度优先搜索器
+    public func breadthFirstSearcher (source: Int) -> BreadthFirstSearch {
+        return BreadthFirstSearch(graph: self, source: source)
     }
     // 图的字符串表示
     public func toString() -> String {

@@ -103,9 +103,11 @@ public class BreadthFirstSearch: GraphSearch, Searchable {
         while queue.isEmpty == false {
             let nextVertex = queue.removeFirst()
             for w in graph.adjust[nextVertex] {
-                super.edgeTo[w] = nextVertex
-                super.marked[w] = true
-                queue.append(w)
+                if super.marked[w] == false {
+                    super.edgeTo[w] = nextVertex
+                    super.marked[w] = true
+                    queue.append(w)
+                }
             }
         }
     }

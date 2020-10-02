@@ -2,12 +2,12 @@ import XCTest
 import JanyeeUtilty
 import Graph
 
-class UndirectedGraphTests {
-    let graph1 = UndirectedGraph(vertex: 13, edges: 13)
-    let graph2 = UndirectedGraph(vertex: 6, edges: 8)
-    let graph3 = UndirectedGraph(vertex: 37, edges: 44)
+class DirectedGraphTests {
+    let graph1 = DirectedGraph(vertex: 13, edges: 13)
+    let graph2 = DirectedGraph(vertex: 6, edges: 8)
+    let graph3 = DirectedGraph(vertex: 37, edges: 44)
     // 将 GraphTest1.txt 的文本 parse 为 Graph 对象
-    let graph4: UndirectedGraph
+    let graph4: DirectedGraph
     
     init() {
         // init graph1
@@ -92,7 +92,7 @@ class UndirectedGraphTests {
         
         // init graph4
         do {
-            graph4 = try UndirectedGraph(readText: JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt"))
+            graph4 = try DirectedGraph(readText: JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt"))
         } catch is GraphError {
             fatalError("Throwing a GraphError.")
         } catch {
@@ -101,28 +101,41 @@ class UndirectedGraphTests {
     }
     
     func checkAdjustOfGraph1() {
-        XCTAssert(graph1.adjust[0].sorted() == [6, 2, 1, 5].sorted(), "graph.adjust[\(0)] = \(graph1.adjust[0])")
-        XCTAssert(graph1.adjust[1].sorted() == [0].sorted(), "graph.adjust[\(1)] = \(graph1.adjust[1])")
-        XCTAssert(graph1.adjust[2].sorted() == [0].sorted(), "graph.adjust[\(2)] = \(graph1.adjust[2])")
-        XCTAssert(graph1.adjust[3].sorted() == [5, 4].sorted(), "graph.adjust[\(3)] = \(graph1.adjust[3])")
-        XCTAssert(graph1.adjust[4].sorted() == [6, 3, 5].sorted(), "graph.adjust[\(4)] = \(graph1.adjust[4])")
-        XCTAssert(graph1.adjust[5].sorted() == [3, 4, 0].sorted(), "graph.adjust[\(5)] = \(graph1.adjust[5])")
-        XCTAssert(graph1.adjust[6].sorted() == [0, 4].sorted(), "graph.adjust[\(6)] = \(graph1.adjust[6])")
-        XCTAssert(graph1.adjust[7].sorted() == [8].sorted(), "graph.adjust[\(7)] = \(graph1.adjust[7])")
-        XCTAssert(graph1.adjust[8].sorted() == [7].sorted(), "graph.adjust[\(8)] = \(graph1.adjust[8])")
-        XCTAssert(graph1.adjust[9].sorted() == [11, 10, 12].sorted(), "graph.adjust[\(9)] = \(graph1.adjust[9])")
-        XCTAssert(graph1.adjust[10].sorted() == [9].sorted(), "graph.adjust[\(10)] = \(graph1.adjust[10])")
-        XCTAssert(graph1.adjust[11].sorted() == [9, 12].sorted(), "graph.adjust[\(11)] = \(graph1.adjust[11])")
-        XCTAssert(graph1.adjust[12].sorted() == [11, 9].sorted(), "graph.adjust[\(12)] = \(graph1.adjust[12])")
+        XCTAssertTrue(graph1.adjust[0].sorted() == [6, 2, 1, 5].sorted())
+        XCTAssertFalse(graph1.adjust[1] == [0])
+        XCTAssertFalse(graph1.adjust[2] == [0])
+        XCTAssertFalse(graph1.adjust[3].sorted() == [5, 4].sorted())
+        XCTAssertFalse(graph1.adjust[4].sorted() == [6, 3, 5].sorted())
+        XCTAssertFalse(graph1.adjust[5].sorted() == [3, 4, 0].sorted())
+        XCTAssertFalse(graph1.adjust[6].sorted() == [0, 4].sorted())
+        XCTAssertTrue(graph1.adjust[7] == [8])
+        XCTAssertFalse(graph1.adjust[8] == [7])
+        XCTAssert(graph1.adjust[9].sorted() == [11, 10, 12].sorted())
+        XCTAssertFalse(graph1.adjust[10].sorted() == [9].sorted())
+        XCTAssertFalse(graph1.adjust[11].sorted() == [9, 12].sorted())
+        XCTAssertFalse(graph1.adjust[12].sorted() == [11, 9].sorted())
+        
+        XCTAssertTrue(graph1.adjust[1] == [])
+        XCTAssertTrue(graph1.adjust[2] == [])
+        XCTAssertTrue(graph1.adjust[3] == [])
+        XCTAssertTrue(graph1.adjust[4] == [3])
+        XCTAssertTrue(graph1.adjust[5].sorted() == [3, 4].sorted())
+        XCTAssertTrue(graph1.adjust[6] == [4])
+        XCTAssertTrue(graph1.adjust[8] == [])
+        XCTAssertTrue(graph1.adjust[10] == [])
+        XCTAssertTrue(graph1.adjust[11] == [12])
+        XCTAssertTrue(graph1.adjust[12] == [])
     }
     
     func checkAdjustOfGraph2() {
-        XCTAssert(graph2.adjust[0].sorted() == [5, 1, 2].sorted(), "graph.adjust[\(0)] = \(graph2.adjust[0])")
-        XCTAssert(graph2.adjust[1].sorted() == [2].sorted(), "graph.adjust[\(1)] = \(graph2.adjust[1])")
-        XCTAssert(graph2.adjust[2].sorted() == [4, 3].sorted(), "graph.adjust[\(2)] = \(graph2.adjust[2])")
-        XCTAssert(graph2.adjust[3].sorted() == [4, 5].sorted(), "graph.adjust[\(3)] = \(graph2.adjust[3])")
-        XCTAssert(graph2.adjust[4].sorted() == [2, 3].sorted(), "graph.adjust[\(4)] = \(graph2.adjust[4])")
-        XCTAssert(graph2.adjust[5].sorted() == [0, 3].sorted(), "graph.adjust[\(5)] = \(graph2.adjust[5])")
+        XCTAssert(graph2.adjust[0].sorted() == [5, 1, 2].sorted())
+        XCTAssert(graph2.adjust[1] == [2])
+        XCTAssert(graph2.adjust[2].sorted() == [4, 3].sorted())
+        XCTAssert(graph2.adjust[3].sorted() == [4, 5].sorted())
+        XCTAssertFalse(graph2.adjust[4].sorted() == [2, 3].sorted())
+        XCTAssertTrue(graph2.adjust[4] == [])
+        XCTAssertFalse(graph2.adjust[5].sorted() == [0, 3].sorted())
+        XCTAssertTrue(graph2.adjust[5] == [])
     }
     
     func checkAdjustOfGraph3() {
@@ -312,15 +325,16 @@ class UndirectedGraphTests {
 
     static var allTests = [
         ("checkAdjustOfGraph1", checkAdjustOfGraph1),
-        ("checkAdjustOfGraph3", checkAdjustOfGraph3),
-        ("graph2DFSTest", graph2DFSTest),
-        ("graph2DFSPathTest", graph2DFSPathTest),
-        ("graph3DFSPathTest", graph3DFSPathTest),
-        ("graph4DFSTest", graph4DFSTest),
-        ("graph4BFSTest", graph4BFSTest),
-        ("graph3DegreeTest", graph3DegreeTest),
-        ("connectedGraphTest", connectedGraphTest),
-        ("graph2BFSTest", graph2BFSTest),
-        ("graph3BFSTest", graph3BFSTest),
+        ("checkAdjustOfGraph2", checkAdjustOfGraph2),
+//        ("checkAdjustOfGraph3", checkAdjustOfGraph3),
+//        ("graph2DFSTest", graph2DFSTest),
+//        ("graph2DFSPathTest", graph2DFSPathTest),
+//        ("graph3DFSPathTest", graph3DFSPathTest),
+//        ("graph4DFSTest", graph4DFSTest),
+//        ("graph4BFSTest", graph4BFSTest),
+//        ("graph3DegreeTest", graph3DegreeTest),
+//        ("connectedGraphTest", connectedGraphTest),
+//        ("graph2BFSTest", graph2BFSTest),
+//        ("graph3BFSTest", graph3BFSTest),
     ]
 }
