@@ -167,13 +167,11 @@ class UndirectedGraphTests {
     
     func graph2DFSTest() {
         let depthFirstSearch = graph2.depthFirstSearcher(source: 0)
-        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
-        
 //        depthFirstSearch.search(graph: graph2, v: 0)
         XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
         // 从 source 到 5 的路径
         let path = depthFirstSearch.pathTo(5)
-        // 检测路径中每个路过的顶点是否都和起点 source 相同。
+        // 检测路径中每个路过的顶点是否都和起点 source 连通。
         // 如果 path 包含一个传递给 hasPathTo 并返回 false 的顶点，那么证明这个顶点不可达。
         // 当路径中有一个顶点与 source 不连通，那么这个 path 的设计有问题。
         // 因为正确的情况下，path 中的每个顶点都是与 source 连通的。
