@@ -179,15 +179,38 @@ class DirectedGraphTests {
     }
     
     func graph2DFSTest() {
-        let depthFirstSearch = graph2.depthFirstSearcher(source: 0)
-        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
-        // 从 source 到 5 的路径
-        let path = depthFirstSearch.pathTo(5)
         // 检测路径中每个路过的顶点是否都和起点 source 连通。
         // 如果 path 包含一个传递给 hasPathTo 并返回 false 的顶点，那么证明这个顶点不可达。
         // 当路径中有一个顶点与 source 不连通，那么这个 path 的设计有问题。
         // 因为正确的情况下，path 中的每个顶点都是与 source 连通的。
-        XCTAssertFalse(path.contains(where: { e in depthFirstSearch.hasPathTo(e) == false }))
+        // 如果返回值为 false，表明这个 path 是正确的（即 path 中的每个顶点都与 source 连通）；
+        // 返回 true 表明 path 设计上有问题。
+        func isNotConnected(path: [Int]) -> Bool {
+            return path.contains(where: { e in depthFirstSearch.hasPathTo(e) == false })
+        }
+        
+        
+        ////////////////////// 基于起点 0 进行测试 //////////////////////
+        var depthFirstSearch = graph2.depthFirstSearcher(source: 0)
+        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
+        // 检测 source 到 source...5 的路径是否可以连通
+        for target in 0...5 {
+            let path = depthFirstSearch.pathTo(target)
+            // 断言为 false 表明测试通过
+            XCTAssertFalse(isNotConnected(path: path))
+        }
+        
+        ////////////////////// 基于起点 1 进行测试 //////////////////////
+        depthFirstSearch = graph2.depthFirstSearcher(source: 1)
+        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [1, 2, 3, 4, 5])
+        // 检测 source 到 source...5 的路径是否可以连通
+        for target in 1...5 {
+            let path = depthFirstSearch.pathTo(target)
+            // 断言为 false 表明测试通过
+            XCTAssertFalse(isNotConnected(path: path))
+        }
+        // 起点 1 无法与 0 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(0)))
     }
     
     func graph2BFSTest() {
@@ -324,7 +347,7 @@ class DirectedGraphTests {
         ("checkAdjustOfGraph1", checkAdjustOfGraph1),
         ("checkAdjustOfGraph2", checkAdjustOfGraph2),
         ("checkAdjustOfGraph3", checkAdjustOfGraph3),
-//        ("graph2DFSTest", graph2DFSTest),
+        ("graph2DFSTest", graph2DFSTest),
 //        ("graph2DFSPathTest", graph2DFSPathTest),
 //        ("graph3DFSPathTest", graph3DFSPathTest),
 //        ("graph4DFSTest", graph4DFSTest),
