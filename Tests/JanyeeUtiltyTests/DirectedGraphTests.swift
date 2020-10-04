@@ -186,31 +186,131 @@ class DirectedGraphTests {
         // 如果返回值为 false，表明这个 path 是正确的（即 path 中的每个顶点都与 source 连通）；
         // 返回 true 表明 path 设计上有问题。
         func isNotConnected(path: [Int]) -> Bool {
-            return path.contains(where: { e in depthFirstSearch.hasPathTo(e) == false })
+            if path.count == 0 {
+                return true
+            } else {
+                return path.contains(where: { e in depthFirstSearch.hasPathTo(e) == false })
+            }
         }
         
         
         ////////////////////// 基于起点 0 进行测试 //////////////////////
-        var depthFirstSearch = graph2.depthFirstSearcher(source: 0)
+        var source = 0
+        var depthFirstSearch = graph2.depthFirstSearcher(source: source)
         XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
         // 检测 source 到 source...5 的路径是否可以连通
-        for target in 0...5 {
+        for target in source...5 {
             let path = depthFirstSearch.pathTo(target)
             // 断言为 false 表明测试通过
             XCTAssertFalse(isNotConnected(path: path))
         }
         
         ////////////////////// 基于起点 1 进行测试 //////////////////////
-        depthFirstSearch = graph2.depthFirstSearcher(source: 1)
+        source = 1
+        depthFirstSearch = graph2.depthFirstSearcher(source: source)
         XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [1, 2, 3, 4, 5])
         // 检测 source 到 source...5 的路径是否可以连通
-        for target in 1...5 {
+        for target in source...5 {
             let path = depthFirstSearch.pathTo(target)
             // 断言为 false 表明测试通过
             XCTAssertFalse(isNotConnected(path: path))
         }
         // 起点 1 无法与 0 连通
         XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(0)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(0))
+        
+        ////////////////////// 基于起点 2 进行测试 //////////////////////
+        source = 2
+        depthFirstSearch = graph2.depthFirstSearcher(source: source)
+        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [2, 3, 4, 5])
+        // 检测 source 到 source...5 的路径是否可以连通
+        for target in source...5 {
+            let path = depthFirstSearch.pathTo(target)
+            // 断言为 false 表明测试通过
+            XCTAssertFalse(isNotConnected(path: path))
+        }
+        // 起点 2 无法与 0 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(0)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(0))
+        // 起点 2 无法与 1 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(1)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(1))
+        
+        ////////////////////// 基于起点 3 进行测试 //////////////////////
+        source = 3
+        depthFirstSearch = graph2.depthFirstSearcher(source: source)
+        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [3, 4, 5])
+        // 检测 source 到 source...5 的路径是否可以连通
+        for target in source...5 {
+            let path = depthFirstSearch.pathTo(target)
+            // 断言为 false 表明测试通过
+            XCTAssertFalse(isNotConnected(path: path))
+        }
+        // 起点 3 无法与 0 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(0)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(0))
+        // 起点 3 无法与 1 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(1)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(1))
+        // 起点 3 无法与 2 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(2)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(2))
+        
+        ////////////////////// 基于起点 4 进行测试 //////////////////////
+        source = 4
+        depthFirstSearch = graph2.depthFirstSearcher(source: source)
+        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [4])
+        // 起点 4 无法与 0 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(0)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(0))
+        // 起点 4 无法与 1 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(1)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(1))
+        // 起点 4 无法与 2 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(2)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(2))
+        // 起点 4 无法与 3 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(3)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(3))
+        // 起点 4 无法与 5 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(5)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(5))
+        
+        ////////////////////// 基于起点 5 进行测试 //////////////////////
+        source = 5
+        depthFirstSearch = graph2.depthFirstSearcher(source: source)
+        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [5])
+        // 起点 5 无法与 0 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(0)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(0))
+        // 起点 5 无法与 1 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(1)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(1))
+        // 起点 5 无法与 2 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(2)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(2))
+        // 起点 5 无法与 3 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(3)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(3))
+        // 起点 5 无法与 4 连通
+        XCTAssertTrue(isNotConnected(path: depthFirstSearch.pathTo(4)))
+        // hasPathTo 与 isNotConnected 的作用相同，但后者是为了检测 path 的构造做了许多检测工作
+        XCTAssertFalse(depthFirstSearch.hasPathTo(4))
     }
     
     func graph2BFSTest() {
