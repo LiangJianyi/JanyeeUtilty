@@ -4,7 +4,7 @@ import Graph
 
 // 做一个临时的 extension，当实现了 == 运算符重载后，删除该 extension
 extension Array where Element == Int {
-    mutating func equalToSet(_ set: Set<Element>) -> Bool {
+    func equalToSet(_ set: Set<Element>) -> Bool {
         for item in self {
             if set.contains(item) == false {
                 return false
@@ -337,7 +337,7 @@ class DirectedGraphTests {
     }
     
     func graph3DFSTest() {
-        let connectedVertexesCollection = [
+        let connectedVertexesCollection: [Int:Set<Int>] = [
             0:Set<Int>([0, 1, 2, 3, 4, 5, 6, 30]),
             1:Set<Int>([]),
             2:Set<Int>([]),
@@ -362,13 +362,25 @@ class DirectedGraphTests {
             21:Set<Int>([]),
             22:Set<Int>([21, 23]),
             23:Set<Int>([]),
-            24:Set<Int>([20, 21, 22, 23, 28])
+            24:Set<Int>([20, 21, 22, 23, 28]),
+            25:Set<Int>([28]),
+            26:Set<Int>([28]),
+            27:Set<Int>([28]),
+            28:Set<Int>([]),
+            29:Set<Int>([30]),
+            30:Set<Int>([]),
+            31:Set<Int>([29, 30]),
+            32:Set<Int>([31, 33]),
+            33:Set<Int>([]),
+            34:Set<Int>([33, 35]),
+            35:Set<Int>([]),
+            36:Set<Int>([35, 29])
         ]
         for s in 0...36 {
             let dfs = graph3.depthFirstSearcher(source: s)
-//            for v in 0...36 {
-//                XCTAssert(dfs.hasPathTo(v))
-//            }
+            for v in 0...36 {
+                XCTAssertTrue(dfs.pathTo(v).equalToSet(connectedVertexesCollection[s]))
+            }
         }
     }
     
