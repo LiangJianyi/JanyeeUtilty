@@ -2,6 +2,18 @@ import XCTest
 import JanyeeUtilty
 import Graph
 
+// 做一个临时的 extension，当实现了 == 运算符重载后，删除该 extension
+extension Array where Element == Int {
+    mutating func equalToSet(_ set: Set<Element>) -> Bool {
+        for item in self {
+            if set.contains(item) == false {
+                return false
+            }
+        }
+        return true
+    }
+}
+
 class DirectedGraphTests {
     let graph1 = DirectedGraph(vertex: 13, edges: 13)
     let graph2 = DirectedGraph(vertex: 6, edges: 8)
@@ -324,23 +336,39 @@ class DirectedGraphTests {
         XCTAssert(bfs.pathTo(5) == [5, 0])
     }
     
-    // 测试通过 DFS 产生的路径列表中的每个 vertex 是否能与 source 连通
-    func graph2DFSPathTest() {
-        for s in 0...5 {
-            let dfs = graph2.depthFirstSearcher(source: s)
-            for v in 0...5 {
-                XCTAssert(dfs.hasPathTo(v))
-            }
-        }
-    }
-    
-    // 测试通过 DFS 产生的路径列表中的每个 vertex 是否能与 source 连通
-    func graph3DFSPathTest() {
+    func graph3DFSTest() {
+        let connectedVertexesCollection = [
+            0:Set<Int>([0, 1, 2, 3, 4, 5, 6, 30]),
+            1:Set<Int>([]),
+            2:Set<Int>([]),
+            3:Set<Int>([]),
+            4:Set<Int>([]),
+            5:Set<Int>([3, 4]),
+            6:Set<Int>([4]),
+            7:Set<Int>([8]),
+            8:Set<Int>([30]),
+            9:Set<Int>([10, 11, 12, 30]),
+            10:Set<Int>([]),
+            11:Set<Int>([30]),
+            12:Set<Int>([30]),
+            13:Set<Int>([30]),
+            14:Set<Int>([13, 30, 15]),
+            15:Set<Int>([30]),
+            16:Set<Int>([30, 15]),
+            17:Set<Int>([30]),
+            18:Set<Int>([30, 17]),
+            19:Set<Int>([30, 18, 25]),
+            20:Set<Int>([21, 13]),
+            21:Set<Int>([]),
+            22:Set<Int>([21, 23]),
+            23:Set<Int>([]),
+            24:Set<Int>([20, 21, 22, 23, 28])
+        ]
         for s in 0...36 {
             let dfs = graph3.depthFirstSearcher(source: s)
-            for v in 0...36 {
-                XCTAssert(dfs.hasPathTo(v))
-            }
+//            for v in 0...36 {
+//                XCTAssert(dfs.hasPathTo(v))
+//            }
         }
     }
     
@@ -448,8 +476,7 @@ class DirectedGraphTests {
         ("checkAdjustOfGraph2", checkAdjustOfGraph2),
         ("checkAdjustOfGraph3", checkAdjustOfGraph3),
         ("graph2DFSTest", graph2DFSTest),
-//        ("graph2DFSPathTest", graph2DFSPathTest),
-//        ("graph3DFSPathTest", graph3DFSPathTest),
+        ("graph3DFSTest", graph3DFSTest),
 //        ("graph4DFSTest", graph4DFSTest),
 //        ("graph4BFSTest", graph4BFSTest),
 //        ("graph3DegreeTest", graph3DegreeTest),
