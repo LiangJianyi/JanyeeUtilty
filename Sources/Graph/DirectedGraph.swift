@@ -60,6 +60,16 @@ public class DirectedGraph: Graphable {
         self.e += 1
     }
     
+    public func reverse() -> DirectedGraph {
+        let digraph = DirectedGraph(vertex: self.vertex, edges: self.edges)
+        for v in 0..<self.vertex {
+            for w in self.adjust[v] {
+                digraph.addEdge(v: w, w: v)
+            }
+        }
+        return digraph
+    }
+    
     // 提取已标记的顶点的下标；
     // arr 由 dfs 和 bfs 返回，数组的下标是顶点编号，对应的布尔值
     // 表示该顶点能否连通；
