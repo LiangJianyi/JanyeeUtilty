@@ -1,5 +1,19 @@
 import Foundation
 
+// 给 Set 添加下标访问
+extension Set {
+    public subscript(_ index: Int) -> Element {
+        return self[self.index(self.startIndex, offsetBy: index)]
+    }
+}
+
+// 给 String 添加下标访问
+extension String {
+    public subscript(_ i: Int) -> Character {
+        return self[self.index(self.startIndex, offsetBy: i)]
+    }
+}
+
 public class JanyeeUtilty {
     public static func currentTime() -> String {
         let date = Date()
