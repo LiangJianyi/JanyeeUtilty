@@ -339,16 +339,11 @@ class DirectedGraphTests {
     func graph3DFSTest() {
         let connectedVertexesCollection: [Int:Set<Int>] = [
             0:Set<Int>([0, 1, 2, 3, 4, 5, 6, 30]),
-            1:Set<Int>([]),
-            2:Set<Int>([]),
-            3:Set<Int>([]),
-            4:Set<Int>([]),
             5:Set<Int>([3, 4]),
             6:Set<Int>([4]),
             7:Set<Int>([8]),
             8:Set<Int>([30]),
             9:Set<Int>([10, 11, 12, 30]),
-            10:Set<Int>([]),
             11:Set<Int>([30]),
             12:Set<Int>([30]),
             13:Set<Int>([30]),
@@ -359,27 +354,23 @@ class DirectedGraphTests {
             18:Set<Int>([30, 17]),
             19:Set<Int>([30, 18, 25]),
             20:Set<Int>([21, 13]),
-            21:Set<Int>([]),
             22:Set<Int>([21, 23]),
-            23:Set<Int>([]),
             24:Set<Int>([20, 21, 22, 23, 28]),
             25:Set<Int>([28]),
             26:Set<Int>([28]),
             27:Set<Int>([28]),
-            28:Set<Int>([]),
             29:Set<Int>([30]),
-            30:Set<Int>([]),
             31:Set<Int>([29, 30]),
             32:Set<Int>([31, 33]),
-            33:Set<Int>([]),
             34:Set<Int>([33, 35]),
-            35:Set<Int>([]),
             36:Set<Int>([35, 29])
         ]
         for s in 0...36 {
             let dfs = graph3.depthFirstSearcher(source: s)
-            for v in 0...36 {
-                XCTAssertTrue(dfs.pathTo(v).equalToSet(connectedVertexesCollection[s]))
+            // 从0至36这么多个数字中提取可以被s连通的顶点
+            let markedVertexes = Set<Int>((0...36).filter { e in dfs.hasPathTo(e) })
+            if let set = connectedVertexesCollection[s] {
+                XCTAssertEqual(markedVertexes, set)
             }
         }
     }
