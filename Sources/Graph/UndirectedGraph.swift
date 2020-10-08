@@ -68,6 +68,12 @@ public class UndirectedGraph: Graphable {
         }
         self.e += 1
     }
+    // 克隆一个副本
+    public func clone() -> UndirectedGraph {
+        let copy = UndirectedGraph(vertex: self.v, edges: self.e)
+        copy.adj = self.adj
+        return copy
+    }
     
     // 提取已标记的顶点的下标；
     // arr 由 dfs 和 bfs 返回，数组的下标是顶点编号，对应的布尔值

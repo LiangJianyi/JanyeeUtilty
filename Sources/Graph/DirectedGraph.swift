@@ -67,6 +67,12 @@ public class DirectedGraph: Graphable {
         }
         self.e += 1
     }
+    // 克隆一个副本
+    public func clone() -> DirectedGraph {
+        let copy = DirectedGraph(vertex: self.v, edges: self.e)
+        copy.adj = self.adj
+        return copy
+    }
     
     public func reverse() -> DirectedGraph {
         let digraph = DirectedGraph(vertex: self.vertex, edges: self.edges)

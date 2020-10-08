@@ -17,6 +17,7 @@ public protocol Graphable: Equatable {
     func depthFirstSearcher (source: Int) -> DepthFirstSearch<Graph>
     func breadthFirstSearcher (source: Int) -> BreadthFirstSearch<Graph>
     func toString() -> String
+    func clone() -> Graph
 }
 
 extension Graphable {
