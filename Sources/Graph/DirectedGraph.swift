@@ -50,6 +50,14 @@ public class DirectedGraph: Graphable {
         }
     }
     
+    // 返回深度优先搜索器
+    public func depthFirstSearcher (source: Int) -> DepthFirstSearch<DirectedGraph> {
+        return DepthFirstSearch(graph: self, source: source)
+    }
+    // 返回广度优先搜索器
+    public func breadthFirstSearcher (source: Int) -> BreadthFirstSearch<DirectedGraph> {
+        return BreadthFirstSearch(graph: self, source: source)
+    }
     // 添加一条边 v-w
     public func addEdge(v: Int, w: Int) {
         if self.adj.insertVertex(v: v, w: w) {
@@ -81,5 +89,11 @@ public class DirectedGraph: Graphable {
             }
         }
         return res
+    }
+    
+    public static func == (lhs: DirectedGraph, rhs: DirectedGraph) -> Bool {
+        return lhs.adjust == rhs.adjust &&
+            lhs.vertex == rhs.vertex &&
+            lhs.edges == rhs.edges
     }
 }

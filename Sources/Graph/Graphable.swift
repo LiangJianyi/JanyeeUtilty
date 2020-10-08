@@ -1,6 +1,7 @@
 import Foundation
 
-public protocol Graphable {
+public protocol Graphable: Equatable {
+    associatedtype Graph: Graphable
     var edges: Int { get }
     var vertex: Int { get }
     var adjust: Array<Array<Int>> { get }
@@ -13,8 +14,8 @@ public protocol Graphable {
     func maxDegree() -> Int
     func avgDegree() -> Double
     func numberOfSelfLoops() -> Int
-    func depthFirstSearcher (source: Int) -> DepthFirstSearch
-    func breadthFirstSearcher (source: Int) -> BreadthFirstSearch
+    func depthFirstSearcher (source: Int) -> DepthFirstSearch<Graph>
+    func breadthFirstSearcher (source: Int) -> BreadthFirstSearch<Graph>
     func toString() -> String
 }
 
@@ -44,14 +45,6 @@ extension Graphable {
             }
         }
         return count / 2
-    }
-    // 返回深度优先搜索器
-    public func depthFirstSearcher (source: Int) -> DepthFirstSearch {
-        return DepthFirstSearch(graph: self, source: source)
-    }
-    // 返回广度优先搜索器
-    public func breadthFirstSearcher (source: Int) -> BreadthFirstSearch {
-        return BreadthFirstSearch(graph: self, source: source)
     }
     // 图的字符串表示
     public func toString() -> String {

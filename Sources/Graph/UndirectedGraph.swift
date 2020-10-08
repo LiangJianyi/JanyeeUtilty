@@ -50,6 +50,14 @@ public class UndirectedGraph: Graphable {
         }
     }
     
+    // 返回深度优先搜索器
+    public func depthFirstSearcher (source: Int) -> DepthFirstSearch<UndirectedGraph> {
+        return DepthFirstSearch(graph: self, source: source)
+    }
+    // 返回广度优先搜索器
+    public func breadthFirstSearcher (source: Int) -> BreadthFirstSearch<UndirectedGraph> {
+        return BreadthFirstSearch(graph: self, source: source)
+    }
     // 添加一条边 v-w
     public func addEdge(v: Int, w: Int) {
         if self.adj.insertVertex(v: v, w: w) ||
@@ -72,5 +80,11 @@ public class UndirectedGraph: Graphable {
             }
         }
         return res
+    }
+    
+    public static func == (lhs: UndirectedGraph, rhs: UndirectedGraph) -> Bool {
+        return lhs.adjust == rhs.adjust &&
+            lhs.vertex == rhs.vertex &&
+            lhs.edges == rhs.edges
     }
 }

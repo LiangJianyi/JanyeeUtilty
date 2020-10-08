@@ -1,5 +1,6 @@
 public protocol Searchable {
-    init(graph: Graphable, source: Int)
+    associatedtype Graph: Graphable
+    init(graph: Graph, source: Int)
     // v 和 s 是连通的吗
     func isMarked(vertex: Int) -> Bool
 }
@@ -23,8 +24,8 @@ public class GraphSearch {
 }
 
 // 深度优先搜索
-public class DepthFirstSearch: GraphSearch, Searchable {
-    public required init(graph: Graphable, source: Int) {
+public class DepthFirstSearch<G: Graphable>: GraphSearch, Searchable {
+    public required init(graph: G, source: Int) {
         super.init(
             marked: [Bool](repeating: false, count: graph.vertex),
             edgeTo: [Int](repeating: 0, count: graph.vertex),
@@ -34,7 +35,7 @@ public class DepthFirstSearch: GraphSearch, Searchable {
         search(graph: graph, v: super.source)
     }
     
-    private func search(graph: Graphable, v: Int) {
+    private func search(graph: G, v: Int) {
         super.marked[v] = true
         super.count += 1
         for w in graph.adjust[v] {
@@ -85,8 +86,8 @@ public class DepthFirstSearch: GraphSearch, Searchable {
 }
 
 // 广度优先搜素
-public class BreadthFirstSearch: GraphSearch, Searchable {
-    public required init(graph: Graphable, source: Int) {
+public class BreadthFirstSearch<G: Graphable>: GraphSearch, Searchable {
+    public required init(graph: G, source: Int) {
         super.init(
             marked: [Bool](repeating: false, count: graph.vertex),
             edgeTo: [Int](repeating: 0, count: graph.vertex),
@@ -96,7 +97,7 @@ public class BreadthFirstSearch: GraphSearch, Searchable {
         search(graph: graph, v: super.source)
     }
     
-    private func search(graph: Graphable, v: Int) {
+    private func search(graph: G, v: Int) {
         var queue = [Int]()
         super.marked[v] = true
         queue.append(v)

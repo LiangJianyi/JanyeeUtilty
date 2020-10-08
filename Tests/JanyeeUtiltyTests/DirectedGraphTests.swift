@@ -2,18 +2,6 @@ import XCTest
 import JanyeeUtilty
 import Graph
 
-// 做一个临时的 extension，当实现了 == 运算符重载后，删除该 extension
-extension Array where Element == Int {
-    func equalToSet(_ set: Set<Element>) -> Bool {
-        for item in self {
-            if set.contains(item) == false {
-                return false
-            }
-        }
-        return true
-    }
-}
-
 class DirectedGraphTests {
     let graph1 = DirectedGraph(vertex: 13, edges: 13)
     let graph2 = DirectedGraph(vertex: 6, edges: 8)
@@ -453,7 +441,7 @@ class DirectedGraphTests {
     
     // 检测 graph 的连通性
     func connectedGraphTest() {
-        func isConnectedGraph(graph: Graphable) -> Bool {
+        func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
             for s in 0..<graph.adjust.count {
                 let dfs = graph.depthFirstSearcher(source: s)
                 for s2 in 0..<graph.adjust.count {

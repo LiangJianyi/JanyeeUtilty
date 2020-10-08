@@ -276,7 +276,7 @@ class UndirectedGraphTests {
     
     // 检测 graph 的连通性
     func connectedGraphTest() {
-        func isConnectedGraph(graph: Graphable) -> Bool {
+        func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
             for s in 0..<graph.adjust.count {
                 let dfs = graph.depthFirstSearcher(source: s)
                 for s2 in 0..<graph.adjust.count {
