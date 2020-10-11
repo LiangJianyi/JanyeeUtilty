@@ -82,7 +82,9 @@ public class UndirectedGraph: Graphable {
     }
     // 插入一个孤立的顶点
     public func insertVertex(v: Int) {
-        
+        if self.adj.insertVertex(v: v) {
+            self.v += 1
+        }
     }
     // 克隆一个副本
     public func clone() -> UndirectedGraph {

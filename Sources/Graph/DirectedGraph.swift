@@ -78,13 +78,19 @@ public class DirectedGraph: Graphable {
         }
         self.e += 1
     }
+    // 插入一个孤立的顶点
+    public func insertVertex(v: Int) {
+        if self.adj.insertVertex(v: v) {
+            self.v += 1
+        }
+    }
     // 克隆一个副本
     public func clone() -> DirectedGraph {
         let copy = DirectedGraph(vertex: self.v, edges: self.e)
         copy.adj = self.adj
         return copy
     }
-    
+    // 对有向图取反
     public func reverse() -> DirectedGraph {
         let digraph = DirectedGraph(vertex: self.vertex, edges: self.edges)
         for v in 0..<self.vertex {
