@@ -83,6 +83,19 @@ public class DepthFirstSearch<G: Graphable>: GraphSearch, Searchable {
         }
         return res
     }
+    
+    // 判断Graph是否连通
+    public static func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
+        for s in 0..<graph.adjust.count {
+            let dfs = graph.depthFirstSearcher(source: s)
+            for s2 in 0..<graph.adjust.count {
+                if dfs.hasPathTo(s2) == false {
+                    return false
+                }
+            }
+        }
+        return true
+    }
 }
 
 // 广度优先搜素
@@ -150,5 +163,18 @@ public class BreadthFirstSearch<G: Graphable>: GraphSearch, Searchable {
             }
         }
         return res
+    }
+    
+    // 判断Graph是否连通
+    public static func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
+        for s in 0..<graph.adjust.count {
+            let bfs = graph.breadthFirstSearcher(source: s)
+            for s2 in 0..<graph.adjust.count {
+                if bfs.hasPathTo(s2) == false {
+                    return false
+                }
+            }
+        }
+        return true
     }
 }
