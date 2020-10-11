@@ -21,6 +21,11 @@ public class UndirectedGraph: Graphable {
         }
     }
     
+    public required init() {
+        self.v = 0
+        self.e = 0
+        self.adj = [[Int]]()
+    }
     public required init(vertex: Int, edges: Int) {
         self.v = vertex
         self.e = edges
@@ -60,13 +65,24 @@ public class UndirectedGraph: Graphable {
     }
     // 添加一条边 v-w
     public func addEdge(v: Int, w: Int) {
-        if self.adj.insertVertex(v: v, w: w) ||
-            self.adj.insertVertex(v: w, w: v) {
+        self.adj[v].append(w)
+        self.adj[w].append(v)
+        self.v += 1
+        self.e += 1
+    }
+    // 插入一条边 v-w
+    public func insertEdge(v: Int, w: Int) {
+        if self.adj.insertEdge(v: v, w: w) ||
+            self.adj.insertEdge(v: w, w: v) {
             // 如果其中一个 insertVertex 返回 true，表明 adjust 增加了新的 vertex，
             // 需要修改 vertex 的计数
             self.v += 1
         }
         self.e += 1
+    }
+    // 插入一个孤立的顶点
+    public func insertVertex(v: Int) {
+        
     }
     // 克隆一个副本
     public func clone() -> UndirectedGraph {

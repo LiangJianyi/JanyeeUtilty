@@ -113,90 +113,90 @@ public func makeDirectedGraph4() -> DirectedGraph {
 
 public func makeUndirectedGraph1() -> UndirectedGraph {
     let undirectedGraph1 = UndirectedGraph(vertex: 13, edges: 13)
-    undirectedGraph1.addEdge(v: 0, w: 5)
-    undirectedGraph1.addEdge(v: 4, w: 3)
-    undirectedGraph1.addEdge(v: 0, w: 1)
-    undirectedGraph1.addEdge(v: 9, w: 12)
-    undirectedGraph1.addEdge(v: 6, w: 4)
-    undirectedGraph1.addEdge(v: 5, w: 4)
-    undirectedGraph1.addEdge(v: 0, w: 2)
-    undirectedGraph1.addEdge(v: 11, w: 12)
-    undirectedGraph1.addEdge(v: 9, w: 10)
-    undirectedGraph1.addEdge(v: 0, w: 6)
-    undirectedGraph1.addEdge(v: 7, w: 8)
-    undirectedGraph1.addEdge(v: 9, w: 11)
-    undirectedGraph1.addEdge(v: 5, w: 3)
+    undirectedGraph1.insertEdge(v: 0, w: 5)
+    undirectedGraph1.insertEdge(v: 4, w: 3)
+    undirectedGraph1.insertEdge(v: 0, w: 1)
+    undirectedGraph1.insertEdge(v: 9, w: 12)
+    undirectedGraph1.insertEdge(v: 6, w: 4)
+    undirectedGraph1.insertEdge(v: 5, w: 4)
+    undirectedGraph1.insertEdge(v: 0, w: 2)
+    undirectedGraph1.insertEdge(v: 11, w: 12)
+    undirectedGraph1.insertEdge(v: 9, w: 10)
+    undirectedGraph1.insertEdge(v: 0, w: 6)
+    undirectedGraph1.insertEdge(v: 7, w: 8)
+    undirectedGraph1.insertEdge(v: 9, w: 11)
+    undirectedGraph1.insertEdge(v: 5, w: 3)
     return undirectedGraph1
 }
 
 public func makeUndirectedGraph2() -> UndirectedGraph {
     let undirectedGraph2 = UndirectedGraph(vertex: 6, edges: 8)
-    undirectedGraph2.addEdge(v: 0, w: 5)
-    undirectedGraph2.addEdge(v: 2, w: 4)
-    undirectedGraph2.addEdge(v: 2, w: 3)
-    undirectedGraph2.addEdge(v: 1, w: 2)
-    undirectedGraph2.addEdge(v: 0, w: 1)
-    undirectedGraph2.addEdge(v: 3, w: 4)
-    undirectedGraph2.addEdge(v: 3, w: 5)
-    undirectedGraph2.addEdge(v: 0, w: 2)
+    undirectedGraph2.insertEdge(v: 0, w: 5)
+    undirectedGraph2.insertEdge(v: 2, w: 4)
+    undirectedGraph2.insertEdge(v: 2, w: 3)
+    undirectedGraph2.insertEdge(v: 1, w: 2)
+    undirectedGraph2.insertEdge(v: 0, w: 1)
+    undirectedGraph2.insertEdge(v: 3, w: 4)
+    undirectedGraph2.insertEdge(v: 3, w: 5)
+    undirectedGraph2.insertEdge(v: 0, w: 2)
     return undirectedGraph2
 }
 
 public func makeUndirectedGraph3() -> UndirectedGraph {
     let undirectedGraph3 = UndirectedGraph(vertex: 37, edges: 44)
-    undirectedGraph3.addEdge(v: 0, w: 5)
-    undirectedGraph3.addEdge(v: 4, w: 3)
-    undirectedGraph3.addEdge(v: 0, w: 1)
-    undirectedGraph3.addEdge(v: 9, w: 12)
-    undirectedGraph3.addEdge(v: 6, w: 4)
-    undirectedGraph3.addEdge(v: 5, w: 4)
-    undirectedGraph3.addEdge(v: 0, w: 2)
-    undirectedGraph3.addEdge(v: 11, w: 12)
-    undirectedGraph3.addEdge(v: 9, w: 10)
-    undirectedGraph3.addEdge(v: 0, w: 6)
-    undirectedGraph3.addEdge(v: 7, w: 8)
-    undirectedGraph3.addEdge(v: 9, w: 11)
-    undirectedGraph3.addEdge(v: 5, w: 3)
-    undirectedGraph3.addEdge(v: 0, w: 30)
-    undirectedGraph3.addEdge(v: 8, w: 30)
-    undirectedGraph3.addEdge(v: 11, w: 30)
-    undirectedGraph3.addEdge(v: 12, w: 30)
-    undirectedGraph3.addEdge(v: 13, w: 30)
-    undirectedGraph3.addEdge(v: 14, w: 30)
-    undirectedGraph3.addEdge(v: 15, w: 30)
-    undirectedGraph3.addEdge(v: 16, w: 30)
-    undirectedGraph3.addEdge(v: 17, w: 30)
-    undirectedGraph3.addEdge(v: 18, w: 30)
-    undirectedGraph3.addEdge(v: 19, w: 30)
-    undirectedGraph3.addEdge(v: 29, w: 30)
-    undirectedGraph3.addEdge(v: 31, w: 30)
-    undirectedGraph3.addEdge(v: 31, w: 29)
-    undirectedGraph3.addEdge(v: 36, w: 29)
-    undirectedGraph3.addEdge(v: 36, w: 35)
-    undirectedGraph3.addEdge(v: 34, w: 35)
-    undirectedGraph3.addEdge(v: 34, w: 33)
-    undirectedGraph3.addEdge(v: 32, w: 33)
-    undirectedGraph3.addEdge(v: 32, w: 31)
-    undirectedGraph3.addEdge(v: 19, w: 18)
-    undirectedGraph3.addEdge(v: 19, w: 25)
-    undirectedGraph3.addEdge(v: 18, w: 25)
-    undirectedGraph3.addEdge(v: 18, w: 17)
-    undirectedGraph3.addEdge(v: 16, w: 17)
-    undirectedGraph3.addEdge(v: 16, w: 15)
-    undirectedGraph3.addEdge(v: 14, w: 15)
-    undirectedGraph3.addEdge(v: 14, w: 13)
-    undirectedGraph3.addEdge(v: 20, w: 13)
-    undirectedGraph3.addEdge(v: 20, w: 21)
-    undirectedGraph3.addEdge(v: 22, w: 21)
-    undirectedGraph3.addEdge(v: 22, w: 23)
-    undirectedGraph3.addEdge(v: 24, w: 20)
-    undirectedGraph3.addEdge(v: 24, w: 21)
-    undirectedGraph3.addEdge(v: 24, w: 22)
-    undirectedGraph3.addEdge(v: 24, w: 23)
-    undirectedGraph3.addEdge(v: 24, w: 28)
-    undirectedGraph3.addEdge(v: 27, w: 28)
-    undirectedGraph3.addEdge(v: 26, w: 28)
-    undirectedGraph3.addEdge(v: 25, w: 28)
+    undirectedGraph3.insertEdge(v: 0, w: 5)
+    undirectedGraph3.insertEdge(v: 4, w: 3)
+    undirectedGraph3.insertEdge(v: 0, w: 1)
+    undirectedGraph3.insertEdge(v: 9, w: 12)
+    undirectedGraph3.insertEdge(v: 6, w: 4)
+    undirectedGraph3.insertEdge(v: 5, w: 4)
+    undirectedGraph3.insertEdge(v: 0, w: 2)
+    undirectedGraph3.insertEdge(v: 11, w: 12)
+    undirectedGraph3.insertEdge(v: 9, w: 10)
+    undirectedGraph3.insertEdge(v: 0, w: 6)
+    undirectedGraph3.insertEdge(v: 7, w: 8)
+    undirectedGraph3.insertEdge(v: 9, w: 11)
+    undirectedGraph3.insertEdge(v: 5, w: 3)
+    undirectedGraph3.insertEdge(v: 0, w: 30)
+    undirectedGraph3.insertEdge(v: 8, w: 30)
+    undirectedGraph3.insertEdge(v: 11, w: 30)
+    undirectedGraph3.insertEdge(v: 12, w: 30)
+    undirectedGraph3.insertEdge(v: 13, w: 30)
+    undirectedGraph3.insertEdge(v: 14, w: 30)
+    undirectedGraph3.insertEdge(v: 15, w: 30)
+    undirectedGraph3.insertEdge(v: 16, w: 30)
+    undirectedGraph3.insertEdge(v: 17, w: 30)
+    undirectedGraph3.insertEdge(v: 18, w: 30)
+    undirectedGraph3.insertEdge(v: 19, w: 30)
+    undirectedGraph3.insertEdge(v: 29, w: 30)
+    undirectedGraph3.insertEdge(v: 31, w: 30)
+    undirectedGraph3.insertEdge(v: 31, w: 29)
+    undirectedGraph3.insertEdge(v: 36, w: 29)
+    undirectedGraph3.insertEdge(v: 36, w: 35)
+    undirectedGraph3.insertEdge(v: 34, w: 35)
+    undirectedGraph3.insertEdge(v: 34, w: 33)
+    undirectedGraph3.insertEdge(v: 32, w: 33)
+    undirectedGraph3.insertEdge(v: 32, w: 31)
+    undirectedGraph3.insertEdge(v: 19, w: 18)
+    undirectedGraph3.insertEdge(v: 19, w: 25)
+    undirectedGraph3.insertEdge(v: 18, w: 25)
+    undirectedGraph3.insertEdge(v: 18, w: 17)
+    undirectedGraph3.insertEdge(v: 16, w: 17)
+    undirectedGraph3.insertEdge(v: 16, w: 15)
+    undirectedGraph3.insertEdge(v: 14, w: 15)
+    undirectedGraph3.insertEdge(v: 14, w: 13)
+    undirectedGraph3.insertEdge(v: 20, w: 13)
+    undirectedGraph3.insertEdge(v: 20, w: 21)
+    undirectedGraph3.insertEdge(v: 22, w: 21)
+    undirectedGraph3.insertEdge(v: 22, w: 23)
+    undirectedGraph3.insertEdge(v: 24, w: 20)
+    undirectedGraph3.insertEdge(v: 24, w: 21)
+    undirectedGraph3.insertEdge(v: 24, w: 22)
+    undirectedGraph3.insertEdge(v: 24, w: 23)
+    undirectedGraph3.insertEdge(v: 24, w: 28)
+    undirectedGraph3.insertEdge(v: 27, w: 28)
+    undirectedGraph3.insertEdge(v: 26, w: 28)
+    undirectedGraph3.insertEdge(v: 25, w: 28)
     return undirectedGraph3
 }
 
@@ -225,64 +225,6 @@ let undirectedGraph2 = makeUndirectedGraph2()
 let undirectedGraph3 = makeUndirectedGraph3()
 let undirectedGraph4 = makeUndirectedGraph4()
 
-/*
- 可以考虑作为 GraphSearch 的扩展方法，
- 并同时支持 dfs 和 bfs 的搜索
- */
-
-struct VertexPair: Hashable, Equatable {
-    private var s: Int
-    private var t: Int
-    
-    public var source: Int {
-        get {
-            return self.s
-        }
-    }
-    public var target: Int {
-        get {
-            return self.t
-        }
-    }
-    
-    init(source: Int, target: Int) {
-        self.s = source
-        self.t = target
-    }
-    
-    public static func == (l: VertexPair, r: VertexPair) -> Bool {
-        return l.s == r.s && l.t == r.t
-    }
-}
-
-// 判断Graph是否连通
-func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
-    for s in 0..<graph.adjust.count {
-        let dfs = graph.depthFirstSearcher(source: s)
-        for s2 in 0..<graph.adjust.count {
-            if dfs.hasPathTo(s2) == false {
-                return false
-            }
-        }
-    }
-    return true
-}
-// 返回Graph不可连通的顶点对集合对与可连通的顶点对集合
-func getNotConnectedAndConnectedVertexPairCollection<G: Graphable>(graph: G) -> (notConnect: Set<VertexPair>, isConnect: Set<VertexPair>) {
-    var pairs = (notConnect: Set<VertexPair>(), isConnect: Set<VertexPair>())
-    for s in 0..<graph.adjust.count {
-        let dfs = graph.depthFirstSearcher(source: s)
-        for t in 0..<graph.adjust.count {
-            if dfs.hasPathTo(t) == false {
-                pairs.notConnect.insert(VertexPair(source: s, target: t))
-            } else {
-                pairs.isConnect.insert(VertexPair(source: s, target: t))
-            }
-        }
-    }
-    return pairs
-}
-
 // 测试类主体
 class GraphTests {
     // 相等性比较、Graph容器比较
@@ -290,18 +232,59 @@ class GraphTests {
         // 拷贝引用
         var graphRef: some Graphable = directedGraph1
         XCTAssertEqual(graphRef as! DirectedGraph, directedGraph1)
-        graphRef.addEdge(v: 8, w: 7)
-        graphRef.addEdge(v: 7, w: 12)
+        graphRef.insertEdge(v: 8, w: 7)
+        graphRef.insertEdge(v: 7, w: 12)
         XCTAssertEqual(graphRef as! DirectedGraph, directedGraph1)
         // 值拷贝
         let graphCopy = directedGraph1.clone()
-        graphCopy.addEdge(v: 11, w: 8)
+        graphCopy.insertEdge(v: 11, w: 8)
         XCTAssertFalse(graphCopy == directedGraph1)
         XCTAssertFalse(graphCopy == graphRef as! DirectedGraph)
     }
     
     func notConnectedPathTest() {
-        let pairs = getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph2)
+        // dfs
+        var pairs = DepthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph2)
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 1, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 2, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 2, target: 1)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 3, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 3, target: 1)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 3, target: 2)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 1)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 2)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 3)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 5)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 1)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 2)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 3)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 4)))
+        
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 0)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 1)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 2)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 3)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 5)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 2)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 3)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 5)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 1)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 2, target: 2)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 2, target: 3)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 2, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 2, target: 5)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 3, target: 3)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 3, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 3, target: 5)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 4, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 5, target: 5)))
+        
+        // bfs
+        pairs = BreadthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph2)
         XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 1, target: 0)))
         XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 2, target: 0)))
         XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 2, target: 1)))
@@ -341,20 +324,27 @@ class GraphTests {
         XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 5, target: 5)))
     }
     
-    deinit {
-//        directedGraph1 = makeDirectedGraph1()
-//        directedGraph2 = makeDirectedGraph2()
-//        directedGraph3 = makeDirectedGraph3()
-//        directedGraph4 = makeDirectedGraph4()
-//
-//        undirectedGraph1 = makeUndirectedGraph1()
-//        undirectedGraph2 = makeUndirectedGraph2()
-//        undirectedGraph3 = makeUndirectedGraph3()
-//        undirectedGraph4 = makeUndirectedGraph4()
+    func addEdgesTest() {
+        let g = directedGraph2.clone()
+        print("Execute addEdgesTest before: g.edges: \(g.edges), g.vertex: \(g.vertex)")
+        g.insertEdge(v: 6, w: 7)
+        print("g.addEdge(v: 6, w: 7): g.edges: \(g.edges), g.vertex: \(g.vertex)")
+        g.insertEdge(v: 7, w: 8)
+        print("g.addEdge(v: 7, w: 8): g.edges: \(g.edges), g.vertex: \(g.vertex)")
+        g.insertEdge(v: 8, w: 9)
+        print("g.addEdge(v: 8, w: 9): g.edges: \(g.edges), g.vertex: \(g.vertex)")
+        g.insertEdge(v: 9, w: 10)
+        print("g.addEdge(v: 9, w: 10): g.edges: \(g.edges), g.vertex: \(g.vertex)")
+        g.insertEdge(v: 10, w: 0)
+        print("g.addEdge(v: 10, w: 0): g.edges: \(g.edges), g.vertex: \(g.vertex)")
+        XCTAssertEqual(g.edges, 13)
+        XCTAssertEqual(g.vertex, 11)
+        print("addEdgesTest done!")
     }
     
     static var allTests = [
         ("graphEqualTo", graphEqualTo),
         ("notConnectedPathTest", notConnectedPathTest),
+        ("addEdgesTest", addEdgesTest),
     ]
 }

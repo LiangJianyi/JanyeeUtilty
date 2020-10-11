@@ -2,10 +2,10 @@ import XCTest
 import Graph
 
 class DirectedGraphTests {
-    let directedGraph1 = makeDirectedGraph1()
-    let directedGraph2 = makeDirectedGraph2()
-    let directedGraph3 = makeDirectedGraph3()
-    let directedGraph4 = makeDirectedGraph4()
+    var directedGraph1 = makeDirectedGraph1()
+    var directedGraph2 = makeDirectedGraph2()
+    var directedGraph3 = makeDirectedGraph3()
+    var directedGraph4 = makeDirectedGraph4()
     
     func checkAdjustOfGraph1() {
         XCTAssertTrue(directedGraph1.adjust[0].sorted() == [6, 2, 1, 5].sorted())
@@ -348,6 +348,7 @@ class DirectedGraphTests {
     
     // 检测 graph 的连通性
     func connectedGraphTest() {
+        let dig = [directedGraph1, directedGraph2, directedGraph3, directedGraph4]
         /*
          所有的有向图默认都是不连通的，让不连通的图变得连通的方法如下：
          使用 getNotConnectedAndConnectedVertexPairCollection 函数
@@ -356,30 +357,48 @@ class DirectedGraphTests {
          通过从 target 添加一条有向边连接到 source 使之连通。
          */
         // by dfs
-        XCTAssertFalse(isConnectedGraph(graph: directedGraph1))
-        XCTAssertFalse(isConnectedGraph(graph: directedGraph2))
-        XCTAssertFalse(isConnectedGraph(graph: directedGraph3))
-        XCTAssertFalse(isConnectedGraph(graph: directedGraph4))
+        XCTAssertFalse(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph1))
+        XCTAssertFalse(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph2))
+        XCTAssertFalse(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph3))
+        XCTAssertFalse(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph4))
         
-        // 让 directedGraph1 连通
+        // 让 directedGraph1, directedGraph2, directedGraph3, directedGraph4 连通
         
-        // 让 directedGraph2 连通
+//        for graph in dig {
+//            graph.addEdge(v: 100, w: 101)
+//        }
+//        XCTAssertEqual(directedGraph1.vertex, 102)
+//        XCTAssertEqual(directedGraph2.vertex, 102)
+//        XCTAssertEqual(directedGraph3.vertex, 102)
+//        XCTAssertEqual(directedGraph4.vertex, 102)
         
-        // 让 directedGraph3 连通
-        let notConnectVertexPairOfDirectedGraph3 = getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph3).notConnect
-        for pair in notConnectVertexPairOfDirectedGraph3 {
-            directedGraph3.addEdge(v: pair.target, w: pair.source)
-        }
-        XCTAssertTrue(isConnectedGraph(graph: directedGraph3))
+//        for graph in dig {
+//            let notConnectVertexPairOfDirectedGraph = DepthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: graph).notConnect
+//            for pair in notConnectVertexPairOfDirectedGraph {
+//                graph.addEdge(v: pair.target, w: pair.source)
+//            }
+//            XCTAssertTrue(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: graph))
+//        }
         
-        // 让 directedGraph4 连通
-        let notConnectVertexPairOfDirectedGraph4 = getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph4).notConnect
-        for pair in notConnectVertexPairOfDirectedGraph4 {
-            directedGraph4.addEdge(v: pair.target, w: pair.source)
-        }
-        XCTAssertTrue(isConnectedGraph(graph: directedGraph4))
+        // Reset all directed graphs
+        directedGraph1 = makeDirectedGraph1()
+        directedGraph2 = makeDirectedGraph2()
+        directedGraph3 = makeDirectedGraph3()
+        directedGraph4 = makeDirectedGraph4()
         
         // by bfs
+        XCTAssertFalse(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph1))
+        XCTAssertFalse(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph2))
+        XCTAssertFalse(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph3))
+        XCTAssertFalse(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph4))
+        
+        for graph in dig {
+            let notConnectVertexPairOfDirectedGraph = BreadthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: graph).notConnect
+            for pair in notConnectVertexPairOfDirectedGraph {
+                graph.insertEdge(v: pair.target, w: pair.source)
+            }
+            XCTAssertTrue(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: graph))
+        }
     }
 
     static var allTests = [

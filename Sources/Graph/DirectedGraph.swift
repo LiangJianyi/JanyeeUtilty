@@ -21,6 +21,11 @@ public class DirectedGraph: Graphable {
         }
     }
     
+    public required init() {
+        self.v = 0
+        self.e = 0
+        self.adj = [[Int]]()
+    }
     public required init(vertex: Int, edges: Int) {
         self.v = vertex
         self.e = edges
@@ -60,7 +65,13 @@ public class DirectedGraph: Graphable {
     }
     // 添加一条边 v-w
     public func addEdge(v: Int, w: Int) {
-        if self.adj.insertVertex(v: v, w: w) {
+        self.adj[v].append(w)
+        self.v += 1
+        self.e += 1
+    }
+    // 添加一条边 v-w
+    public func insertEdge(v: Int, w: Int) {
+        if self.adj.insertEdge(v: v, w: w) {
             // 如果 insertVertex 返回 true，表明 adjust 增加了新的 vertex，
             // 需要修改 vertex 的计数
             self.v += 1
@@ -78,7 +89,7 @@ public class DirectedGraph: Graphable {
         let digraph = DirectedGraph(vertex: self.vertex, edges: self.edges)
         for v in 0..<self.vertex {
             for w in self.adjust[v] {
-                digraph.addEdge(v: w, w: v)
+                digraph.insertEdge(v: w, w: v)
             }
         }
         return digraph
