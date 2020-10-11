@@ -2,6 +2,11 @@ import XCTest
 import Graph
 
 class DirectedGraphTests {
+    let directedGraph1 = makeDirectedGraph1()
+    let directedGraph2 = makeDirectedGraph2()
+    let directedGraph3 = makeDirectedGraph3()
+    let directedGraph4 = makeDirectedGraph4()
+    
     func checkAdjustOfGraph1() {
         XCTAssertTrue(directedGraph1.adjust[0].sorted() == [6, 2, 1, 5].sorted())
         XCTAssertFalse(directedGraph1.adjust[1] == [0])
@@ -343,34 +348,26 @@ class DirectedGraphTests {
     
     // 检测 graph 的连通性
     func connectedGraphTest() {
-        func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
-            for s in 0..<graph.adjust.count {
-                let dfs = graph.depthFirstSearcher(source: s)
-                for s2 in 0..<graph.adjust.count {
-                    if dfs.hasPathTo(s2) == false {
-                        return false
-                    }
-                }
-            }
-            return true
-        }
         /*
-         在这个测试用例中，graph1是不连通图，
-         graph2 、 graph3 和 graph4 是连通图
+         所有的有向图默认都是不连通的
          */
         // by dfs
         XCTAssertFalse(isConnectedGraph(graph: directedGraph1))
-        XCTAssertTrue(isConnectedGraph(graph: directedGraph2))
-        XCTAssertTrue(isConnectedGraph(graph: directedGraph3))
-        XCTAssertTrue(isConnectedGraph(graph: directedGraph4))
-        
-        // 让 graph3 不再连通
-        directedGraph3.addEdge(v: directedGraph3.adjust.count, w: directedGraph3.adjust.count + 1)
+        XCTAssertFalse(isConnectedGraph(graph: directedGraph2))
         XCTAssertFalse(isConnectedGraph(graph: directedGraph3))
-        
-        // 让 graph4 不再连通
-        directedGraph4.addEdge(v: 41, w: 42)
         XCTAssertFalse(isConnectedGraph(graph: directedGraph4))
+        
+        // 让 directedGraph1 连通
+        
+        // 让 directedGraph2 连通
+        
+        // 让 directedGraph3 连通
+        directedGraph3.addEdge(v: directedGraph3.adjust.count, w: directedGraph3.adjust.count + 1)
+        XCTAssertTrue(isConnectedGraph(graph: directedGraph3))
+        
+        // 让 directedGraph4 连通
+        directedGraph4.addEdge(v: 41, w: 42)
+        XCTAssertTrue(isConnectedGraph(graph: directedGraph4))
         
         // by bfs
     }
@@ -382,9 +379,9 @@ class DirectedGraphTests {
         ("graph2DFSTest", graph2DFSTest),
         ("graph3DFSTest", graph3DFSTest),
 //        ("graph4DFSTest", graph4DFSTest),
-//        ("graph4BFSTest", graph4BFSTest),
+        ("graph4BFSTest", graph4BFSTest),
 //        ("graph3DegreeTest", graph3DegreeTest),
-//        ("connectedGraphTest", connectedGraphTest),
+        ("connectedGraphTest", connectedGraphTest),
 //        ("graph2BFSTest", graph2BFSTest),
 //        ("graph3BFSTest", graph3BFSTest),
     ]

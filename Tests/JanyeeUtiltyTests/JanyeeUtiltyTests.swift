@@ -13,6 +13,11 @@ final class JanyeeUtiltyTests: XCTestCase {
             print("Test \(f.0) started...")
             f.1(directedGraphTest)()
         }
+        let graphTest = GraphTests()
+        for f in GraphTests.allTests {
+            print("Test \(f.0) started...")
+            f.1(graphTest)()
+        }
     }
 
     static var allTests = [

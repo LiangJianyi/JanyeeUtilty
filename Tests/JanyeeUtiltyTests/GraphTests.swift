@@ -203,7 +203,7 @@ public func makeUndirectedGraph3() -> UndirectedGraph {
 public func makeUndirectedGraph4() -> UndirectedGraph {
     // 将 GraphTest1.txt 的文本 parse 为 Graph 对象
     let undirectedGraph4: UndirectedGraph
-    // init graph4
+    // init undirectedGraph4
     do {
         undirectedGraph4 = try UndirectedGraph(readText: JanyeeUtilty.readTextToFile(filename: "GraphTest1.txt"))
     } catch is GraphError {
@@ -214,13 +214,108 @@ public func makeUndirectedGraph4() -> UndirectedGraph {
     return undirectedGraph4
 }
 
-public let directedGraph1 = makeDirectedGraph1()
-public let directedGraph2 = makeDirectedGraph2()
-public let directedGraph3 = makeDirectedGraph3()
-public let directedGraph4 = makeDirectedGraph4()
+let directedGraph1 = makeDirectedGraph1()
+let directedGraph2 = makeDirectedGraph2()
+let directedGraph3 = makeDirectedGraph3()
+let directedGraph4 = makeDirectedGraph4()
 
 
-public let undirectedGraph1 = makeUndirectedGraph1()
-public let undirectedGraph2 = makeUndirectedGraph2()
-public let undirectedGraph3 = makeUndirectedGraph3()
-public let undirectedGraph4 = makeUndirectedGraph4()
+let undirectedGraph1 = makeUndirectedGraph1()
+let undirectedGraph2 = makeUndirectedGraph2()
+let undirectedGraph3 = makeUndirectedGraph3()
+let undirectedGraph4 = makeUndirectedGraph4()
+
+/*
+ 可以考虑作为 GraphSearch 的扩展方法，
+ 并同时支持 dfs 和 bfs 的搜索
+ */
+
+struct VertexPair: Hashable {
+    private var s: Int
+    private var t: Int
+    
+    public var source: Int {
+        get {
+            return self.s
+        }
+    }
+    public var target: Int {
+        get {
+            return self.t
+        }
+    }
+    
+    init(source: Int, target: Int) {
+        self.s = source
+        self.t = target
+    }
+}
+
+// 判断Graph是否连通
+func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
+    for s in 0..<graph.adjust.count {
+        let dfs = graph.depthFirstSearcher(source: s)
+        for s2 in 0..<graph.adjust.count {
+            if dfs.hasPathTo(s2) == false {
+                return false
+            }
+        }
+    }
+    return true
+}
+// 返回Graph不可连通的顶点对集合对与可连通的顶点对集合
+func getNotConnectedAndConnectedVertexPairCollection<G: Graphable>(graph: G) -> (notConnect: Set<VertexPair>, isConnect: Set<VertexPair>) {
+    var pairs = (notConnect: Set<VertexPair>(), isConnect: Set<VertexPair>())
+    for s in 0..<graph.adjust.count {
+        let dfs = graph.depthFirstSearcher(source: s)
+        for t in 0..<graph.adjust.count {
+            if dfs.hasPathTo(t) == false {
+                pairs.notConnect.insert(VertexPair(source: s, target: t))
+            } else {
+                pairs.isConnect.insert(VertexPair(source: s, target: t))
+            }
+        }
+    }
+    return pairs
+}
+
+// 测试类主体
+class GraphTests {
+    // 相等性比较、Graph容器比较
+    func graphEqualTo() {
+        // 拷贝引用
+        var graphRef: some Graphable = directedGraph1
+        XCTAssertEqual(graphRef as! DirectedGraph, directedGraph1)
+        graphRef.addEdge(v: 8, w: 7)
+        graphRef.addEdge(v: 7, w: 12)
+        XCTAssertEqual(graphRef as! DirectedGraph, directedGraph1)
+        // 值拷贝
+        let graphCopy = directedGraph1.clone()
+        graphCopy.addEdge(v: 11, w: 8)
+        XCTAssertFalse(graphCopy == directedGraph1)
+        XCTAssertFalse(graphCopy == graphRef as! DirectedGraph)
+    }
+    
+    func notConnectedPathTest() {
+        let pairs = getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph2)
+        print("pairs: \(pairs)")
+        XCTAssertTrue(pairs.contains(where: { pair in pair == (source: 1, target: 0) }))
+    }
+    
+    deinit {
+//        directedGraph1 = makeDirectedGraph1()
+//        directedGraph2 = makeDirectedGraph2()
+//        directedGraph3 = makeDirectedGraph3()
+//        directedGraph4 = makeDirectedGraph4()
+//
+//        undirectedGraph1 = makeUndirectedGraph1()
+//        undirectedGraph2 = makeUndirectedGraph2()
+//        undirectedGraph3 = makeUndirectedGraph3()
+//        undirectedGraph4 = makeUndirectedGraph4()
+    }
+    
+    static var allTests = [
+        ("graphEqualTo", graphEqualTo),
+        ("notConnectedPathTest", notConnectedPathTest),
+    ]
+}

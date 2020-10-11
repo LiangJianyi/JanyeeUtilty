@@ -2,6 +2,11 @@ import XCTest
 import Graph
 
 class UndirectedGraphTests {
+    let undirectedGraph1 = makeUndirectedGraph1()
+    let undirectedGraph2 = makeUndirectedGraph2()
+    let undirectedGraph3 = makeUndirectedGraph3()
+    let undirectedGraph4 = makeUndirectedGraph4()
+    
     func checkAdjustOfGraph1() {
         XCTAssert(undirectedGraph1.adjust[0].sorted() == [6, 2, 1, 5].sorted(), "graph.adjust[\(0)] = \(undirectedGraph1.adjust[0])")
         XCTAssert(undirectedGraph1.adjust[1].sorted() == [0].sorted(), "graph.adjust[\(1)] = \(undirectedGraph1.adjust[1])")
