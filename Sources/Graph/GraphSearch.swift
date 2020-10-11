@@ -84,7 +84,7 @@ public class DepthFirstSearch<G: Graphable>: GraphSearch, Searchable {
         return res
     }
     
-    // 判断Graph是否连通
+    // 判断 Graph 是否连通
     public static func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
         for s in 0..<graph.adjust.count {
             let dfs = graph.depthFirstSearcher(source: s)
@@ -95,6 +95,21 @@ public class DepthFirstSearch<G: Graphable>: GraphSearch, Searchable {
             }
         }
         return true
+    }
+    // 返回 Graph 不可连通的顶点对集合对与可连通的顶点对集合
+    public static func getNotConnectedAndConnectedVertexPairCollection<G: Graphable>(graph: G) -> (notConnect: Set<VertexPair>, isConnect: Set<VertexPair>) {
+        var pairs = (notConnect: Set<VertexPair>(), isConnect: Set<VertexPair>())
+        for s in 0..<graph.adjust.count {
+            let dfs = graph.depthFirstSearcher(source: s)
+            for t in 0..<graph.adjust.count {
+                if dfs.hasPathTo(t) == false {
+                    pairs.notConnect.insert(VertexPair(source: s, target: t))
+                } else {
+                    pairs.isConnect.insert(VertexPair(source: s, target: t))
+                }
+            }
+        }
+        return pairs
     }
 }
 
@@ -165,7 +180,7 @@ public class BreadthFirstSearch<G: Graphable>: GraphSearch, Searchable {
         return res
     }
     
-    // 判断Graph是否连通
+    // 判断 Graph 是否连通
     public static func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
         for s in 0..<graph.adjust.count {
             let bfs = graph.breadthFirstSearcher(source: s)
@@ -176,5 +191,20 @@ public class BreadthFirstSearch<G: Graphable>: GraphSearch, Searchable {
             }
         }
         return true
+    }
+    // 返回 Graph 不可连通的顶点对集合对与可连通的顶点对集合
+    public static func getNotConnectedAndConnectedVertexPairCollection<G: Graphable>(graph: G) -> (notConnect: Set<VertexPair>, isConnect: Set<VertexPair>) {
+        var pairs = (notConnect: Set<VertexPair>(), isConnect: Set<VertexPair>())
+        for s in 0..<graph.adjust.count {
+            let dfs = graph.breadthFirstSearcher(source: s)
+            for t in 0..<graph.adjust.count {
+                if dfs.hasPathTo(t) == false {
+                    pairs.notConnect.insert(VertexPair(source: s, target: t))
+                } else {
+                    pairs.isConnect.insert(VertexPair(source: s, target: t))
+                }
+            }
+        }
+        return pairs
     }
 }
