@@ -349,7 +349,11 @@ class DirectedGraphTests {
     // 检测 graph 的连通性
     func connectedGraphTest() {
         /*
-         所有的有向图默认都是不连通的
+         所有的有向图默认都是不连通的，让不连通的图变得连通的方法如下：
+         使用 getNotConnectedAndConnectedVertexPairCollection 函数
+         提取图不连通的所有顶点对（由 VertexPair 类型表示）组成的集合 Set<VertexPair>，
+         遍历集合，将每个 VertexPair 的 source 和 target 反过来添加到 addEdge 函数，
+         通过从 target 添加一条有向边连接到 source 使之连通。
          */
         // by dfs
         XCTAssertFalse(isConnectedGraph(graph: directedGraph1))
@@ -362,11 +366,17 @@ class DirectedGraphTests {
         // 让 directedGraph2 连通
         
         // 让 directedGraph3 连通
-        directedGraph3.addEdge(v: directedGraph3.adjust.count, w: directedGraph3.adjust.count + 1)
+        let notConnectVertexPairOfDirectedGraph3 = getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph3).notConnect
+        for pair in notConnectVertexPairOfDirectedGraph3 {
+            directedGraph3.addEdge(v: pair.target, w: pair.source)
+        }
         XCTAssertTrue(isConnectedGraph(graph: directedGraph3))
         
         // 让 directedGraph4 连通
-        directedGraph4.addEdge(v: 41, w: 42)
+        let notConnectVertexPairOfDirectedGraph4 = getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph4).notConnect
+        for pair in notConnectVertexPairOfDirectedGraph4 {
+            directedGraph4.addEdge(v: pair.target, w: pair.source)
+        }
         XCTAssertTrue(isConnectedGraph(graph: directedGraph4))
         
         // by bfs

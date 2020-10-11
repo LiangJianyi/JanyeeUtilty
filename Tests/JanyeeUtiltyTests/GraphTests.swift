@@ -230,7 +230,7 @@ let undirectedGraph4 = makeUndirectedGraph4()
  并同时支持 dfs 和 bfs 的搜索
  */
 
-struct VertexPair: Hashable {
+struct VertexPair: Hashable, Equatable {
     private var s: Int
     private var t: Int
     
@@ -248,6 +248,10 @@ struct VertexPair: Hashable {
     init(source: Int, target: Int) {
         self.s = source
         self.t = target
+    }
+    
+    public static func == (l: VertexPair, r: VertexPair) -> Bool {
+        return l.s == r.s && l.t == r.t
     }
 }
 
@@ -298,8 +302,43 @@ class GraphTests {
     
     func notConnectedPathTest() {
         let pairs = getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph2)
-        print("pairs: \(pairs)")
-        XCTAssertTrue(pairs.contains(where: { pair in pair == (source: 1, target: 0) }))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 1, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 2, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 2, target: 1)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 3, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 3, target: 1)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 3, target: 2)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 1)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 2)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 3)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 4, target: 5)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 0)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 1)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 2)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 3)))
+        XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 5, target: 4)))
+        
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 0)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 1)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 2)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 3)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 0, target: 5)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 2)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 3)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 5)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 1, target: 1)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 2, target: 2)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 2, target: 3)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 2, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 2, target: 5)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 3, target: 3)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 3, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 3, target: 5)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 4, target: 4)))
+        XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 5, target: 5)))
     }
     
     deinit {
