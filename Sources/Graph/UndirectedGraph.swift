@@ -12,7 +12,7 @@ public class UndirectedGraph: Graphable {
     }
     public var vertex: Int {
         get {
-            return self.v
+            return self.adj.count
         }
     }
     public var adjust: Array<Array<Int>> {
@@ -25,11 +25,6 @@ public class UndirectedGraph: Graphable {
         self.v = 0
         self.e = 0
         self.adj = [[Int]]()
-    }
-    public required init(vertex: Int, edges: Int) {
-        self.v = vertex
-        self.e = edges
-        self.adj = Array<Array<Int>>(repeating: Array<Int>(), count: self.v)
     }
     public required init(tokens: [Substring]) throws {
         self.v = Int(String(tokens[0]))!
@@ -63,34 +58,48 @@ public class UndirectedGraph: Graphable {
     public func breadthFirstSearcher (source: Int) -> BreadthFirstSearch<UndirectedGraph> {
         return BreadthFirstSearch(graph: self, source: source)
     }
-    // 添加一条边 v-w
+    // 向现有顶点添加一条边 v-w，
+    // 如果 v 已经存在，则直接把 w 追加到 v 的邻接表，
+    // 否则扩充 adjust 列表的长度，增加 adjust.endIndex 到 v 范围的顶点并创建其邻接表。
     public func addEdge(v: Int, w: Int) {
-        self.adj[v].append(w)
-        self.adj[w].append(v)
-        self.v += 1
-        self.e += 1
-    }
-    // 插入一条边 v-w
-    public func insertEdge(v: Int, w: Int) {
-        if self.adj.insertEdge(v: v, w: w) ||
-            self.adj.insertEdge(v: w, w: v) {
-            // 如果其中一个 insertVertex 返回 true，表明 adjust 增加了新的 vertex，
-            // 需要修改 vertex 的计数
-            self.v += 1
+        // v-w
+        if v < self.adj.endIndex {
+            self.adj[v].append(w)
+        } else {
+            for _ in self.adj.endIndex...v {
+                self.adj.append([])
+            }
+            self.adj[v].append(w)
+        }
+        // w-v
+        if w < self.adj.endIndex {
+            self.adj[w].append(v)
+        } else {
+            for _ in self.adj.endIndex...w {
+                self.adj.append([])
+            }
+            self.adj[w].append(v)
         }
         self.e += 1
-    }
-    // 插入一个孤立的顶点
-    public func insertVertex(v: Int) {
-        if self.adj.insertVertex(v: v) {
-            self.v += 1
-        }
     }
     // 克隆一个副本
     public func clone() -> UndirectedGraph {
-        let copy = UndirectedGraph(vertex: self.v, edges: self.e)
+        let copy = UndirectedGraph()
+        copy.v = self.v
+        copy.e = self.e
         copy.adj = self.adj
         return copy
+    }
+    // 插入一个孤立的顶点
+    public func insertVertex(v: Int) -> Bool {
+        if v < self.adj.endIndex {
+            return false
+        } else {
+            for _ in self.adj.endIndex...v {
+                self.adj.append([])
+            }
+            return true
+        }
     }
     
     // 提取已标记的顶点的下标；

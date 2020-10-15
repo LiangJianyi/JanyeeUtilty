@@ -205,11 +205,11 @@ class UndirectedGraphTests {
         XCTAssertTrue(isConnectedGraph(graph: undirectedGraph4))
         
         // 让 graph3 不再连通
-        undirectedGraph3.insertEdge(v: undirectedGraph3.adjust.count, w: undirectedGraph3.adjust.count + 1)
+        undirectedGraph3.addEdge(v: undirectedGraph3.adjust.count, w: undirectedGraph3.adjust.count + 1)
         XCTAssertFalse(isConnectedGraph(graph: undirectedGraph3))
         
         // 让 graph4 不再连通
-        undirectedGraph4.insertEdge(v: 41, w: 42)
+        undirectedGraph4.addEdge(v: 41, w: 42)
         XCTAssertFalse(isConnectedGraph(graph: undirectedGraph4))
         
         // by bfs

@@ -7,12 +7,10 @@ public protocol Graphable: Equatable {
     var adjust: Array<Array<Int>> { get }
     
     init ()
-    init(vertex: Int, edges: Int)
     init(tokens: [Substring]) throws
     
     func addEdge(v: Int, w: Int)
-    func insertEdge(v: Int, w: Int)
-    func insertVertex(v: Int)
+    func insertVertex(v: Int) -> Bool
     func degree(vertex: Int) -> Int
     func maxDegree() -> Int
     func avgDegree() -> Double
@@ -64,34 +62,3 @@ extension Graphable {
     }
 }
 
-// 给邻接表（adj）做扩展。
-
-extension Array where Element == Array<Int> {
-    // 插入一条边。
-    // 如果 v 已经存在，则直接把 w 追加到 v 的邻接表，
-    // 否则扩充 adjust 列表的长度，增加 adjust.endIndex 到 v 范围的顶点并创建其邻接表。
-    // 如果无需扩充 adjust 列表的长度，返回 false，否则返回 true。
-    mutating func insertEdge(v: Element.Element, w: Element.Element) -> Bool {
-        if v < self.endIndex {
-            self[v].append(w)
-            return false
-        } else {
-            for _ in self.endIndex...v {
-                self.append([])
-            }
-            self[v].append(w)
-            return true
-        }
-    }
-    // 插入一个顶点
-    mutating func insertVertex(v: Element.Element) -> Bool {
-        if v < self.endIndex {
-            return false
-        } else {
-            for _ in self.endIndex...v {
-                self.append([])
-            }
-            return true
-        }
-    }
-}

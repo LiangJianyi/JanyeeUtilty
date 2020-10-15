@@ -9,7 +9,7 @@ import JanyeeUtilty
 import Graph
 
 public func makeDirectedGraph1() -> DirectedGraph {
-    let directedGraph1 = DirectedGraph(vertex: 13, edges: 13)
+    let directedGraph1 = DirectedGraph()
     directedGraph1.addEdge(v: 0, w: 5)
     directedGraph1.addEdge(v: 4, w: 3)
     directedGraph1.addEdge(v: 0, w: 1)
@@ -27,7 +27,7 @@ public func makeDirectedGraph1() -> DirectedGraph {
 }
 
 public func makeDirectedGraph2() -> DirectedGraph {
-    let directedGraph2 = DirectedGraph(vertex: 6, edges: 8)
+    let directedGraph2 = DirectedGraph()
     directedGraph2.addEdge(v: 0, w: 5)
     directedGraph2.addEdge(v: 2, w: 4)
     directedGraph2.addEdge(v: 2, w: 3)
@@ -40,7 +40,7 @@ public func makeDirectedGraph2() -> DirectedGraph {
 }
 
 public func makeDirectedGraph3() -> DirectedGraph {
-    let directedGraph3 = DirectedGraph(vertex: 37, edges: 44)
+    let directedGraph3 = DirectedGraph()
     directedGraph3.addEdge(v: 0, w: 5)
     directedGraph3.addEdge(v: 4, w: 3)
     directedGraph3.addEdge(v: 0, w: 1)
@@ -112,7 +112,7 @@ public func makeDirectedGraph4() -> DirectedGraph {
 }
 
 public func makeUndirectedGraph1() -> UndirectedGraph {
-    let undirectedGraph1 = UndirectedGraph(vertex: 13, edges: 13)
+    let undirectedGraph1 = UndirectedGraph()
     undirectedGraph1.addEdge(v: 0, w: 5)
     undirectedGraph1.addEdge(v: 4, w: 3)
     undirectedGraph1.addEdge(v: 0, w: 1)
@@ -130,7 +130,7 @@ public func makeUndirectedGraph1() -> UndirectedGraph {
 }
 
 public func makeUndirectedGraph2() -> UndirectedGraph {
-    let undirectedGraph2 = UndirectedGraph(vertex: 6, edges: 8)
+    let undirectedGraph2 = UndirectedGraph()
     undirectedGraph2.addEdge(v: 0, w: 5)
     undirectedGraph2.addEdge(v: 2, w: 4)
     undirectedGraph2.addEdge(v: 2, w: 3)
@@ -143,7 +143,7 @@ public func makeUndirectedGraph2() -> UndirectedGraph {
 }
 
 public func makeUndirectedGraph3() -> UndirectedGraph {
-    let undirectedGraph3 = UndirectedGraph(vertex: 37, edges: 44)
+    let undirectedGraph3 = UndirectedGraph()
     undirectedGraph3.addEdge(v: 0, w: 5)
     undirectedGraph3.addEdge(v: 4, w: 3)
     undirectedGraph3.addEdge(v: 0, w: 1)
@@ -232,12 +232,12 @@ class GraphTests {
         // 拷贝引用
         var graphRef: some Graphable = directedGraph1
         XCTAssertEqual(graphRef as! DirectedGraph, directedGraph1)
-        graphRef.insertEdge(v: 8, w: 7)
-        graphRef.insertEdge(v: 7, w: 12)
+        graphRef.addEdge(v: 8, w: 7)
+        graphRef.addEdge(v: 7, w: 12)
         XCTAssertEqual(graphRef as! DirectedGraph, directedGraph1)
         // 值拷贝
         let graphCopy = directedGraph1.clone()
-        graphCopy.insertEdge(v: 11, w: 8)
+        graphCopy.addEdge(v: 11, w: 8)
         XCTAssertFalse(graphCopy == directedGraph1)
         XCTAssertFalse(graphCopy == graphRef as! DirectedGraph)
     }
@@ -328,15 +328,15 @@ class GraphTests {
 //        let g = directedGraph2.clone()
         let g = makeDirectedGraph2()
         print("Execute addEdgesTest before: g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.insertEdge(v: 6, w: 7)
+        g.addEdge(v: 6, w: 7)
         print("g.addEdge(v: 6, w: 7): g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.insertEdge(v: 7, w: 8)
+        g.addEdge(v: 7, w: 8)
         print("g.addEdge(v: 7, w: 8): g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.insertEdge(v: 8, w: 9)
+        g.addEdge(v: 8, w: 9)
         print("g.addEdge(v: 8, w: 9): g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.insertEdge(v: 9, w: 10)
+        g.addEdge(v: 9, w: 10)
         print("g.addEdge(v: 9, w: 10): g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.insertEdge(v: 10, w: 0)
+        g.addEdge(v: 10, w: 0)
         print("g.addEdge(v: 10, w: 0): g.edges: \(g.edges), g.vertex: \(g.vertex)")
         XCTAssertEqual(g.edges, 13)
         XCTAssertEqual(g.vertex, 11)

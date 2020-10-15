@@ -395,7 +395,7 @@ class DirectedGraphTests {
         for graph in dig {
             let notConnectVertexPairOfDirectedGraph = BreadthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: graph).notConnect
             for pair in notConnectVertexPairOfDirectedGraph {
-                graph.insertEdge(v: pair.target, w: pair.source)
+                graph.addEdge(v: pair.target, w: pair.source)
             }
             XCTAssertTrue(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: graph))
         }
