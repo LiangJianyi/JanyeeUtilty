@@ -71,6 +71,12 @@ public class DirectedGraph: Graphable {
             }
             self.adj[v].append(w)
         }
+        // 插入顶点 w （如果不存在）
+        if w >= self.adj.endIndex {
+            for _ in self.adj.endIndex...w {
+                self.adj.append([])
+            }
+        }
         self.e += 1
     }
     // 克隆一个副本
