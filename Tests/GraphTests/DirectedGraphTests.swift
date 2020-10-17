@@ -1,7 +1,7 @@
 import XCTest
 import Graph
 
-class DirectedGraphTests {
+final class DirectedGraphTests: XCTestCase {
     var directedGraph1 = makeDirectedGraph1()
     var directedGraph2 = makeDirectedGraph2()
     var directedGraph3 = makeDirectedGraph3()
@@ -364,21 +364,22 @@ class DirectedGraphTests {
         
         // 让 directedGraph1, directedGraph2, directedGraph3, directedGraph4 连通
         
-//        for graph in dig {
-//            graph.addEdge(v: 100, w: 101)
-//        }
-//        XCTAssertEqual(directedGraph1.vertex, 102)
-//        XCTAssertEqual(directedGraph2.vertex, 102)
-//        XCTAssertEqual(directedGraph3.vertex, 102)
-//        XCTAssertEqual(directedGraph4.vertex, 102)
+        for graph in dig {
+            graph.addEdge(v: 100, w: 101)
+        }
+        XCTAssertEqual(directedGraph1.vertex, 102)
+        XCTAssertEqual(directedGraph2.vertex, 102)
+        XCTAssertEqual(directedGraph3.vertex, 102)
+        XCTAssertEqual(directedGraph4.vertex, 102)
         
-//        for graph in dig {
-//            let notConnectVertexPairOfDirectedGraph = DepthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: graph).notConnect
-//            for pair in notConnectVertexPairOfDirectedGraph {
-//                graph.addEdge(v: pair.target, w: pair.source)
-//            }
-//            XCTAssertTrue(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: graph))
-//        }
+        for graph in dig {
+            // 提取所有未连通的顶点对集合，遍历集合把所有顶点对连线
+            let notConnectVertexPairOfDirectedGraph = DepthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: graph).notConnect
+            for pair in notConnectVertexPairOfDirectedGraph {
+                graph.addEdge(v: pair.target, w: pair.source)
+            }
+            XCTAssertTrue(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: graph))
+        }
         
         // Reset all directed graphs
         directedGraph1 = makeDirectedGraph1()
@@ -393,11 +394,19 @@ class DirectedGraphTests {
         XCTAssertFalse(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph4))
         
         for graph in dig {
+            // 提取所有未连通的顶点对集合，遍历集合把所有顶点对连线
             let notConnectVertexPairOfDirectedGraph = BreadthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: graph).notConnect
             for pair in notConnectVertexPairOfDirectedGraph {
                 graph.addEdge(v: pair.target, w: pair.source)
             }
             XCTAssertTrue(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: graph))
+        }
+    }
+    
+    func testMain() {
+        for test in Self.allTests {
+            print("Test \(test.0) start...")
+            test.1(self)()
         }
     }
 

@@ -1,7 +1,7 @@
 import XCTest
-@testable import JanyeeUtilty
+//@testable import JanyeeUtilty
 
-final class JanyeeUtiltyTests: XCTestCase {
+final class OtherGraphTests: XCTestCase {
     func testMain() {
         XCTAssertTrue(true)
     }

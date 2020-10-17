@@ -214,19 +214,19 @@ public func makeUndirectedGraph4() -> UndirectedGraph {
     return undirectedGraph4
 }
 
-let directedGraph1 = makeDirectedGraph1()
-let directedGraph2 = makeDirectedGraph2()
-let directedGraph3 = makeDirectedGraph3()
-let directedGraph4 = makeDirectedGraph4()
-
-
-let undirectedGraph1 = makeUndirectedGraph1()
-let undirectedGraph2 = makeUndirectedGraph2()
-let undirectedGraph3 = makeUndirectedGraph3()
-let undirectedGraph4 = makeUndirectedGraph4()
-
 // 测试类主体
-class GraphTests {
+final class GraphTests: XCTestCase {
+    let directedGraph1 = makeDirectedGraph1()
+    let directedGraph2 = makeDirectedGraph2()
+    let directedGraph3 = makeDirectedGraph3()
+    let directedGraph4 = makeDirectedGraph4()
+
+
+    let undirectedGraph1 = makeUndirectedGraph1()
+    let undirectedGraph2 = makeUndirectedGraph2()
+    let undirectedGraph3 = makeUndirectedGraph3()
+    let undirectedGraph4 = makeUndirectedGraph4()
+
     // 相等性比较、Graph容器比较
     func graphEqualTo() {
         // 拷贝引用
@@ -341,6 +341,13 @@ class GraphTests {
         XCTAssertEqual(g.edges, 13)
         XCTAssertEqual(g.vertex, 11)
         print("addEdgesTest done!")
+    }
+    
+    func testMain() {
+        for test in Self.allTests {
+            print("Test \(test.0) start...")
+            test.1(self)()
+        }
     }
     
     static var allTests = [

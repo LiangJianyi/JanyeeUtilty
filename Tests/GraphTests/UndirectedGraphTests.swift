@@ -1,7 +1,7 @@
 import XCTest
 import Graph
 
-class UndirectedGraphTests {
+final class UndirectedGraphTests: XCTestCase {
     let undirectedGraph1 = makeUndirectedGraph1()
     let undirectedGraph2 = makeUndirectedGraph2()
     let undirectedGraph3 = makeUndirectedGraph3()
@@ -213,6 +213,13 @@ class UndirectedGraphTests {
         XCTAssertFalse(isConnectedGraph(graph: undirectedGraph4))
         
         // by bfs
+    }
+    
+    func testMain() {
+        for test in Self.allTests {
+            print("Test \(test.0) start...")
+            test.1(self)()
+        }
     }
 
     static var allTests = [

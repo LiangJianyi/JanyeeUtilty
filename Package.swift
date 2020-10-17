@@ -30,5 +30,8 @@ let package = Package(
         .testTarget(
             name: "JanyeeUtiltyTests",
             dependencies: ["JanyeeUtilty", "Graph"]),
+        .testTarget(
+            name: "GraphTests",
+            dependencies: ["JanyeeUtilty", "Graph"]),
     ]
 )
