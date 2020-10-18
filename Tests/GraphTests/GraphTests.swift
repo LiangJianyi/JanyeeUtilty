@@ -216,21 +216,21 @@ public func makeUndirectedGraph4() -> UndirectedGraph {
 
 // 测试类主体
 final class GraphTests: XCTestCase {
-    let directedGraph1 = makeDirectedGraph1()
-    let directedGraph2 = makeDirectedGraph2()
-    let directedGraph3 = makeDirectedGraph3()
-    let directedGraph4 = makeDirectedGraph4()
+    var directedGraph1 = makeDirectedGraph1()
+    var directedGraph2 = makeDirectedGraph2()
+    var directedGraph3 = makeDirectedGraph3()
+    var directedGraph4 = makeDirectedGraph4()
 
 
-    let undirectedGraph1 = makeUndirectedGraph1()
-    let undirectedGraph2 = makeUndirectedGraph2()
-    let undirectedGraph3 = makeUndirectedGraph3()
-    let undirectedGraph4 = makeUndirectedGraph4()
+    var undirectedGraph1 = makeUndirectedGraph1()
+    var undirectedGraph2 = makeUndirectedGraph2()
+    var undirectedGraph3 = makeUndirectedGraph3()
+    var undirectedGraph4 = makeUndirectedGraph4()
 
     // 相等性比较、Graph容器比较
     func graphEqualTo() {
         // 拷贝引用
-        var graphRef: some Graphable = directedGraph1
+        let graphRef: some Graphable = directedGraph1
         XCTAssertEqual(graphRef as! DirectedGraph, directedGraph1)
         graphRef.addEdge(v: 8, w: 7)
         graphRef.addEdge(v: 7, w: 12)
@@ -240,6 +240,9 @@ final class GraphTests: XCTestCase {
         graphCopy.addEdge(v: 11, w: 8)
         XCTAssertFalse(graphCopy == directedGraph1)
         XCTAssertFalse(graphCopy == graphRef as! DirectedGraph)
+        
+        // 重置
+        directedGraph1 = makeDirectedGraph1()
     }
     
     func notConnectedPathTest() {
@@ -325,22 +328,37 @@ final class GraphTests: XCTestCase {
     }
     
     func addEdgesTest() {
-//        let g = directedGraph2.clone()
-        let g = makeDirectedGraph2()
-        print("Execute addEdgesTest before: g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.addEdge(v: 6, w: 7)
-        print("g.addEdge(v: 6, w: 7): g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.addEdge(v: 7, w: 8)
-        print("g.addEdge(v: 7, w: 8): g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.addEdge(v: 8, w: 9)
-        print("g.addEdge(v: 8, w: 9): g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.addEdge(v: 9, w: 10)
-        print("g.addEdge(v: 9, w: 10): g.edges: \(g.edges), g.vertex: \(g.vertex)")
-        g.addEdge(v: 10, w: 0)
-        print("g.addEdge(v: 10, w: 0): g.edges: \(g.edges), g.vertex: \(g.vertex)")
+        var g = directedGraph1.clone()
+        XCTAssertEqual(g.vertex, 13)
         XCTAssertEqual(g.edges, 13)
-        XCTAssertEqual(g.vertex, 11)
-        print("addEdgesTest done!")
+        
+        g.addEdge(v: 6, w: 7)
+        XCTAssertEqual(g.vertex, 13)
+        XCTAssertEqual(g.edges, 14)
+        
+        g.addEdge(v: 8, w: 7)
+        XCTAssertEqual(g.vertex, 13)
+        XCTAssertEqual(g.edges, 15)
+        
+        g.addEdge(v: 8, w: 9)
+        XCTAssertEqual(g.vertex, 13)
+        XCTAssertEqual(g.edges, 16)
+        
+        g.addEdge(v: 9, w: 13)
+        XCTAssertEqual(g.vertex, 14)
+        XCTAssertEqual(g.edges, 17)
+        
+        g.addEdge(v: 10, w: 0)
+        XCTAssertEqual(g.vertex, 14)
+        XCTAssertEqual(g.edges, 18)
+        
+        for i in 0...13 {
+            if i != 12 {
+                g.addEdge(v: 12, w: i)
+            }
+        }
+        XCTAssertEqual(g.vertex, 14)
+        XCTAssertEqual(g.edges, 31)
     }
     
     func testMain() {
