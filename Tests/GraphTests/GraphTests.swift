@@ -361,6 +361,176 @@ final class GraphTests: XCTestCase {
         XCTAssertEqual(g.edges, 31)
     }
     
+    func addEdges2Test() {
+        let dg5 = DirectedGraph()
+        XCTAssertEqual(dg5.vertex, 0)
+        XCTAssertEqual(dg5.edges, 0)
+        
+        dg5.addEdge(v: 1, w: 2)
+        XCTAssertEqual(dg5.vertex, 3)   // 隐含了顶点 0
+        XCTAssertEqual(dg5.edges, 1)
+        
+        dg5.addEdge(v: 2, w: 3)
+        XCTAssertEqual(dg5.vertex, 4)
+        XCTAssertEqual(dg5.edges, 2)
+        
+        dg5.addEdge(v: 3, w: 4)
+        XCTAssertEqual(dg5.vertex, 5)
+        XCTAssertEqual(dg5.edges, 3)
+        
+        dg5.addEdge(v: 4, w: 5)
+        XCTAssertEqual(dg5.vertex, 6)
+        XCTAssertEqual(dg5.edges, 4)
+        
+        dg5.addEdge(v: 5, w: 6)
+        XCTAssertEqual(dg5.vertex, 7)
+        XCTAssertEqual(dg5.edges, 5)
+        
+        dg5.addEdge(v: 6, w: 7)
+        XCTAssertEqual(dg5.vertex, 8)
+        XCTAssertEqual(dg5.edges, 6)
+        
+        dg5.addEdge(v: 7, w: 8)
+        XCTAssertEqual(dg5.vertex, 9)
+        XCTAssertEqual(dg5.edges, 7)
+        
+        dg5.addEdge(v: 8, w: 9)
+        XCTAssertEqual(dg5.vertex, 10)
+        XCTAssertEqual(dg5.edges, 8)
+        
+        dg5.addEdge(v: 18, w: 1)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 9)
+        
+        dg5.addEdge(v: 18, w: 17)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 10)
+        
+        dg5.addEdge(v: 17, w: 16)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 11)
+        
+        dg5.addEdge(v: 16, w: 15)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 12)
+        
+        dg5.addEdge(v: 15, w: 14)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 13)
+        
+        dg5.addEdge(v: 14, w: 13)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 14)
+        
+        dg5.addEdge(v: 13, w: 12)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 15)
+        
+        dg5.addEdge(v: 12, w: 11)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 16)
+        
+        dg5.addEdge(v: 11, w: 10)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 17)
+        
+        dg5.addEdge(v: 10, w: 9)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 18)
+        
+        dg5.addEdge(v: 18, w: 0)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 19)
+        
+        dg5.addEdge(v: 0, w: 16)
+        XCTAssertEqual(dg5.vertex, 19)
+        XCTAssertEqual(dg5.edges, 20)
+        
+        dg5.addEdge(v: 0, w: 19)
+        XCTAssertEqual(dg5.vertex, 20)
+        XCTAssertEqual(dg5.edges, 21)
+        
+        dg5.addEdge(v: 0, w: 20)
+        XCTAssertEqual(dg5.vertex, 21)
+        XCTAssertEqual(dg5.edges, 22)
+        
+        dg5.addEdge(v: 0, w: 21)
+        XCTAssertEqual(dg5.vertex, 22)
+        XCTAssertEqual(dg5.edges, 23)
+        
+        dg5.addEdge(v: 21, w: 24)
+        XCTAssertEqual(dg5.vertex, 25)
+        XCTAssertEqual(dg5.edges, 24)
+        
+        dg5.addEdge(v: 24, w: 23)
+        XCTAssertEqual(dg5.vertex, 25)
+        XCTAssertEqual(dg5.edges, 25)
+        
+        dg5.addEdge(v: 23, w: 22)
+        XCTAssertEqual(dg5.vertex, 25)
+        XCTAssertEqual(dg5.edges, 26)
+        
+        dg5.addEdge(v: 22, w: 15)
+        XCTAssertEqual(dg5.vertex, 25)
+        XCTAssertEqual(dg5.edges, 27)
+        
+        dg5.addEdge(v: 26, w: 14)
+        XCTAssertEqual(dg5.vertex, 27)
+        XCTAssertEqual(dg5.edges, 28)
+        
+        dg5.addEdge(v: 26, w: 25)
+        XCTAssertEqual(dg5.vertex, 27)
+        XCTAssertEqual(dg5.edges, 29)
+        
+        dg5.addEdge(v: 25, w: 24)
+        XCTAssertEqual(dg5.vertex, 27)
+        XCTAssertEqual(dg5.edges, 30)
+        
+        dg5.addEdge(v: 25, w: 27)
+        XCTAssertEqual(dg5.vertex, 28)
+        XCTAssertEqual(dg5.edges, 31)
+        
+        dg5.addEdge(v: 25, w: 28)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 32)
+        
+        dg5.addEdge(v: 25, w: 13)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 33)
+        
+        dg5.addEdge(v: 25, w: 11)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 34)
+        
+        dg5.addEdge(v: 27, w: 10)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 35)
+        
+        dg5.addEdge(v: 28, w: 24)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 36)
+        
+        dg5.addEdge(v: 28, w: 24)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 37)
+        
+        dg5.addEdge(v: 28, w: 24)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 38)
+        
+        dg5.addEdge(v: 28, w: 24)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 39)
+        
+        dg5.addEdge(v: 28, w: 24)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 40)
+        
+        dg5.addEdge(v: 21, w: 28)
+        XCTAssertEqual(dg5.vertex, 29)
+        XCTAssertEqual(dg5.edges, 41)
+    }
+    
     func testMain() {
         for test in Self.allTests {
             print("Test \(test.0) start...")
@@ -372,5 +542,6 @@ final class GraphTests: XCTestCase {
         ("graphEqualTo", graphEqualTo),
         ("notConnectedPathTest", notConnectedPathTest),
         ("addEdgesTest", addEdgesTest),
+        ("addEdges2Test", addEdges2Test)
     ]
 }
