@@ -59,5 +59,12 @@ public class JanyeeUtilty {
             return child.value as? Value
         }
     }
+    // 接收一个任务，返回执行这个任务消耗的秒数
+    public static func taskTimeConsuming(task: () -> Void) -> TimeInterval {
+        let startTime = Date()
+        task()
+        let endTime = Date()
+        return endTime.timeIntervalSince(startTime)
+    }
 }
 
