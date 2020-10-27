@@ -531,6 +531,51 @@ final class GraphTests: XCTestCase {
         XCTAssertEqual(dg5.edges, 41)
     }
     
+    func testEqualityOnCollection() {
+        func randomDirectorGraphGenerator(vertexCount: Int) -> DirectedGraph {
+            let dg = DirectedGraph()
+            // 在不确定的循环次数中随机挑选一个顶点 s，
+            // 从 s 出发随机连接其它的顶点。
+            // 随机连接的次数为 M。
+            let N = (1...UInt16.max).randomElement()!
+            let M = (1...UInt16.max).randomElement()!
+            for _ in 1...N {
+                let s = (0..<vertexCount).randomElement()!
+                for _ in 1...M {
+                    dg.addEdge(v: s, w: (0..<vertexCount).randomElement()!)
+                }
+            }
+            return dg
+        }
+        
+        // 生成 10 个随机有向图
+        let dgs = [
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: Int.max),
+        ]
+        
+        let dgs2 = dgs.map { g in g.clone() }
+        
+        XCTAssertEqual(dgs, dgs2)
+        
+        for g in dgs {
+            XCTAssertTrue(dgs2.contains(g))
+        }
+        
+        XCTAssertFalse(dgs.contains(directedGraph1))
+        XCTAssertFalse(dgs.contains(directedGraph2))
+        XCTAssertFalse(dgs.contains(directedGraph3))
+        XCTAssertFalse(dgs.contains(directedGraph4))
+    }
+    
     func testMain() {
         for test in Self.allTests {
             print("Test \(test.0) start...")
@@ -542,6 +587,7 @@ final class GraphTests: XCTestCase {
         ("graphEqualTo", graphEqualTo),
         ("notConnectedPathTest", notConnectedPathTest),
         ("addEdgesTest", addEdgesTest),
-        ("addEdges2Test", addEdges2Test)
+        ("addEdges2Test", addEdges2Test),
+        ("testEqualityOnCollection", testEqualityOnCollection)
     ]
 }
