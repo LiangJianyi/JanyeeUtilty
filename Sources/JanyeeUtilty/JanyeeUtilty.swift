@@ -14,6 +14,26 @@ extension String {
     }
 }
 
+// 给 Array 添加并行操作
+extension Array {
+    func parallelMap<R>(striding: Int, convertor: @escaping (Element) -> R) -> [R] {
+        let N = self.count
+        let res = UnsafeMutablePointer<R>.allocate(capacity: N)
+        DispatchQueue.concurrentPerform(iterations: N/striding) { k in
+            for i in (k * striding)..<((k + 1) * striding) {
+                res[i] = convertor(self[i])
+            }
+        }
+        for i in (N - (N % striding))..<N {
+            res[i] = convertor(self[i])
+        }
+
+        let finalResult = Array<R>(UnsafeBufferPointer(start: res, count: N))
+        res.deallocate()
+        return finalResult
+    }
+}
+
 public class JanyeeUtilty {
     public static func currentTime() -> String {
         let date = Date()
