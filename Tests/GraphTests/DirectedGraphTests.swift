@@ -85,6 +85,47 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssert(directedGraph3.adjust[36].sorted() == [35, 29].sorted())
     }
     
+    func checkAdjustOfReverseGraph3() {
+        let reverseDigraph3 = directedGraph3.reverse()
+        XCTAssert(reverseDigraph3.adjust[0] == [])
+        XCTAssert(reverseDigraph3.adjust[1] == [0])
+        XCTAssert(reverseDigraph3.adjust[2] == [0])
+        XCTAssert(reverseDigraph3.adjust[3] == [5, 4].sorted())
+        XCTAssert(reverseDigraph3.adjust[4] == [5, 6].sorted())
+        XCTAssert(reverseDigraph3.adjust[5] == [0])
+        XCTAssert(reverseDigraph3.adjust[6] == [0])
+        XCTAssert(reverseDigraph3.adjust[7] == [])
+        XCTAssert(reverseDigraph3.adjust[8] == [7])
+        XCTAssert(reverseDigraph3.adjust[9] == [])
+        XCTAssert(reverseDigraph3.adjust[10] == [9])
+        XCTAssert(reverseDigraph3.adjust[11] == [9])
+        XCTAssert(reverseDigraph3.adjust[12].sorted() == [9, 11].sorted())
+        XCTAssert(reverseDigraph3.adjust[13].sorted() == [14, 20].sorted())
+        XCTAssert(reverseDigraph3.adjust[14] == [])
+        XCTAssert(reverseDigraph3.adjust[15].sorted() == [14, 16].sorted())
+        XCTAssert(reverseDigraph3.adjust[16] == [])
+        XCTAssert(reverseDigraph3.adjust[17].sorted() == [16, 18].sorted())
+        XCTAssert(reverseDigraph3.adjust[18] == [19])
+        XCTAssert(reverseDigraph3.adjust[19] == [])
+        XCTAssert(reverseDigraph3.adjust[20] == [24])
+        XCTAssert(reverseDigraph3.adjust[21].sorted() == [20, 22, 24].sorted())
+        XCTAssert(reverseDigraph3.adjust[22] == [24])
+        XCTAssert(reverseDigraph3.adjust[23].sorted() == [24, 22].sorted())
+        XCTAssert(reverseDigraph3.adjust[24] == [])
+        XCTAssert(reverseDigraph3.adjust[25].sorted() == [18, 19].sorted())
+        XCTAssert(reverseDigraph3.adjust[26] == [])
+        XCTAssert(reverseDigraph3.adjust[27] == [])
+        XCTAssert(reverseDigraph3.adjust[28].sorted() == [24, 26, 27, 25].sorted())
+        XCTAssert(reverseDigraph3.adjust[29].sorted() == [31, 36].sorted())
+        XCTAssert(reverseDigraph3.adjust[30].sorted() == [8, 0, 12, 13, 14, 15, 16, 17, 18, 19, 29, 31, 11].sorted())
+        XCTAssert(reverseDigraph3.adjust[31] == [32])
+        XCTAssert(reverseDigraph3.adjust[32] == [])
+        XCTAssert(reverseDigraph3.adjust[33].sorted() == [34, 32].sorted())
+        XCTAssert(reverseDigraph3.adjust[34] == [])
+        XCTAssert(reverseDigraph3.adjust[35].sorted() == [36, 34].sorted())
+        XCTAssert(reverseDigraph3.adjust[36] == [])
+    }
+    
     func graph2DFSTest() {
         // 检测路径中每个路过的顶点是否都和起点 source 连通。
         // 如果 path 包含一个传递给 hasPathTo 并返回 false 的顶点，那么证明这个顶点不可达。
@@ -422,5 +463,6 @@ final class DirectedGraphTests: XCTestCase {
         ("connectedGraphTest", connectedGraphTest),
 //        ("graph2BFSTest", graph2BFSTest),
 //        ("graph3BFSTest", graph3BFSTest),
+        ("checkAdjustOfReverseGraph3", checkAdjustOfReverseGraph3)
     ]
 }
