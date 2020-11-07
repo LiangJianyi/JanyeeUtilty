@@ -17,7 +17,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssertFalse(directedGraph1.adjust[6].sorted() == [0, 4].sorted())
         XCTAssertTrue(directedGraph1.adjust[7] == [8])
         XCTAssertFalse(directedGraph1.adjust[8] == [7])
-        XCTAssert(directedGraph1.adjust[9].sorted() == [11, 10, 12].sorted())
+        XCTAssertTrue(directedGraph1.adjust[9].sorted() == [11, 10, 12].sorted())
         XCTAssertFalse(directedGraph1.adjust[10].sorted() == [9].sorted())
         XCTAssertFalse(directedGraph1.adjust[11].sorted() == [9, 12].sorted())
         XCTAssertFalse(directedGraph1.adjust[12].sorted() == [11, 9].sorted())
@@ -32,6 +32,23 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssertTrue(directedGraph1.adjust[10] == [])
         XCTAssertTrue(directedGraph1.adjust[11] == [12])
         XCTAssertTrue(directedGraph1.adjust[12] == [])
+    }
+    
+    func checkAdjustOfReverseGraph1() {
+        let reverseDigraph1 = directedGraph1.reverse()
+        XCTAssertTrue(reverseDigraph1.adjust[0] == [])
+        XCTAssertTrue(reverseDigraph1.adjust[1] == [0])
+        XCTAssertTrue(reverseDigraph1.adjust[2] == [0])
+        XCTAssertTrue(reverseDigraph1.adjust[3].sorted() == [5, 4].sorted())
+        XCTAssertTrue(reverseDigraph1.adjust[4].sorted() == [5, 6].sorted())
+        XCTAssertTrue(reverseDigraph1.adjust[5] == [0])
+        XCTAssertTrue(reverseDigraph1.adjust[6] == [0])
+        XCTAssertTrue(reverseDigraph1.adjust[7] == [])
+        XCTAssertTrue(reverseDigraph1.adjust[8] == [7])
+        XCTAssertTrue(reverseDigraph1.adjust[9] == [])
+        XCTAssertTrue(reverseDigraph1.adjust[10] == [9])
+        XCTAssertTrue(reverseDigraph1.adjust[11] == [9])
+        XCTAssertTrue(reverseDigraph1.adjust[12].sorted() == [9, 11].sorted())
     }
     
     func checkAdjustOfGraph2() {
@@ -463,6 +480,7 @@ final class DirectedGraphTests: XCTestCase {
         ("connectedGraphTest", connectedGraphTest),
 //        ("graph2BFSTest", graph2BFSTest),
 //        ("graph3BFSTest", graph3BFSTest),
-        ("checkAdjustOfReverseGraph3", checkAdjustOfReverseGraph3)
+        ("checkAdjustOfReverseGraph3", checkAdjustOfReverseGraph3),
+        ("checkAdjustOfReverseGraph1", checkAdjustOfReverseGraph1)
     ]
 }
