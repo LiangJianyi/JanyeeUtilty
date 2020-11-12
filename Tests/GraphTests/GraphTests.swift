@@ -532,7 +532,7 @@ final class GraphTests: XCTestCase {
     }
     
     func testEqualityOnCollection() {
-        func randomDirectorGraphGenerator(vertexCount: Int) -> DirectedGraph {
+        func randomDirectorGraphGenerator(vertexCount: UInt16) -> DirectedGraph {
             let dg = DirectedGraph()
             // 在不确定的循环次数中随机挑选一个顶点 s，
             // 从 s 出发随机连接其它的顶点。
@@ -540,26 +540,19 @@ final class GraphTests: XCTestCase {
             let N = (1...UInt16.max).randomElement()!
             let M = (1...UInt16.max).randomElement()!
             for _ in 1...N {
-                let s = (0..<vertexCount).randomElement()!
+                let s: Int = Int((0..<vertexCount).randomElement()!)
                 for _ in 1...M {
-                    dg.addEdge(v: s, w: (0..<vertexCount).randomElement()!)
+                    dg.addEdge(v: s, w: Int((0..<vertexCount).randomElement()!))
                 }
             }
             return dg
         }
         
-        // 生成 10 个随机有向图
+        // 生成 3 个随机有向图
         let dgs = [
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
-            randomDirectorGraphGenerator(vertexCount: Int.max),
+            randomDirectorGraphGenerator(vertexCount: UInt16.max),
+            randomDirectorGraphGenerator(vertexCount: UInt16.max),
+            randomDirectorGraphGenerator(vertexCount: UInt16.max),
         ]
         
         let dgs2 = dgs.map { g in g.clone() }
