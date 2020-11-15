@@ -1,4 +1,5 @@
 import Foundation
+import Graph
 
 // 给 Set 添加下标访问
 extension Set {
@@ -85,6 +86,102 @@ public class JanyeeUtilty {
         task()
         let endTime = Date()
         return endTime.timeIntervalSince(startTime)
+    }
+    // 创建一个随机有向图，每个顶点的长度为 Int16
+    public static func randomDirectorGraphGenerator(vertexCount: Int16) -> DirectedGraph {
+        let dg = DirectedGraph()
+        // 在不确定的循环次数中随机挑选一个顶点 s，
+        // 从 s 出发随机连接其它的顶点。
+        // 随机连接的次数为 M。
+        let N = (1...Int16.max).randomElement()!
+        let M = (1...Int16.max).randomElement()!
+        for _ in 1...N {
+            let s: Int = Int((0..<vertexCount).randomElement()!)
+            for _ in 1...M {
+                dg.addEdge(v: s, w: Int((0..<vertexCount).randomElement()!))
+            }
+        }
+        return dg
+    }
+    // 创建一个随机有向图，每个顶点的长度为 UInt16
+    public static func randomDirectorGraphGenerator(vertexCount: UInt16) -> DirectedGraph {
+        let dg = DirectedGraph()
+        // 在不确定的循环次数中随机挑选一个顶点 s，
+        // 从 s 出发随机连接其它的顶点。
+        // 随机连接的次数为 M。
+        let N = (1...UInt16.max).randomElement()!
+        let M = (1...UInt16.max).randomElement()!
+        for _ in 1...N {
+            let s: Int = Int((0..<vertexCount).randomElement()!)
+            for _ in 1...M {
+                dg.addEdge(v: s, w: Int((0..<vertexCount).randomElement()!))
+            }
+        }
+        return dg
+    }
+    // 创建一个随机有向图，每个顶点的长度为 Int32
+    public static func randomDirectorGraphGenerator(vertexCount: Int32) -> DirectedGraph {
+        let dg = DirectedGraph()
+        // 在不确定的循环次数中随机挑选一个顶点 s，
+        // 从 s 出发随机连接其它的顶点。
+        // 随机连接的次数为 M。
+        let N = (1...Int32.max).randomElement()!
+        let M = (1...Int32.max).randomElement()!
+        for _ in 1...N {
+            let s: Int = Int((0..<vertexCount).randomElement()!)
+            for _ in 1...M {
+                dg.addEdge(v: s, w: Int((0..<vertexCount).randomElement()!))
+            }
+        }
+        return dg
+    }
+    // 创建一个随机有向图，每个顶点的长度为 UInt32
+    public static func randomDirectorGraphGenerator(vertexCount: UInt32) -> DirectedGraph {
+        let dg = DirectedGraph()
+        // 在不确定的循环次数中随机挑选一个顶点 s，
+        // 从 s 出发随机连接其它的顶点。
+        // 随机连接的次数为 M。
+        let N = (1...UInt32.max).randomElement()!
+        let M = (1...UInt32.max).randomElement()!
+        for _ in 1...N {
+            let s: Int = Int((0..<vertexCount).randomElement()!)
+            for _ in 1...M {
+                dg.addEdge(v: s, w: Int((0..<vertexCount).randomElement()!))
+            }
+        }
+        return dg
+    }
+    // 创建一个随机有向图，每个顶点的长度为 Int64
+    public static func randomDirectorGraphGenerator(vertexCount: Int64) -> DirectedGraph {
+        let dg = DirectedGraph()
+        // 在不确定的循环次数中随机挑选一个顶点 s，
+        // 从 s 出发随机连接其它的顶点。
+        // 随机连接的次数为 M。
+        let N = (1...Int64.max).randomElement()!
+        let M = (1...Int64.max).randomElement()!
+        for _ in 1...N {
+            let s: Int = Int((0..<vertexCount).randomElement()!)
+            for _ in 1...M {
+                dg.addEdge(v: s, w: Int((0..<vertexCount).randomElement()!))
+            }
+        }
+        return dg
+    }
+    // 创建一个随机有向图，每个顶点的长度为 UInt64
+    public static func randomDirectorGraphGenerator(vertexCount: UInt64) -> DirectedGraph {
+        let dg = DirectedGraph()
+        // 在不确定的循环次数中随机挑选一个顶点 s，
+        // 从 s 出发随机连接其它的顶点。
+        // 随机连接的次数为 M。
+        let N = (1...UInt64.max).randomElement()!
+        let M = (1...UInt64.max).randomElement()!
+        for _ in 1...N {
+            let s: Int = Int((0..<vertexCount).randomElement()!)
+            for _ in 1...M {
+                dg.addEdge(v: s, w: Int((0..<vertexCount).randomElement()!))
+            }
+        }
+        return dg
     }
 }
 
