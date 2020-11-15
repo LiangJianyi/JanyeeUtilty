@@ -3,6 +3,9 @@ public protocol Searchable {
     init(graph: Graph, source: Int)
     // v 和 s 是连通的吗
     func isMarked(vertex: Int) -> Bool
+    func pathTo(_ v: Int) -> [Int]
+    func hasPathTo(_ v: Int) -> Bool
+    func connectedVertexes() -> [Int]
 }
 
 public class GraphSearch {

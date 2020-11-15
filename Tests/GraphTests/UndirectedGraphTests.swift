@@ -2,10 +2,10 @@ import XCTest
 import Graph
 
 final class UndirectedGraphTests: XCTestCase {
-    let undirectedGraph1 = makeUndirectedGraph1()
-    let undirectedGraph2 = makeUndirectedGraph2()
-    let undirectedGraph3 = makeUndirectedGraph3()
-    let undirectedGraph4 = makeUndirectedGraph4()
+    var undirectedGraph1 = makeUndirectedGraph1()
+    var undirectedGraph2 = makeUndirectedGraph2()
+    var undirectedGraph3 = makeUndirectedGraph3()
+    var undirectedGraph4 = makeUndirectedGraph4()
     
     func checkAdjustOfGraph1() {
         XCTAssert(undirectedGraph1.adjust[0].sorted() == [6, 2, 1, 5].sorted(), "graph.adjust[\(0)] = \(undirectedGraph1.adjust[0])")
@@ -183,11 +183,13 @@ final class UndirectedGraphTests: XCTestCase {
     
     // 检测 graph 的连通性
     func connectedGraphTest() {
-        func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
+        /// 参数 graph 表示一个图；
+        /// searchWay 表示搜索方法，它接受一个闭包 (G, Int) -> SearchType，由闭包指定搜索方式（比如 dfs 或 bfs）；
+        func isConnectedGraph<G: Graphable, SearchType: Searchable>(graph: G, searchWay: (G, Int) -> SearchType) -> Bool {
             for s in 0..<graph.adjust.count {
-                let dfs = graph.depthFirstSearcher(source: s)
+                let search: some Searchable = searchWay(graph, s)
                 for s2 in 0..<graph.adjust.count {
-                    if dfs.hasPathTo(s2) == false {
+                    if search.hasPathTo(s2) == false {
                         return false
                     }
                 }
@@ -198,21 +200,73 @@ final class UndirectedGraphTests: XCTestCase {
          在这个测试用例中，graph1是不连通图，
          graph2 、 graph3 和 graph4 是连通图
          */
-        // by dfs
-        XCTAssertFalse(isConnectedGraph(graph: undirectedGraph1))
-        XCTAssertTrue(isConnectedGraph(graph: undirectedGraph2))
-        XCTAssertTrue(isConnectedGraph(graph: undirectedGraph3))
-        XCTAssertTrue(isConnectedGraph(graph: undirectedGraph4))
+        /////////////////////////// by dfs ///////////////////////////
+        XCTAssertFalse(isConnectedGraph(
+                        graph: undirectedGraph1,
+                        searchWay: { (g, s) in g.depthFirstSearcher(source: s) }
+        ))
+        XCTAssertTrue(isConnectedGraph(
+                        graph: undirectedGraph2,
+                        searchWay: { (g, s) in g.depthFirstSearcher(source: s) }
+        ))
+        XCTAssertTrue(isConnectedGraph(
+                        graph: undirectedGraph3,
+                        searchWay: { (g, s) in g.depthFirstSearcher(source: s) }
+        ))
+        XCTAssertTrue(isConnectedGraph(
+                        graph: undirectedGraph4,
+                        searchWay: { (g, s) in g.depthFirstSearcher(source: s) }
+        ))
         
         // 让 graph3 不再连通
         undirectedGraph3.addEdge(v: undirectedGraph3.adjust.count, w: undirectedGraph3.adjust.count + 1)
-        XCTAssertFalse(isConnectedGraph(graph: undirectedGraph3))
+        XCTAssertFalse(isConnectedGraph(
+                        graph: undirectedGraph3,
+                        searchWay: { (g, s) in g.depthFirstSearcher(source: s) }
+        ))
         
         // 让 graph4 不再连通
         undirectedGraph4.addEdge(v: 41, w: 42)
-        XCTAssertFalse(isConnectedGraph(graph: undirectedGraph4))
+        XCTAssertFalse(isConnectedGraph(
+                        graph: undirectedGraph4,
+                        searchWay: { (g, s) in g.depthFirstSearcher(source: s) }
+        ))
         
-        // by bfs
+        /////////////////////////// by bfs ///////////////////////////
+        // 因为 undirectedGraph3 和 undirectedGraph4 在上面的测试中被修改，重置它们
+        undirectedGraph3 = makeUndirectedGraph3()
+        undirectedGraph4 = makeUndirectedGraph4()
+        
+        XCTAssertFalse(isConnectedGraph(
+                        graph: undirectedGraph1,
+                        searchWay: { (g, s) in g.breadthFirstSearcher(source: s) }
+        ))
+        XCTAssertTrue(isConnectedGraph(
+                        graph: undirectedGraph2,
+                        searchWay: { (g, s) in g.breadthFirstSearcher(source: s) }
+        ))
+        XCTAssertTrue(isConnectedGraph(
+                        graph: undirectedGraph3,
+                        searchWay: { (g, s) in g.breadthFirstSearcher(source: s) }
+        ))
+        XCTAssertTrue(isConnectedGraph(
+                        graph: undirectedGraph4,
+                        searchWay: { (g, s) in g.breadthFirstSearcher(source: s) }
+        ))
+        
+        // 让 graph3 不再连通
+        undirectedGraph3.addEdge(v: undirectedGraph3.adjust.count, w: undirectedGraph3.adjust.count + 1)
+        XCTAssertFalse(isConnectedGraph(
+                        graph: undirectedGraph3,
+                        searchWay: { (g, s) in g.breadthFirstSearcher(source: s) }
+        ))
+        
+        // 让 graph4 不再连通
+        undirectedGraph4.addEdge(v: 41, w: 42)
+        XCTAssertFalse(isConnectedGraph(
+                        graph: undirectedGraph4,
+                        searchWay: { (g, s) in g.breadthFirstSearcher(source: s) }
+        ))
     }
     
     func testMain() {
