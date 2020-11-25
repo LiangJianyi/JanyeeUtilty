@@ -101,6 +101,29 @@ public class UndirectedGraph: Graphable {
             return true
         }
     }
+    //  输出所有存在自环的顶点
+    public func selfLoop() -> Set<Int> {
+        var res = Set<Int>()
+        for v in 0..<self.adj.endIndex {
+            if self.adj[v].contains(v) {
+                res.insert(v)
+            }
+        }
+        return res
+    }
+    // 判断 UndirectedGraph 是否存在自环
+    public func hasSelfLoop() -> Bool {
+        for v in 0..<self.adj.endIndex {
+            if self.adj[v].contains(v) {
+                return true
+            }
+        }
+        return false
+    }
+    //  判断指定的顶点是否存在自环
+    public func hasSelfLoop(vertex: Int) -> Bool {
+        return self.adj[vertex].contains(vertex)
+    }
     
     // 提取已标记的顶点的下标；
     // arr 由 dfs 和 bfs 返回，数组的下标是顶点编号，对应的布尔值
