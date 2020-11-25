@@ -110,6 +110,10 @@ public class DirectedGraph: Graphable {
             return true
         }
     }
+    // 判断是否存在有向环
+    public func hasCycle() -> Bool {
+        return DirectedCycle(graph: self).hasCycle
+    }
     
     // 提取已标记的顶点的下标；
     // arr 由 dfs 和 bfs 返回，数组的下标是顶点编号，对应的布尔值

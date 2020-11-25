@@ -23,7 +23,7 @@ public class DirectedCycle {
         self.edgeTo = [Int?](repeating: nil, count: graph.vertex)
         self.marked = [Bool](repeating: false, count: graph.vertex)
         for v in 0..<graph.vertex {
-            if marked[v] != false {
+            if marked[v] == false {
                 dfs(graph, v)
             }
         }
