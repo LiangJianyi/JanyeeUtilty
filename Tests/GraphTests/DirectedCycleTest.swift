@@ -82,4 +82,17 @@ final class DirectedCycleTests: XCTestCase {
         dg6.addEdge(v: 6, w: 13)
         XCTAssertTrue(dg6.hasCycle())
     }
+    
+    func testCycle5() {
+        XCTAssertFalse(makeDirectedGraph1().hasCycle())
+        XCTAssertFalse(makeDirectedGraph2().hasCycle())
+        
+        let dig3 = makeDirectedGraph3()
+        XCTAssertFalse(dig3.hasCycle())
+        // 让 dig3 变成有环图
+        dig3.addEdge(v: 30, w: 0)
+        XCTAssertTrue(dig3.hasCycle())
+        
+        XCTAssertTrue(makeDirectedGraph4().hasCycle())
+    }
 }
