@@ -13,6 +13,9 @@ let package = Package(
         .library(
             name: "Graph",
             targets: ["Graph"]),
+        .library(
+            name: "Sequence",
+            targets: ["Sequence"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -27,11 +30,17 @@ let package = Package(
         .target(
             name: "Graph",
             dependencies: []),
+        .target(
+            name: "Sequence",
+            dependencies: []),
         .testTarget(
             name: "JanyeeUtiltyTests",
             dependencies: ["JanyeeUtilty", "Graph"]),
         .testTarget(
             name: "GraphTests",
             dependencies: ["JanyeeUtilty", "Graph"]),
+        .testTarget(
+            name: "SequenceTests",
+            dependencies: ["Sequence"]),
     ]
 )
