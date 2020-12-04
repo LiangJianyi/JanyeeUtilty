@@ -1,37 +1,41 @@
 import Foundation
 
-public class LinkedList<Element> {
+public class LinkedList<Element>: Sequence {
     private var _first: Node?
     private var _last: Node?
     private var _count: Int
     
-    var first: Node? {
+    public typealias Element = Element
+    public typealias Iterator = LinkedListIterator
+    
+    public var first: Node? {
         get {
             return self._first
         }
     }
-    var last: Node? {
+    public var last: Node? {
         get {
             return self._last
         }
     }
-    var count: Int {
+    public var count: Int {
         get {
             return self._count
         }
     }
     
-    init() {
+    public init() {
         self._count = 0
     }
     
-//    init(array: [Element]) {
-//        for item in array {
-//            self.append(value: item)
-//        }
-//    }
+    public convenience init(array: [Element]) {
+        self.init()
+        for item in array {
+            self.appendLast(item)
+        }
+    }
     
-    func appendFirst(_ value: Element) {
+    public func appendFirst(_ value: Element) {
         if _last == nil {
             self._last = Node(value: value)
             self._first = self._last
@@ -42,7 +46,7 @@ public class LinkedList<Element> {
         self._count += 1
     }
     
-    func appendLast(_ value: Element) {
+    public func appendLast(_ value: Element) {
         if _first == nil {
             self._first = Node(value: value)
             _last = _first
@@ -53,7 +57,7 @@ public class LinkedList<Element> {
         self._count += 1
     }
     
-    func removeLast() {
+    public func removeLast() {
         self._last = self._last?.previous
         if let la = self._last {
             la.next = nil
@@ -63,14 +67,14 @@ public class LinkedList<Element> {
         self._count -= 1
     }
     
-    func popLast() -> Node? {
+    public func popLast() -> Node? {
         let last = self._last
         self.removeLast()
         last?.previous = nil
         return last
     }
     
-    func toString(shorthand: Bool = false) -> String {
+    public func toString(shorthand: Bool = false) -> String {
         if _first != nil {
             return _first!.toString(shorthand: shorthand)
         } else {
@@ -78,7 +82,11 @@ public class LinkedList<Element> {
         }
     }
     
-    class Node {
+    public func makeIterator() -> Iterator {
+        return LinkedListIterator(seed: self._first)
+    }
+    
+    public class Node {
         var value: Element
         var previous: Node?
         var next: Node?
@@ -106,4 +114,30 @@ public class LinkedList<Element> {
             print("Node(\(value)) deinitialized")
         }
     }
+    
+    public class LinkedListIterator: IteratorProtocol {
+        private var node: Node?
+        
+        public init(seed: Node?) {
+            self.node = seed
+        }
+        
+        public func next() -> Element? {
+            if let n = node {
+                node = n.next
+                return n.value
+            } else {
+                return nil
+            }
+        }
+    }
 }
+
+//extension Array where Element: Comparable {
+//    init(range: ClosedRange<Element>) {
+//        self.init()
+//        for item in range {
+//            self.appendLast(item)
+//        }
+//    }
+//}
