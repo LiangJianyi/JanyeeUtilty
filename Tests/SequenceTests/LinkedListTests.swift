@@ -116,4 +116,17 @@ final class LinkedListTests: XCTestCase {
         XCTAssertNil(lik.last?.previous?.previous?.previous?.previous?.previous?.previous)
         XCTAssertEqual(lik.count, 6)
     }
+    
+    func testInitWithArray() {
+        let arr = [UInt64](1...10000)
+        let lik = LinkedList<UInt64>()
+        for item in arr {
+            lik.appendLast(item)
+        }
+        var arr2 = [UInt64]()
+        for item in lik {
+            arr2.append(item)
+        }
+        XCTAssertEqual(arr, arr2)
+    }
 }
