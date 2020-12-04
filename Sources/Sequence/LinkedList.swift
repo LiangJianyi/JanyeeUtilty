@@ -1,5 +1,7 @@
 import Foundation
 
+public var PRINT_DEINIT_INFO: Bool = false
+
 public class LinkedList<Element>: Sequence {
     private var _first: Node?
     private var _last: Node?
@@ -57,6 +59,14 @@ public class LinkedList<Element>: Sequence {
         self._count += 1
     }
     
+    public func clone() -> LinkedList<Element> {
+        let copy = LinkedList<Element>()
+        copy._first = self._first
+        copy._last = self._last
+        copy._count = self._count
+        return copy
+    }
+    
     public func removeLast() {
         self._last = self._last?.previous
         if let la = self._last {
@@ -65,6 +75,12 @@ public class LinkedList<Element>: Sequence {
             self._first = nil
         }
         self._count -= 1
+    }
+    
+    public func removeAll() {
+        self._first = nil
+        self._last = nil
+        self._count = 0
     }
     
     public func popLast() -> Node? {
@@ -80,6 +96,14 @@ public class LinkedList<Element>: Sequence {
         } else {
             return "nil"
         }
+    }
+    
+    public func toArray() -> [Element] {
+        var res = [Element]()
+        for item in self {
+            res.append(item)
+        }
+        return res
     }
     
     public func makeIterator() -> Iterator {
@@ -110,9 +134,12 @@ public class LinkedList<Element>: Sequence {
                 }
             }
         }
+        
+        #if PRINT_DEINIT_INFO
         deinit {
             print("Node(\(value)) deinitialized")
         }
+        #endif
     }
     
     public class LinkedListIterator: IteratorProtocol {
@@ -133,11 +160,74 @@ public class LinkedList<Element>: Sequence {
     }
 }
 
-//extension Array where Element: Comparable {
+extension LinkedList: Equatable where Element: Comparable {
 //    init(range: ClosedRange<Element>) {
 //        self.init()
 //        for item in range {
 //            self.appendLast(item)
 //        }
 //    }
-//}
+    
+    static public func ==(left: LinkedList<Element>, right: LinkedList<Element>) -> Bool {
+        if left.count == right.count {
+            var leftCurrentNode: Element?
+            var rightCurrentNode: Element?
+            let leftIterator = left.makeIterator()
+            let rightIterator = right.makeIterator()
+            for _ in 0..<left.count {
+                leftCurrentNode = leftIterator.next()
+                rightCurrentNode = rightIterator.next()
+                if leftCurrentNode! == rightCurrentNode! {
+                    continue
+                } else {
+                    return false
+                }
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    static public func ==(left: Array<Element>, right: LinkedList<Element>) -> Bool {
+        if left.count == right.count {
+            var leftCurrentNode: Element?
+            var rightCurrentNode: Element?
+            var leftIterator = left.makeIterator()
+            let rightIterator = right.makeIterator()
+            for _ in 0..<left.count {
+                leftCurrentNode = leftIterator.next()
+                rightCurrentNode = rightIterator.next()
+                if leftCurrentNode! == rightCurrentNode! {
+                    continue
+                } else {
+                    return false
+                }
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    static public func ==(left: LinkedList<Element>, right: Array<Element>) -> Bool {
+        if left.count == right.count {
+            var leftCurrentNode: Element?
+            var rightCurrentNode: Element?
+            let leftIterator = left.makeIterator()
+            var rightIterator = right.makeIterator()
+            for _ in 0..<left.count {
+                leftCurrentNode = leftIterator.next()
+                rightCurrentNode = rightIterator.next()
+                if leftCurrentNode! == rightCurrentNode! {
+                    continue
+                } else {
+                    return false
+                }
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+}
