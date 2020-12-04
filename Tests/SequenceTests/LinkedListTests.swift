@@ -117,7 +117,7 @@ final class LinkedListTests: XCTestCase {
         XCTAssertEqual(lik.count, 6)
     }
     
-    func testInitWithArray() {
+    func testInitWithArray1() {
         let arr = [UInt64](1...10000)
         let lik = LinkedList<UInt64>()
         for item in arr {
@@ -128,5 +128,68 @@ final class LinkedListTests: XCTestCase {
             arr2.append(item)
         }
         XCTAssertEqual(arr, arr2)
+    }
+    
+    func testInitWithArray2() {
+        let arr = [UInt64](1...10000)
+        let lik = LinkedList<UInt64>(array: arr)
+        var index = 0
+        for item in lik {
+            XCTAssertEqual(item, arr[index])
+            index += 1
+        }
+    }
+    
+    func testRemoveLast() {
+        var arr = [UInt64](1...10000)
+        let lik = LinkedList<UInt64>(array: arr)
+        for _ in 1...10000 {
+            arr.removeLast()
+            lik.removeLast()
+            XCTAssertEqual(arr, lik.toArray())
+        }
+    }
+    
+    func testPopLast() {
+        var arr = [UInt64](1...10000)
+        let lik = LinkedList<UInt64>(array: arr)
+        for _ in 1...10000 {
+            XCTAssertEqual(lik.popLast()?.value, arr.removeLast())
+//            XCTAssertEqual(lik, arr)
+            XCTAssertTrue(lik == arr)
+        }
+    }
+    
+    // 比较 RemoveLast 与 PopLast 的速度
+    func testRemoveLastVsPopLast() {
+        
+    }
+    
+    func testEqualTo1() {
+        let lik1 = LinkedList<Int>()
+        XCTAssertTrue(lik1 == lik1.clone())
+        XCTAssertFalse(lik1 != lik1.clone())
+        
+        for item in 1...1000 {
+            lik1.appendFirst(item)
+            XCTAssertTrue(lik1 == lik1.clone())
+            XCTAssertFalse(lik1 != lik1.clone())
+        }
+        
+        lik1.removeAll()
+        
+        for item in 1...1000 {
+            lik1.appendLast(item)
+            XCTAssertTrue(lik1 == lik1.clone())
+            XCTAssertFalse(lik1 != lik1.clone())
+        }
+    }
+    
+    func testEqualTo2() {
+        
+    }
+    
+    func testEqualTo3() {
+        
     }
 }
