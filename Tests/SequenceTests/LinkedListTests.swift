@@ -166,27 +166,70 @@ final class LinkedListTests: XCTestCase {
     }
     
     func testEqualTo1() {
-        let lik1 = LinkedList<Int>()
-        XCTAssertTrue(lik1 == lik1.clone())
-        XCTAssertFalse(lik1 != lik1.clone())
+        let lik = LinkedList<Int>()
+        XCTAssertTrue(lik == lik.clone())
+        XCTAssertFalse(lik != lik.clone())
         
         for item in 1...1000 {
-            lik1.appendFirst(item)
-            XCTAssertTrue(lik1 == lik1.clone())
-            XCTAssertFalse(lik1 != lik1.clone())
+            lik.appendFirst(item)
+            XCTAssertTrue(lik == lik.clone())
+            XCTAssertFalse(lik != lik.clone())
         }
         
-        lik1.removeAll()
+        lik.removeAll()
         
         for item in 1...1000 {
-            lik1.appendLast(item)
-            XCTAssertTrue(lik1 == lik1.clone())
-            XCTAssertFalse(lik1 != lik1.clone())
+            lik.appendLast(item)
+            XCTAssertTrue(lik == lik.clone())
+            XCTAssertFalse(lik != lik.clone())
+        }
+    }
+    
+    class MutableNode {
+        var value: String
+        var next: MutableNode?
+        init(value: String, next: MutableNode? = nil) {
+            self.value = value
+            self.next = next
+        }
+        func toString() -> String {
+            return "MutableNode(value: \(value), next: \(String(describing: next?.toString())))"
         }
     }
     
     func testEqualTo2() {
+        let lik = LinkedList<MutableNode>()
+        lik.appendFirst(MutableNode(value: "one"))
+        lik.appendFirst(MutableNode(value: "two"))
+        lik.appendFirst(MutableNode(value: "three"))
         
+        /**
+         虽然 LinkedList 和 Node 都提供了 clone() 实现内存值拷贝，
+         但如果 Element 是 class type（比如 MutableNode），
+         那么 clone 出来的 lik 的元素值仍然可以通过内部的指针修改 Element 的值。
+         */
+        let cp = lik.clone()
+        cp.first?.value.value = "3⃣️"
+        cp.first?.next?.value.value = "2⃣️"
+        cp.last?.value.value = "1⃣️"
+        XCTAssertEqual(lik.first!.value.value, "3⃣️")
+        XCTAssertEqual(lik.first!.next!.value.value, "2⃣️")
+        XCTAssertEqual(lik.last!.value.value, "1⃣️")
+        
+        // 上述情况类似下面这样：
+        let arr = [
+            MutableNode(value: "abc"),
+            MutableNode(value: "def")
+        ]
+        let arr2 = arr
+        arr2.first?.value = "ABC"
+        arr2.last?.value = "DEF"
+        /**
+         arr2 = arr 是值拷贝的，但通过first和last属性的指针操作，
+         arr2 的修改也影响到了 arr
+         */
+        XCTAssertEqual(arr.first!.value, "ABC")
+        XCTAssertEqual(arr.last!.value, "DEF")
     }
     
     func testEqualTo3() {

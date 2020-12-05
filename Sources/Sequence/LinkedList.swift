@@ -42,7 +42,7 @@ public class LinkedList<Element>: Sequence {
             self._last = Node(value: value)
             self._first = self._last
         } else {
-            self._first?.previous = Node(value: value, pre: nil, next: self._first)
+            self._first?.previous = Node(value: value, previous: nil, next: self._first)
             self._first = self.first?.previous
         }
         self._count += 1
@@ -53,7 +53,7 @@ public class LinkedList<Element>: Sequence {
             self._first = Node(value: value)
             _last = _first
         } else {
-            self._last?.next = Node(value: value, pre: self._last)
+            self._last?.next = Node(value: value, previous: self._last)
             self._last = self._last?.next
         }
         self._count += 1
@@ -61,8 +61,8 @@ public class LinkedList<Element>: Sequence {
     
     public func clone() -> LinkedList<Element> {
         let copy = LinkedList<Element>()
-        copy._first = self._first
-        copy._last = self._last
+        copy._first = self._first?.clone()
+        copy._last = self._last?.clone()
         copy._count = self._count
         return copy
     }
@@ -111,15 +111,17 @@ public class LinkedList<Element>: Sequence {
     }
     
     public class Node {
-        var value: Element
-        var previous: Node?
-        var next: Node?
-        init(value: Element, pre: Node? = nil, next: Node? = nil) {
+        public var value: Element
+        public var previous: Node?
+        public var next: Node?
+        
+        public init(value: Element, previous: Node? = nil, next: Node? = nil) {
             self.value = value
-            self.previous = pre
+            self.previous = previous
             self.next = next
         }
-        func toString(shorthand: Bool = false) -> String {
+        
+        public func toString(shorthand: Bool = false) -> String {
             if shorthand {
                 if next == nil {
                     return "\(value) -> nil"
@@ -133,6 +135,10 @@ public class LinkedList<Element>: Sequence {
                     return "Node(value: \(value), next: \(next!.toString()))"
                 }
             }
+        }
+        
+        public func clone() -> Node {
+            return Node(value: self.value, previous: self.previous, next: self.next)
         }
         
         #if PRINT_DEINIT_INFO
