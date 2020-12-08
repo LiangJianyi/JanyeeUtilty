@@ -228,7 +228,7 @@ final class GraphTests: XCTestCase {
     var undirectedGraph4 = makeUndirectedGraph4()
 
     // 相等性比较、Graph容器比较
-    func graphEqualTo() {
+    func testGraphEqualTo() {
         // 拷贝引用
         let graphRef: some Graphable = directedGraph1
         XCTAssertEqual(graphRef as! DirectedGraph, directedGraph1)
@@ -245,7 +245,7 @@ final class GraphTests: XCTestCase {
         directedGraph1 = makeDirectedGraph1()
     }
     
-    func notConnectedPathTest() {
+    func testNotConnectedPathTest() {
         // dfs
         var pairs = DepthFirstSearch<DirectedGraph>.getNotConnectedAndConnectedVertexPairCollection(graph: directedGraph2)
         XCTAssertTrue(pairs.notConnect.contains(VertexPair(source: 1, target: 0)))
@@ -327,7 +327,7 @@ final class GraphTests: XCTestCase {
         XCTAssertTrue(pairs.isConnect.contains(VertexPair(source: 5, target: 5)))
     }
     
-    func addEdgesTest() {
+    func testAddEdgesTest() {
         var g = directedGraph1.clone()
         XCTAssertEqual(g.vertex, 13)
         XCTAssertEqual(g.edges, 13)
@@ -361,7 +361,7 @@ final class GraphTests: XCTestCase {
         XCTAssertEqual(g.edges, 31)
     }
     
-    func addEdges2Test() {
+    func testAddEdges2Test() {
         let dg5 = DirectedGraph()
         XCTAssertEqual(dg5.vertex, 0)
         XCTAssertEqual(dg5.edges, 0)
@@ -537,8 +537,8 @@ final class GraphTests: XCTestCase {
             // 在不确定的循环次数中随机挑选一个顶点 s，
             // 从 s 出发随机连接其它的顶点。
             // 随机连接的次数为 M。
-            let N = (1...UInt16.max).randomElement()!
-            let M = (1...UInt16.max).randomElement()!
+            let N = (1...1000).randomElement()!
+            let M = (1...1000).randomElement()!
             for _ in 1...N {
                 let s: Int = Int((0..<vertexCount).randomElement()!)
                 for _ in 1...M {
@@ -568,19 +568,4 @@ final class GraphTests: XCTestCase {
         XCTAssertFalse(dgs.contains(directedGraph3))
         XCTAssertFalse(dgs.contains(directedGraph4))
     }
-    
-    func testMain() {
-        for test in Self.allTests {
-            print("Test \(test.0) start...")
-            test.1(self)()
-        }
-    }
-    
-    static var allTests = [
-        ("graphEqualTo", graphEqualTo),
-        ("notConnectedPathTest", notConnectedPathTest),
-        ("addEdgesTest", addEdgesTest),
-        ("addEdges2Test", addEdges2Test),
-        ("testEqualityOnCollection", testEqualityOnCollection)
-    ]
 }
