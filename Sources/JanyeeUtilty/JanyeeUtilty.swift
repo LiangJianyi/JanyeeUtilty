@@ -15,6 +15,26 @@ extension String {
     }
 }
 
+// 给 Int 添加素数检测
+extension Int {
+    var isPrime: Bool {
+        if self <= 1 {
+            return false
+        }
+        if self <= 3 {
+            return true
+        }
+        var i = 2
+        while i*i <= self {
+            if self % i == 0 {
+                return false
+            }
+            i = i + 1
+        }
+        return true
+    }
+}
+
 // 给 Array 添加并行操作
 extension Array {
     func parallelMap<R>(striding: Int, convertor: @escaping (Element) -> R) -> [R] {
