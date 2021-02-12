@@ -163,15 +163,16 @@ final class LinkedListTests: XCTestCase {
     
     // 比较 RemoveLast 与 PopLast 的速度
     func testRemoveLastVsPopLast() {
-        let lik = LinkedList<UInt64>(array: [UInt64](1...10000))
+        let lik1 = LinkedList<UInt64>(array: [UInt64](1...10000))
+        let lik2 = LinkedList<UInt64>(array: [UInt64](1...10000))
         let removeLast_time = JanyeeUtilty.taskTimeConsuming {
             for _ in 1...10000 {
-                lik.removeLast()
+                lik1.removeLast()
             }
         }
         let popLast_time = JanyeeUtilty.taskTimeConsuming {
             for _ in 1...10000 {
-                lik.popLast()
+                _ = lik2.popLast()
             }
         }
         print("Invoking testRemoveLastVsPopLast()")
