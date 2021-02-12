@@ -1,33 +1,15 @@
 import Foundation
 
-public var PRINT_DEINIT_INFO: Bool = false
-
 public class LinkedList<Element>: Sequence {
-    private var _first: Node?
-    private var _last: Node?
-    private var _count: Int
+    public private(set) var first: Node?
+    public private(set) var last: Node?
+    public private(set) var count: Int
     
     public typealias Element = Element
     public typealias Iterator = LinkedListIterator
     
-    public var first: Node? {
-        get {
-            return self._first
-        }
-    }
-    public var last: Node? {
-        get {
-            return self._last
-        }
-    }
-    public var count: Int {
-        get {
-            return self._count
-        }
-    }
-    
     public init() {
-        self._count = 0
+        self.count = 0
     }
     
     public convenience init(array: [Element]) {
@@ -38,61 +20,61 @@ public class LinkedList<Element>: Sequence {
     }
     
     public func appendFirst(_ value: Element) {
-        if _last == nil {
-            self._last = Node(value: value)
-            self._first = self._last
+        if last == nil {
+            self.last = Node(value: value)
+            self.first = self.last
         } else {
-            self._first?.previous = Node(value: value, previous: nil, next: self._first)
-            self._first = self.first?.previous
+            self.first?.previous = Node(value: value, previous: nil, next: self.first)
+            self.first = self.first?.previous
         }
-        self._count += 1
+        self.count += 1
     }
     
     public func appendLast(_ value: Element) {
-        if _first == nil {
-            self._first = Node(value: value)
-            _last = _first
+        if first == nil {
+            self.first = Node(value: value)
+            last = first
         } else {
-            self._last?.next = Node(value: value, previous: self._last)
-            self._last = self._last?.next
+            self.last?.next = Node(value: value, previous: self.last)
+            self.last = self.last?.next
         }
-        self._count += 1
+        self.count += 1
     }
     
     public func clone() -> LinkedList<Element> {
         let copy = LinkedList<Element>()
-        copy._first = self._first?.clone()
-        copy._last = self._last?.clone()
-        copy._count = self._count
+        copy.first = self.first?.clone()
+        copy.last = self.last?.clone()
+        copy.count = self.count
         return copy
     }
     
     public func removeLast() {
-        self._last = self._last?.previous
-        if let la = self._last {
+        self.last = self.last?.previous
+        if let la = self.last {
             la.next = nil
         } else {
-            self._first = nil
+            self.first = nil
         }
-        self._count -= 1
+        self.count -= 1
     }
     
     public func removeAll() {
-        self._first = nil
-        self._last = nil
-        self._count = 0
+        self.first = nil
+        self.last = nil
+        self.count = 0
     }
     
     public func popLast() -> Node? {
-        let last = self._last
+        let last = self.last
         self.removeLast()
         last?.previous = nil
         return last
     }
     
     public func toString(shorthand: Bool = false) -> String {
-        if _first != nil {
-            return _first!.toString(shorthand: shorthand)
+        if first != nil {
+            return first!.toString(shorthand: shorthand)
         } else {
             return "nil"
         }
@@ -107,7 +89,7 @@ public class LinkedList<Element>: Sequence {
     }
     
     public func makeIterator() -> Iterator {
-        return LinkedListIterator(seed: self._first)
+        return LinkedListIterator(seed: self.first)
     }
     
     public class Node {
@@ -140,12 +122,6 @@ public class LinkedList<Element>: Sequence {
         public func clone() -> Node {
             return Node(value: self.value, previous: self.previous, next: self.next)
         }
-        
-        #if PRINT_DEINIT_INFO
-        deinit {
-            print("Node(\(value)) deinitialized")
-        }
-        #endif
     }
     
     public class LinkedListIterator: IteratorProtocol {

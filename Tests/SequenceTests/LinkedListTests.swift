@@ -1,4 +1,5 @@
 import XCTest
+@testable import JanyeeUtilty
 @testable import Sequence
 
 final class LinkedListTests: XCTestCase {
@@ -162,7 +163,20 @@ final class LinkedListTests: XCTestCase {
     
     // 比较 RemoveLast 与 PopLast 的速度
     func testRemoveLastVsPopLast() {
-        
+        let lik = LinkedList<UInt64>(array: [UInt64](1...10000))
+        let removeLast_time = JanyeeUtilty.taskTimeConsuming {
+            for _ in 1...10000 {
+                lik.removeLast()
+            }
+        }
+        let popLast_time = JanyeeUtilty.taskTimeConsuming {
+            for _ in 1...10000 {
+                lik.popLast()
+            }
+        }
+        print("Invoking testRemoveLastVsPopLast()")
+        print("removeLast_time = \(removeLast_time)")
+        print("popLast_time = \(popLast_time)")
     }
     
     func testEqualTo1() {
@@ -185,7 +199,7 @@ final class LinkedListTests: XCTestCase {
         }
     }
     
-    class MutableNode {
+    private class MutableNode {
         var value: String
         var next: MutableNode?
         init(value: String, next: MutableNode? = nil) {
