@@ -163,21 +163,52 @@ final class LinkedListTests: XCTestCase {
     
     // 比较 RemoveLast 与 PopLast 的速度
     func testRemoveLastVsPopLast() {
-        let lik1 = LinkedList<UInt64>(array: [UInt64](1...10000))
-        let lik2 = LinkedList<UInt64>(array: [UInt64](1...10000))
-        let removeLast_time = JanyeeUtilty.taskTimeConsuming {
-            for _ in 1...10000 {
-                lik1.removeLast()
+        var removeLastTimeCollection = Set<TimeInterval>()
+        var popLastTimeCollection = Set<TimeInterval>()
+        func thunk() {
+            let lik1 = LinkedList<UInt64>(array: [UInt64](1...10000))
+            let lik2 = LinkedList<UInt64>(array: [UInt64](1...10000))
+            let removeLastTimeConsuming = JanyeeUtilty.taskTimeConsuming {
+                for _ in 1...10000 {
+                    lik1.removeLast()
+                }
             }
-        }
-        let popLast_time = JanyeeUtilty.taskTimeConsuming {
-            for _ in 1...10000 {
-                _ = lik2.popLast()
+            let popLastTimeConsuming = JanyeeUtilty.taskTimeConsuming {
+                for _ in 1...10000 {
+                    _ = lik2.popLast()
+                }
             }
+            removeLastTimeCollection.insert(removeLastTimeConsuming)
+            popLastTimeCollection.insert(popLastTimeConsuming)
         }
-        print("Invoking testRemoveLastVsPopLast()")
-        print("removeLast_time = \(removeLast_time)")
-        print("popLast_time = \(popLast_time)")
+        for _ in 1...100 {
+            thunk()
+        }
+        
+        // 在 thunk 中执行一百万次 removeLast 和 popLast 操作后（每一万次产生一个时间步长，用 removeLastTimeConsuming 表示），
+        // 每一万次产生一个时间步长，用 removeLastTimeConsuming 和 popLastTimeConsuming 表示。
+        // 在 for _ in 1...100 循环中收集一百个 removeLastTimeConsuming 和 popLastTimeConsuming，
+        // 下面的代码检测有哪些 removeLastTimeConsuming 比 popLastTimeConsuming 耗时短，哪些耗时长。
+        
+        func f(collection1: Set<TimeInterval>, collection2: Set<TimeInterval>, predicate: (TimeInterval, TimeInterval) -> Bool) -> Set<TimeInterval> {
+            let collection1_fasterThan_collection2 = collection1.filter { e in
+                let e_fasterThan_n = collection2.filter { n in
+                    predicate(e, n)
+                }
+                return e_fasterThan_n.count > 0
+            }
+            return collection1_fasterThan_collection2
+        }
+        
+        let removeLastFasterThanPopLastCollection = f(collection1: removeLastTimeCollection,
+                                                      collection2: popLastTimeCollection,
+                                                      predicate: { $0 > $1 })
+        print("removeLastFasterThanPopLastCollection = \(removeLastFasterThanPopLastCollection)")
+        
+        let popLastFasterThanRemoveLastCollection = f(collection1: popLastTimeCollection,
+                                                      collection2: removeLastTimeCollection,
+                                                      predicate: { $0 > $1 })
+        print("popLastFasterThanRemoveLastCollection = \(popLastFasterThanRemoveLastCollection)")
     }
     
     func testEqualTo1() {
