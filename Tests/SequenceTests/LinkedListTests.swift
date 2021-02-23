@@ -161,6 +161,30 @@ final class LinkedListTests: XCTestCase {
         }
     }
     
+    func testToArray() {
+        let lik = LinkedList<[Int]>()
+        lik.appendLast([Int](-9...9))
+        lik.appendLast([Int](-99...99))
+        lik.appendLast([Int](-999...999))
+        lik.appendLast([Int](-9999...9999))
+        lik.appendLast([Int](-99999...99999))
+
+        let likToArr: [[Int]] = lik.toArray()
+        let arr: [[Int]] = [
+            [Int](-9...9),
+            [Int](-99...99),
+            [Int](-999...999),
+            [Int](-9999...9999),
+            [Int](-99999...99999)
+        ]
+        XCTAssertTrue(arr == likToArr)
+        XCTAssertTrue(arr == lik)
+        
+        let metaType1: [Int].Type = LinkedList<[Int]>.Element.self
+        let metaType2: [Int].Type = [[Int]].Element.self
+        XCTAssertTrue(metaType1 == metaType2)
+    }
+    
     // 比较 RemoveLast 与 PopLast 的速度
     func testRemoveLastVsPopLast() {
         var removeLastTimeCollection = Set<TimeInterval>()

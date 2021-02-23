@@ -142,7 +142,7 @@ public class LinkedList<Element>: Sequence {
     }
 }
 
-extension LinkedList: Equatable where Element: Comparable {
+extension LinkedList: Equatable where Element: Equatable {
 //    init(range: ClosedRange<Element>) {
 //        self.init()
 //        for item in range {
