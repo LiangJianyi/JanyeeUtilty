@@ -161,7 +161,7 @@ extension URL {
     }
 }
 
-enum FileNodeError: Error {
+public enum FileNodeError: Error {
     case fileNotExists(path: String)
     case brokenSymbolicLink
 }
