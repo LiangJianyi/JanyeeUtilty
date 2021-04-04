@@ -9,48 +9,10 @@ public class FileNode: Equatable, CustomStringConvertible {
         return self.path
     }
     
-    public lazy var subNode: LazyMapSequence<LazySequence<[String]>.Elements, FileNode>? = try! {
-        // FileManager.default.contentsOfDirectory 返回的子目录是相对路径，
-        // 该函数将其转换为绝对路径
-        func relativePathConvertToAbsolutePath(basePath: String, targetPath: String) -> String {
-            if FileManager.default.fileExists(atPath: basePath) {
-                return (URL(fileURLWithPath: basePath).appendingPathComponent(targetPath)).path
-            } else {
-                fatalError("\(basePath) is not exists.")
-            }
-        }
-        
-        do {
-            let lazyContensOfDir = try FileManager.default.contentsOfDirectory(atPath: self.path).lazy
-            return lazyContensOfDir.map{
-                do {
-                    let fullPath = relativePathConvertToAbsolutePath(basePath: self.path, targetPath: $0)
-                    return try FileNode(path: fullPath)
-                } catch FileNodeError.fileNotExists(let path) {
-                    // 那么它可能是个 broken symbolic link。为了确认这一点，
-                    // 先用 destinationOfSymbolicLink 函数返回符号链接指向的原文件路径 s，
-                    // 然后判断 s 是否存在，如果存在，则该符号链接合法，可能存在其它的错误；
-                    // 否则是个损坏的链接，直接忽略
-                    let s = try! FileManager.default.destinationOfSymbolicLink(atPath: path)
-                    if FileManager.default.fileExists(atPath: s) {
-                        fatalError("Unkown error. FileNode.subNode is broke.")
-                    } else {
-                        // 直接返回损坏的符号链接的路径，不做任何错误处理
-                        return FileNode(brokenSymbolLinkPath: path)
-                    }
-                } catch let error as NSError {
-                    fatalError("Unkown error. Error code=\(error.code).\n\(error.localizedDescription)")
-                }
-            }
-        } catch let error as NSError {
-            if error.code == 256 {
-                return nil
-            } else {
-                throw error
-            }
-        }
-    }()
-    
+    public lazy var subNode: (
+        result: LazyMapSequence<LazySequence<[String]>.Elements, FileNode>?,
+        errorHandler: FileNodeError?
+    ) = self.getSubNode()
     
     // 如果路径的结尾含有若干斜杆“/”，将它们移除
     private static func removeLastSlash(_ p: inout String) {
@@ -113,6 +75,53 @@ public class FileNode: Equatable, CustomStringConvertible {
         return newUrl.path
     }
     
+    private func getSubNode() -> (result: LazyMapSequence<LazySequence<[String]>.Elements, FileNode>?,
+                                  errorHandler: FileNodeError?) {
+        // FileManager.default.contentsOfDirectory 返回的子目录是相对路径，
+        // 该函数将其转换为绝对路径
+        func relativePathConvertToAbsolutePath(basePath: String, targetPath: String) -> String {
+            if FileManager.default.fileExists(atPath: basePath) {
+                return (URL(fileURLWithPath: basePath).appendingPathComponent(targetPath)).path
+            } else {
+                fatalError("\(basePath) is not exists.")
+            }
+        }
+        
+        do {
+            let lazyContensOfDir = try FileManager.default.contentsOfDirectory(atPath: self.path).lazy
+            let res: LazyMapSequence<LazySequence<[String]>.Elements, FileNode>? = lazyContensOfDir.map{
+                do {
+                    let fullPath = relativePathConvertToAbsolutePath(basePath: self.path, targetPath: $0)
+                    return try FileNode(path: fullPath)
+                } catch FileNodeError.fileNotExists(let path) {
+                    // 那么它可能是个 broken symbolic link。为了确认这一点，
+                    // 先用 destinationOfSymbolicLink 函数返回符号链接指向的原文件路径 s，
+                    // 然后判断 s 是否存在，如果存在，则该符号链接合法，可能存在其它的错误；
+                    // 否则是个损坏的链接，直接忽略
+                    let s = try! FileManager.default.destinationOfSymbolicLink(atPath: path)
+                    if FileManager.default.fileExists(atPath: s) {
+                        fatalError("Unkown error. FileNode.subNode is broke.")
+                    } else {
+                        // 直接返回损坏的符号链接的路径，不做任何错误处理
+                        return FileNode(brokenSymbolLinkPath: path)
+                    }
+                } catch let error as NSError {
+                    fatalError("Unkown error. Error code=\(error.code).\n\(error.localizedDescription)")
+                }
+            }
+            return (result: res, errorHandler: nil)
+        } catch let error as NSError {
+            switch error.code {
+            case 256:   // File is not a directory
+                return (result: nil, errorHandler: .notDirectory)
+            case 257:   // Permission denied
+                return (result: nil, errorHandler: .permissionDenied)
+            default:
+                return (result: nil, errorHandler: .unkownError(error: error))
+            }
+        }
+    }
+    
     public static func == (lhs: FileNode, rhs: FileNode) -> Bool {
         return lhs.path == rhs.path
     }
@@ -164,4 +173,7 @@ extension URL {
 public enum FileNodeError: Error {
     case fileNotExists(path: String)
     case brokenSymbolicLink
+    case permissionDenied
+    case notDirectory
+    case unkownError(error: NSError)
 }
