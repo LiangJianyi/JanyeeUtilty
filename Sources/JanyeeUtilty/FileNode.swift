@@ -99,17 +99,8 @@ public class FileNode: Equatable, CustomStringConvertible {
                     let fullPath = relativePathConvertToAbsolutePath(basePath: self.path, targetPath: $0)
                     return try FileNode(path: fullPath)
                 } catch FileNodeError.fileNotExists(let p) {
-                    // 那么它可能是个 broken symbolic link。为了确认这一点，
-                    // 先用 destinationOfSymbolicLink 函数返回符号链接指向的原文件路径 s，
-                    // 然后判断 s 是否存在，如果存在，则该符号链接合法，可能存在其它的错误；
-                    // 否则是个损坏的链接，直接忽略
-                    let sourcePath: String? = try? FileManager.default.destinationOfSymbolicLink(atPath: p)
-                    if sourcePath != nil {
-                        // 直接返回损坏的符号链接的路径，不做任何错误处理
-                        return FileNode(brokenPath: p)
-                    } else {
-                        fatalError("Unkown error. FileNode.subNode is broke.")
-                    }
+                    // 可能是个 broken symbolic link
+                    return FileNode(brokenPath: p)
                 } catch let error as NSError {
                     fatalError("Unkown error. Error code=\(error.code).\n\(error.localizedDescription)")
                 }
