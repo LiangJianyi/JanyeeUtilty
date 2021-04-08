@@ -40,8 +40,8 @@ public class FileNode: Equatable, CustomStringConvertible {
         }
     }
     
-    private init(brokenSymbolLinkPath: String) {
-        self.path = brokenSymbolLinkPath
+    private init(brokenPath: String) {
+        self.path = brokenPath
         if self.path != NSOpenStepRootDirectory() {
             self.parentNode = try! FileNode(path: FileNode.getParentPath(path: self.path))
         }
@@ -103,24 +103,12 @@ public class FileNode: Equatable, CustomStringConvertible {
                     // 先用 destinationOfSymbolicLink 函数返回符号链接指向的原文件路径 s，
                     // 然后判断 s 是否存在，如果存在，则该符号链接合法，可能存在其它的错误；
                     // 否则是个损坏的链接，直接忽略
-                    let s: String?
-                    do {
-                        s = try FileManager.default.destinationOfSymbolicLink(atPath: p)
-                    } catch let error as NSError {
-                        switch error.code {
-                        case 256:   // File is not a directory
-                            fatalError("\(p) is not a directory.")
-                        case 257:   // Permission denied
-                            return FileNode(permissionDenied: p)
-                        default:
-                            fatalError("Unkown error. FileNode.subNode is broke.")
-                        }
-                    }
-                    if FileManager.default.fileExists(atPath: s!) {
-                        fatalError("Unkown error. FileNode.subNode is broke.")
-                    } else {
+                    let sourcePath: String? = try? FileManager.default.destinationOfSymbolicLink(atPath: p)
+                    if sourcePath != nil {
                         // 直接返回损坏的符号链接的路径，不做任何错误处理
-                        return FileNode(brokenSymbolLinkPath: p)
+                        return FileNode(brokenPath: p)
+                    } else {
+                        fatalError("Unkown error. FileNode.subNode is broke.")
                     }
                 } catch let error as NSError {
                     fatalError("Unkown error. Error code=\(error.code).\n\(error.localizedDescription)")
