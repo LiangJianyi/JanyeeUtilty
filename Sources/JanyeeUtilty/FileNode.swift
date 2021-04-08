@@ -47,6 +47,11 @@ public class FileNode: Equatable, CustomStringConvertible {
         }
     }
     
+    private init(permissionDenied: String) {
+        self.path = permissionDenied
+        self.parentNode = try! FileNode(path: FileNode.getParentPath(path: self.path))
+    }
+    
     public func isDirectory() throws -> Bool {
         if #available(macOS 10.11, *) {
             return self.url.hasDirectoryPath
@@ -93,17 +98,29 @@ public class FileNode: Equatable, CustomStringConvertible {
                 do {
                     let fullPath = relativePathConvertToAbsolutePath(basePath: self.path, targetPath: $0)
                     return try FileNode(path: fullPath)
-                } catch FileNodeError.fileNotExists(let path) {
+                } catch FileNodeError.fileNotExists(let p) {
                     // 那么它可能是个 broken symbolic link。为了确认这一点，
                     // 先用 destinationOfSymbolicLink 函数返回符号链接指向的原文件路径 s，
                     // 然后判断 s 是否存在，如果存在，则该符号链接合法，可能存在其它的错误；
                     // 否则是个损坏的链接，直接忽略
-                    let s = try! FileManager.default.destinationOfSymbolicLink(atPath: path)
-                    if FileManager.default.fileExists(atPath: s) {
+                    let s: String?
+                    do {
+                        s = try FileManager.default.destinationOfSymbolicLink(atPath: p)
+                    } catch let error as NSError {
+                        switch error.code {
+                        case 256:   // File is not a directory
+                            fatalError("\(p) is not a directory.")
+                        case 257:   // Permission denied
+                            return FileNode(permissionDenied: p)
+                        default:
+                            fatalError("Unkown error. FileNode.subNode is broke.")
+                        }
+                    }
+                    if FileManager.default.fileExists(atPath: s!) {
                         fatalError("Unkown error. FileNode.subNode is broke.")
                     } else {
                         // 直接返回损坏的符号链接的路径，不做任何错误处理
-                        return FileNode(brokenSymbolLinkPath: path)
+                        return FileNode(brokenSymbolLinkPath: p)
                     }
                 } catch let error as NSError {
                     fatalError("Unkown error. Error code=\(error.code).\n\(error.localizedDescription)")
