@@ -3,7 +3,7 @@ import Foundation
 public class FileNode: Equatable, CustomStringConvertible {
     public var path: String
     public lazy var url: URL = URL(fileURLWithPath: self.path)
-    public var parentNode: FileNode?
+    public lazy var parentNode: (FileNode?, FileNodeError?) = self.getParentNode()
     
     public var description: String {
         return self.path
@@ -31,25 +31,13 @@ public class FileNode: Equatable, CustomStringConvertible {
         FileNode.removeLastSlash(&self.path)
         
         // 检查路径对应的文件是否存在
-        if FileManager.default.fileExists(atPath: self.path) {
-            if self.path != NSOpenStepRootDirectory() {
-                self.parentNode = try FileNode(path: FileNode.getParentPath(path: self.path))
-            }
-        } else {
+        if FileManager.default.fileExists(atPath: self.path) == false {
             throw FileNodeError.fileNotExists(path: path)
         }
     }
     
     private init(brokenPath: String) {
         self.path = brokenPath
-        if self.path != NSOpenStepRootDirectory() {
-            self.parentNode = try! FileNode(path: FileNode.getParentPath(path: self.path))
-        }
-    }
-    
-    private init(permissionDenied: String) {
-        self.path = permissionDenied
-        self.parentNode = try! FileNode(path: FileNode.getParentPath(path: self.path))
     }
     
     public func isDirectory() throws -> Bool {
@@ -73,11 +61,22 @@ public class FileNode: Equatable, CustomStringConvertible {
         }
     }
     
-    public static func getParentPath(path: String) -> String {
-        let url = URL(fileURLWithPath: path)
-        let parentPathComponents = url.pathComponents[0..<(url.pathComponents.count - 1)]
-        let newUrl = URL(pathComponents: parentPathComponents)
-        return newUrl.path
+    public func getParentNode() -> (parentNode: FileNode?, errorHandler: FileNodeError?) {
+        if self.path != NSOpenStepRootDirectory() {
+            let url = URL(fileURLWithPath: self.path)
+            let parentPathComponents = url.pathComponents[0..<(url.pathComponents.count - 1)]
+            let newUrl = URL(pathComponents: parentPathComponents)
+            do {
+                let parent = try FileNode(path: newUrl.path)
+                return (parentNode: parent, errorHandler: nil)
+            } catch FileNodeError.fileNotExists(let p) {
+                return (parentNode: nil, errorHandler: .fileNotExists(path: p))
+            } catch let error as NSError {
+                return (parentNode: nil, errorHandler: .unkownError(error: error))
+            }
+        } else {
+            return (parentNode: nil, errorHandler: nil)
+        }
     }
     
     private func getSubNode() -> (result: LazyMapSequence<LazySequence<[String]>.Elements, FileNode>?,
