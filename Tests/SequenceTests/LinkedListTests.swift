@@ -302,7 +302,43 @@ final class LinkedListTests: XCTestCase {
         XCTAssertEqual(arr.last!.value, "DEF")
     }
     
-    func testEqualTo3() {
+    func testCloseRangeInit() {
+        let lik = LinkedList(-1000...1000)
+        let arr = [Int](-1000...1000)
+        let arr2 = [Int](-1000...1001)
+        XCTAssertTrue(lik == arr)
+        XCTAssertFalse(lik == arr2)
+    }
+    
+    func testContains1() {
+        let lik = LinkedList(-9999...9999)
+        let arr = [Int](-9999...9999)
+        for item in arr {
+            XCTAssertTrue(lik.contains(item))
+        }
+        XCTAssertFalse(lik.contains(99999))
+    }
+    
+    private struct TempData {
+        var data1: String
+        var data2: UInt64
+    }
+    
+    func testContains2() {
+        let lik = LinkedList<TempData>()
+        lik.appendFirst(TempData(data1: "🍎🍎🍎", data2: UInt64.max))
+        lik.appendFirst(TempData(data1: "🍌🍌🍌", data2: UInt64.max - 1))
+        lik.appendFirst(TempData(data1: "🍈🍈🍈", data2: UInt64.max - 2))
+        lik.appendFirst(TempData(data1: "🍋🍋🍋", data2: UInt64.max - 3))
+        lik.appendFirst(TempData(data1: "🍊🍊🍊", data2: UInt64.max - 4))
+        XCTAssertTrue(lik.contains(where: { $0.data1 == "🍎🍎🍎" && $0.data2 == UInt64.max }))
+        XCTAssertTrue(lik.contains(where: { $0.data1 == "🍌🍌🍌" && $0.data2 == UInt64.max - 1 }))
+        XCTAssertTrue(lik.contains(where: { $0.data1 == "🍈🍈🍈" && $0.data2 == UInt64.max - 2 }))
+        XCTAssertTrue(lik.contains(where: { $0.data1 == "🍋🍋🍋" && $0.data2 == UInt64.max - 3 }))
+        XCTAssertTrue(lik.contains(where: { $0.data1 == "🍊🍊🍊" && $0.data2 == UInt64.max - 4 }))
         
+        XCTAssertFalse(lik.contains(where: { $0.data1 == "🍊🍊" && $0.data2 == UInt64.max - 4 }))
+        XCTAssertFalse(lik.contains(where: { $0.data1 == "apple" && $0.data2 == UInt64.max - 4 }))
+        XCTAssertFalse(lik.contains(where: { $0.data1 == "🍈🍈🍈" && $0.data2 == UInt64.max }))
     }
 }

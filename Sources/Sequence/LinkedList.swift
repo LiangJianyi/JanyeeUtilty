@@ -19,6 +19,13 @@ public class LinkedList<Element>: Sequence {
         }
     }
     
+    public convenience init(_ closedRange: ClosedRange<Element>) where Element: Strideable, Element.Stride: SignedInteger {
+        self.init()
+        for item in closedRange {
+            self.appendLast(item)
+        }
+    }
+    
     public func appendFirst(_ value: Element) {
         if last == nil {
             self.last = Node(value: value)
