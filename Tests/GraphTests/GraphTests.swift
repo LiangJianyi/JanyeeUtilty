@@ -328,7 +328,7 @@ final class GraphTests: XCTestCase {
     }
     
     func testAddEdgesTest() {
-        var g = directedGraph1.clone()
+        let g = directedGraph1.clone()
         XCTAssertEqual(g.vertex, 13)
         XCTAssertEqual(g.edges, 13)
         
