@@ -215,6 +215,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         let byte4: [UInt8] = [100]
         let byte5: [UInt8] = [255]
         let byte6: [UInt8] = [200, 255, 255, 255, 255, 255, 255, 255, 255]
+        let byte7: [UInt8] = [1, 2, 3]
         XCTAssertEqual(byte1 + 1, [UInt8]([228, 184, 192]))
         XCTAssertEqual((byte1 + 1) + 1, [UInt8]([228, 184, 193]))
         XCTAssertEqual(((byte1 + 1) + 1) + 1, [UInt8]([228, 184, 194]))
@@ -228,6 +229,13 @@ final class JanyeeUtiltyTests: XCTestCase {
         XCTAssertEqual(byte6 + 55, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 54]))
         XCTAssertEqual(byte6 + 56, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 55]))
         XCTAssertEqual(byte6 + 255, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 254]))
+        XCTAssertEqual(byte1 + 0, byte1)
+        XCTAssertEqual(byte2 + 0, byte2)
+        XCTAssertEqual(byte3 + 0, byte3)
+        XCTAssertEqual(byte4 + 0, byte4)
+        XCTAssertEqual(byte5 + 0, byte5)
+        XCTAssertEqual(byte6 + 0, byte6)
+        XCTAssertEqual(byte7 + 0, byte7)
     }
     
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误

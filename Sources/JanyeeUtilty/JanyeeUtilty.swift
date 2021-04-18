@@ -211,29 +211,33 @@ extension Array where Element == UInt8 {
         if lhs.count == 0 {
             return [rhs]
         } else {
-            var arr = lhs
-            
-            func addOne(_ lastIndex: Int) {
-                if lastIndex >= 0 {
-                    if arr[lastIndex] == 255 {
-                        arr[lastIndex] = 0
-                        addOne(lastIndex - 1)
+            if rhs == 0 {
+                return lhs
+            } else {
+                var arr = lhs
+                
+                func addOne(_ lastIndex: Int) {
+                    if lastIndex >= 0 {
+                        if arr[lastIndex] == 255 {
+                            arr[lastIndex] = 0
+                            addOne(lastIndex - 1)
+                        } else {
+                            arr[lastIndex] += 1
+                        }
                     } else {
-                        arr[lastIndex] += 1
+                        arr[0] = 1
+                        for i in 1..<arr.count {
+                            arr[i] = 0
+                        }
+                        arr.append(0)
                     }
-                } else {
-                    arr[0] = 1
-                    for i in 1..<arr.count {
-                        arr[i] = 0
-                    }
-                    arr.append(0)
                 }
+                
+                for _ in 1...rhs {
+                    addOne(arr.count - 1)
+                }
+                return arr
             }
-            
-            for _ in 1...rhs {
-                addOne(arr.count - 1)
-            }
-            return arr
         }
     }
 }
