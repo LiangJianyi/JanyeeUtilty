@@ -208,6 +208,27 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
+    func testExtensionArrayUInt8PlusOperator() {
+        let byte1: [UInt8] = [228, 184, 191]
+        let byte2: [UInt8] = [98, 255, 255]
+        let byte3: [UInt8] = [1]
+        let byte4: [UInt8] = [100]
+        let byte5: [UInt8] = [255]
+        let byte6: [UInt8] = [200, 255, 255, 255, 255, 255, 255, 255, 255]
+        XCTAssertEqual(byte1 + 1, [UInt8]([228, 184, 192]))
+        XCTAssertEqual((byte1 + 1) + 1, [UInt8]([228, 184, 193]))
+        XCTAssertEqual(((byte1 + 1) + 1) + 1, [UInt8]([228, 184, 194]))
+        XCTAssertEqual(byte2 + 1, [UInt8]([99, 0, 0]))
+        XCTAssertEqual(byte3 + 100, [UInt8]([101]))
+        XCTAssertEqual(byte4 + 155, [UInt8]([255]))
+        XCTAssertEqual(byte4 + 156, [UInt8]([1, 0]))
+        XCTAssertEqual(byte5 + 1, [UInt8]([1, 0]))
+        XCTAssertEqual(byte5 + 2, [UInt8]([1, 1]))
+        XCTAssertEqual(byte6 + 1, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 0]))
+        XCTAssertEqual(byte6 + 55, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 54]))
+        XCTAssertEqual(byte6 + 56, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 55]))
+        XCTAssertEqual(byte6 + 255, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 254]))
+    }
     
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
 //    func testParallelMap() {
