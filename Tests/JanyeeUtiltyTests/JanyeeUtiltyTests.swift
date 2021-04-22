@@ -236,6 +236,25 @@ final class JanyeeUtiltyTests: XCTestCase {
         XCTAssertEqual(byte5 + 0, byte5)
         XCTAssertEqual(byte6 + 0, byte6)
         XCTAssertEqual(byte7 + 0, byte7)
+        XCTAssertTrue([UInt8]([221]) + 255 == [UInt8]([1, UInt8(221).addingReportingOverflow(255).partialValue]))
+        XCTAssertTrue([UInt8]([189]) + 255 == [UInt8]([1, UInt8(189).addingReportingOverflow(255).partialValue]))
+        XCTAssertTrue([UInt8]([100]) + 200 == [UInt8]([1, UInt8(100).addingReportingOverflow(200).partialValue]))
+        XCTAssertTrue([UInt8]([222]) + 111 == [UInt8]([1, UInt8(222).addingReportingOverflow(111).partialValue]))
+        XCTAssertTrue([UInt8]([250]) + 222 == [UInt8]([1, UInt8(250).addingReportingOverflow(222).partialValue]))
+        XCTAssertTrue([UInt8]([66]) + 255 == [UInt8]([1, UInt8(66).addingReportingOverflow(255).partialValue]))
+        XCTAssertTrue([UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 28, 1]) + 255 == [UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 29, 0]))
+        XCTAssertTrue([UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 28, 255]) + 255 == [UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 29, 254]))
+        XCTAssertTrue([UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 28, 1]) + 0 == [UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 28, 1]))
+        XCTAssertTrue([UInt8]([255, 255, 255]) + 255 == [UInt8]([1, 0, 0, 254]))
+        XCTAssertTrue([UInt8]([123, 254]) + 1 == [123, 255])
+        XCTAssertTrue([UInt8]([123, 255]) + 1 == [124, 0])
+        XCTAssertTrue([UInt8]([255, 255]) + 1 == [1, 0, 0])
+        XCTAssertTrue([UInt8]([124, 255]) + 1 == [125, 0])
+        XCTAssertTrue([UInt8]([125, 255]) + 1 == [126, 0])
+        XCTAssertTrue([UInt8]([98, 255, 255, 255, 255]) + 1 == [99, 0, 0, 0, 0])
+        XCTAssertTrue([UInt8]([255, 255, 255, 255, 255]) + 1 == [1, 0, 0, 0, 0, 0])
+        XCTAssertTrue([UInt8]([255, 255, 255, 255, 255]) + 2 == [1, 0, 0, 0, 0, 1])
+        XCTAssertTrue([UInt8]([255, 255, 255, 255, 255]) + 3 == [1, 0, 0, 0, 0, 2])
     }
     
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
@@ -263,16 +282,5 @@ final class JanyeeUtiltyTests: XCTestCase {
         ("testMain", testMain),
         ("testJanyeeUtiltyTaskTimeConsuming", testJanyeeUtiltyTaskTimeConsuming),
         ("testJanyeeUtiltyTaskTimeConsuming2", testJanyeeUtiltyTaskTimeConsuming2),
-//        ("testParallelMap", testParallelMap)
-//        ("testParallelMapWithStriding1", testParallelMapWithStriding1),
-//        ("testParallelMapWithStriding2", testParallelMapWithStriding2),
-//        ("testParallelMapWithStriding3", testParallelMapWithStriding3),
-//        ("testParallelMapWithStriding4", testParallelMapWithStriding4),
-//        ("testParallelMapWithStriding5", testParallelMapWithStriding5),
-//        ("testParallelMapWithStriding6", testParallelMapWithStriding6),
-//        ("testParallelMapWithStriding7", testParallelMapWithStriding7),
-//        ("testParallelMapWithStriding8", testParallelMapWithStriding8),
-//        ("testParallelMapWithStriding9", testParallelMapWithStriding9),
-//        ("testParallelMapWithStriding10", testParallelMapWithStriding10),
     ]
 }

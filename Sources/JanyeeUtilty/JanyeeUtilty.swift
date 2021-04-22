@@ -208,37 +208,42 @@ public class JanyeeUtilty {
 // 给 [UInt8] 添加加减算术运算
 extension Array where Element == UInt8 {
     public static func +(lhs: Self, rhs: Element) -> Self {
-        if lhs.count == 0 {
-            return [rhs]
-        } else {
-            if rhs == 0 {
-                return lhs
+        var arr = lhs
+        var overflow = false
+        for i in (0..<arr.count).reversed() {
+            if overflow == false {
+                let tmp = arr[i].addingReportingOverflow(rhs)
+                arr[i] = tmp.partialValue
+                if tmp.overflow {
+                    overflow = true
+                    continue
+                } else {
+                    break
+                }
             } else {
-                var arr = lhs
-                
-                func addOne(_ lastIndex: Int) {
-                    if lastIndex >= 0 {
-                        if arr[lastIndex] == 255 {
-                            arr[lastIndex] = 0
-                            addOne(lastIndex - 1)
-                        } else {
-                            arr[lastIndex] += 1
-                        }
-                    } else {
-                        arr[0] = 1
-                        for i in 1..<arr.count {
-                            arr[i] = 0
-                        }
-                        arr.append(0)
-                    }
+                let tmp = arr[i].addingReportingOverflow(1)
+                arr[i] = tmp.partialValue
+                if tmp.overflow {
+                    overflow = true
+                    continue
+                } else {
+                    overflow = false
+                    break
                 }
-                
-                for _ in 1...rhs {
-                    addOne(arr.count - 1)
-                }
-                return arr
             }
         }
+        if overflow {
+            arr.append(0)
+            if arr.count > 1 {
+                for index in (0...arr.count - 2).reversed() {
+                    arr[index + 1] = arr[index]
+                }
+            } else {
+                arr[1] = arr[0]
+            }
+            arr[0] = 1
+        }
+        return arr
     }
 }
 
