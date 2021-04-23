@@ -246,6 +246,39 @@ extension Array where Element == UInt8 {
         return arr
     }
     
+    public static func -(lhs: Self, rhs: Element) -> Self {
+        if lhs.count > 0 {
+            var arr = lhs
+            var overflow = false
+            for i in (0..<arr.count).reversed() {
+                if overflow == false {
+                    let tmp = arr[i].subtractingReportingOverflow(rhs)
+                    arr[i] = tmp.partialValue
+                    if tmp.overflow {
+                        overflow = true
+                        continue
+                    } else {
+                        break
+                    }
+                } else {
+                    let tmp = arr[i].subtractingReportingOverflow(1)
+                    arr[i] = tmp.partialValue
+                    if tmp.overflow {
+                        overflow = true
+                        continue
+                    } else {
+                        overflow = false
+                        break
+                    }
+                }
+            }
+            arr.removePrefixZero()
+            return arr
+        } else {
+            return [0 - rhs]
+        }
+    }
+    
     public static func <(lhs: Self, rhs: Self) -> Bool {
         if lhs.count < rhs.count {
             return true
@@ -311,6 +344,20 @@ extension Array where Element == UInt8 {
             return true
         } else {
             return false
+        }
+    }
+    
+    // 私有的工具函数，用来移除byte array开头的无意义的0
+    private mutating func removePrefixZero() {
+        var prefixZero = true
+        for item in self {
+            if item == 0 && prefixZero {
+                self.removeFirst()
+                continue
+            } else {
+                prefixZero = false
+            }
+            break
         }
     }
 }
