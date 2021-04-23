@@ -58,7 +58,7 @@ final class JanyeeUtiltyTests: XCTestCase {
     // 测试 parallelMap 的速度是否真的比 map 快，
     // 其中分别观测 1 到 10 的步长（striding）对应的时间消耗
     
-    func testParallelMapWithStriding1() {
+    func parallelMapWithStriding1() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -73,7 +73,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding2() {
+    func parallelMapWithStriding2() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -88,7 +88,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding3() {
+    func parallelMapWithStriding3() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -103,7 +103,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding4() {
+    func parallelMapWithStriding4() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -118,7 +118,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding5() {
+    func parallelMapWithStriding5() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -133,7 +133,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding6() {
+    func parallelMapWithStriding6() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -148,7 +148,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding7() {
+    func parallelMapWithStriding7() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -163,7 +163,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding8() {
+    func parallelMapWithStriding8() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -178,7 +178,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding9() {
+    func parallelMapWithStriding9() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -193,7 +193,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
-    func testParallelMapWithStriding10() {
+    func parallelMapWithStriding10() {
         var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
         let timeConsuming = JanyeeUtilty.taskTimeConsuming {
             arr = arr.parallelMap(striding: 1) { arr in
@@ -208,6 +208,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         }.count,
         arr.count)
     }
+    
     func testExtensionArrayUInt8PlusOperator() {
         let byte1: [UInt8] = [228, 184, 191]
         let byte2: [UInt8] = [98, 255, 255]
