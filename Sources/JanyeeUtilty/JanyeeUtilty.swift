@@ -205,7 +205,7 @@ public class JanyeeUtilty {
     }
 }
 
-// 给 [UInt8] 添加加减算术运算
+// 给 [UInt8] 添加算术运算符与关系运算符
 extension Array where Element == UInt8 {
     public static func +(lhs: Self, rhs: Element) -> Self {
         var arr = lhs
@@ -244,6 +244,74 @@ extension Array where Element == UInt8 {
             arr[0] = 1
         }
         return arr
+    }
+    
+    public static func <(lhs: Self, rhs: Self) -> Bool {
+        if lhs.count < rhs.count {
+            return true
+        } else if lhs.count == rhs.count {
+            for i in 0..<lhs.count {
+                if lhs[i] == rhs[i] {
+                    continue
+                } else {
+                    return lhs[i] < rhs[i]
+                }
+            }
+            return false
+        } else {
+            return false
+        }
+    }
+    
+    public static func <=(lhs: Self, rhs: Self) -> Bool {
+        if lhs.count < rhs.count {
+            return true
+        } else if lhs.count == rhs.count {
+            for i in 0..<lhs.count {
+                if lhs[i] == rhs[i] {
+                    continue
+                } else {
+                    return lhs[i] < rhs[i]
+                }
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    public static func >(lhs: Self, rhs: Self) -> Bool {
+        if lhs.count > rhs.count {
+            return true
+        } else if lhs.count == rhs.count {
+            for i in 0..<lhs.count {
+                if lhs[i] == rhs[i] {
+                    continue
+                } else {
+                    return lhs[i] > rhs[i]
+                }
+            }
+            return false
+        } else {
+            return false
+        }
+    }
+    
+    public static func >=(lhs: Self, rhs: Self) -> Bool {
+        if lhs.count > rhs.count {
+            return true
+        } else if lhs.count == rhs.count {
+            for i in 0..<lhs.count {
+                if lhs[i] == rhs[i] {
+                    continue
+                } else {
+                    return lhs[i] > rhs[i]
+                }
+            }
+            return true
+        } else {
+            return false
+        }
     }
 }
 
