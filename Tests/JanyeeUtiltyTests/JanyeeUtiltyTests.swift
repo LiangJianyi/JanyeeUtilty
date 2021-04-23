@@ -257,6 +257,153 @@ final class JanyeeUtiltyTests: XCTestCase {
         XCTAssertTrue([UInt8]([255, 255, 255, 255, 255]) + 3 == [1, 0, 0, 0, 0, 2])
     }
     
+    func testExtensionArrayUInt8PlusOperatorTimeConsuming() {
+        func randomByteGenerator() -> UInt8 {
+            return (0...255).randomElement()!
+        }
+
+        func byteArrayGenerator() -> [UInt8] {
+            let length = (1...10000).randomElement()!
+            var array = [UInt8](repeating: 0, count: length)
+            for i in 0..<array.count {
+                array[i] = randomByteGenerator()
+            }
+            return array
+        }
+
+        let total = 100000
+        typealias Element = ([UInt8], UInt8)
+        var testNumbers = [Element]()
+        for _ in 1...total {
+            testNumbers.append((byteArrayGenerator(), randomByteGenerator()))
+        }
+
+        let t = JanyeeUtilty.taskTimeConsuming {
+            for i in 0..<testNumbers.count {
+                _ = testNumbers[i].0 + testNumbers[i].1
+            }
+        }
+
+        print("\(total) 个[UInt8] + UInt8 耗时：\(t)")
+    }
+    
+    func testExtensionArrayUInt8RelationalOperator() {
+        let arr1: [UInt8] = [1, 2, 3]
+        let arr2: [UInt8] = [0, 1, 2]
+        let arr3: [UInt8] = [1, 2, 4]
+        let arr4: [UInt8] = [1, 4, 3]
+        let arr5: [UInt8] = [255]
+        let arr6: [UInt8] = [1, 0]
+        let arr7: [UInt8] = [165, 209, 200, 201]
+        let arr8: [UInt8] = [1, 0, 0, 0, 0]
+        let arr9: [UInt8] = [166, 60, 50, 40]
+        let arr10: [UInt8] = [165, 255, 255, 255]
+        let arr11: [UInt8] = []
+        let arr12: [UInt8] = [231, 28, 13, 44, 240, 250]
+        let arr13: [UInt8] = [107, 254, 2, 8, 99, 219, 64, 32, 33]
+        let arr14: [UInt8] = [107, 254, 2, 8, 100, 200, 60, 32, 3]
+        let arr15: [UInt8] = [107, 254, 2, 8, 99, 219, 64, 32, 33, 255, 255, 0, 0, 0, 2]
+        let arr16: [UInt8] = [91, 76, 12, 18, 99, 219, 64, 32, 33]
+        let arr17: [UInt8] = [1, 254, 2, 8, 99, 219, 64, 32, 33]
+        let arr18: [UInt8] = [255, 254, 2, 8, 99, 219, 64, 32, 33]
+        let arr19: [UInt8] = [107, 254, 2, 8, 99, 219, 64, 32, 33, 255, 255, 0, 0, 0, 3]
+        
+        XCTAssertTrue(arr1 > arr2)
+        XCTAssertTrue(arr1 >= arr2)
+        XCTAssertFalse(arr1 < arr2)
+        XCTAssertFalse(arr1 <= arr2)
+        
+        XCTAssertTrue(arr4 > arr3)
+        XCTAssertTrue(arr4 >= arr3)
+        XCTAssertFalse(arr4 < arr3)
+        XCTAssertFalse(arr4 <= arr3)
+        
+        XCTAssertFalse(arr5 > arr6)
+        XCTAssertFalse(arr5 >= arr6)
+        XCTAssertTrue(arr5 < arr6)
+        XCTAssertTrue(arr5 <= arr6)
+        
+        XCTAssertFalse(arr7 > arr8)
+        XCTAssertFalse(arr7 >= arr8)
+        XCTAssertTrue(arr7 < arr8)
+        XCTAssertTrue(arr7 <= arr8)
+        
+        XCTAssertTrue(arr9 > arr10)
+        XCTAssertTrue(arr9 >= arr10)
+        XCTAssertFalse(arr9 < arr10)
+        XCTAssertFalse(arr9 <= arr10)
+        
+        XCTAssertFalse(arr11 > arr11)
+        XCTAssertTrue(arr11 >= arr11)
+        XCTAssertFalse(arr11 < arr11)
+        XCTAssertTrue(arr11 <= arr11)
+        
+        XCTAssertFalse(arr12 > arr13)
+        XCTAssertFalse(arr12 >= arr13)
+        XCTAssertTrue(arr12 < arr13)
+        XCTAssertTrue(arr12 <= arr13)
+        
+        XCTAssertTrue(arr12 > arr10)
+        XCTAssertTrue(arr12 >= arr10)
+        XCTAssertFalse(arr12 <= arr10)
+        XCTAssertFalse(arr12 < arr10)
+        
+        XCTAssertTrue(arr14 > arr13)
+        XCTAssertTrue(arr14 >= arr13)
+        XCTAssertFalse(arr14 <= arr13)
+        XCTAssertFalse(arr14 < arr13)
+        
+        XCTAssertFalse(arr15 > arr19)
+        XCTAssertFalse(arr15 >= arr19)
+        XCTAssertTrue(arr15 < arr19)
+        XCTAssertTrue(arr15 <= arr19)
+        
+        XCTAssertTrue(arr15 > arr14)
+        XCTAssertTrue(arr15 > arr13)
+        XCTAssertTrue(arr15 > arr12)
+        XCTAssertTrue(arr15 > arr11)
+        XCTAssertTrue(arr15 > arr10)
+        XCTAssertTrue(arr15 > arr9)
+        XCTAssertTrue(arr15 > arr8)
+        XCTAssertTrue(arr15 > arr7)
+        XCTAssertTrue(arr15 > arr6)
+        XCTAssertTrue(arr15 > arr5)
+        XCTAssertTrue(arr15 > arr4)
+        XCTAssertTrue(arr15 > arr3)
+        XCTAssertTrue(arr15 > arr2)
+        XCTAssertTrue(arr15 > arr1)
+        
+        XCTAssertTrue(arr15 >= arr14)
+        XCTAssertTrue(arr15 >= arr13)
+        XCTAssertTrue(arr15 >= arr12)
+        XCTAssertTrue(arr15 >= arr11)
+        XCTAssertTrue(arr15 >= arr10)
+        XCTAssertTrue(arr15 >= arr9)
+        XCTAssertTrue(arr15 >= arr8)
+        XCTAssertTrue(arr15 >= arr7)
+        XCTAssertTrue(arr15 >= arr6)
+        XCTAssertTrue(arr15 >= arr5)
+        XCTAssertTrue(arr15 >= arr4)
+        XCTAssertTrue(arr15 >= arr3)
+        XCTAssertTrue(arr15 >= arr2)
+        XCTAssertTrue(arr15 >= arr1)
+        
+        XCTAssertTrue(arr16 > arr17)
+        XCTAssertTrue(arr16 >= arr17)
+        XCTAssertFalse(arr16 < arr17)
+        XCTAssertFalse(arr16 <= arr17)
+        
+        XCTAssertTrue(arr18 > arr16)
+        XCTAssertTrue(arr18 >= arr16)
+        XCTAssertFalse(arr18 < arr16)
+        XCTAssertFalse(arr18 <= arr16)
+        
+        XCTAssertFalse(arr18 > arr19)
+        XCTAssertFalse(arr18 >= arr19)
+        XCTAssertTrue(arr18 < arr19)
+        XCTAssertTrue(arr18 <= arr19)
+    }
+    
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
 //    func testParallelMap() {
 //        for striding in 2...10 {
