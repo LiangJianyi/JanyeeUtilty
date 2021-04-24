@@ -209,7 +209,7 @@ final class JanyeeUtiltyTests: XCTestCase {
         arr.count)
     }
     
-    func testExtensionArrayUInt8PlusOperator() {
+    func testExtensionArrayUInt8AddingOperator() {
         let byte1: [UInt8] = [228, 184, 191]
         let byte2: [UInt8] = [98, 255, 255]
         let byte3: [UInt8] = [1]
@@ -258,20 +258,20 @@ final class JanyeeUtiltyTests: XCTestCase {
         XCTAssertTrue([UInt8]([255, 255, 255, 255, 255]) + 3 == [1, 0, 0, 0, 0, 2])
     }
     
-    func testExtensionArrayUInt8PlusOperatorTimeConsuming() {
-        func randomByteGenerator() -> UInt8 {
-            return (0...255).randomElement()!
+    private func randomByteGenerator() -> UInt8 {
+        return (0...255).randomElement()!
+    }
+    
+    private func byteArrayGenerator() -> [UInt8] {
+        let length = (1...10000).randomElement()!
+        var array = [UInt8](repeating: 0, count: length)
+        for i in 0..<array.count {
+            array[i] = randomByteGenerator()
         }
-
-        func byteArrayGenerator() -> [UInt8] {
-            let length = (1...10000).randomElement()!
-            var array = [UInt8](repeating: 0, count: length)
-            for i in 0..<array.count {
-                array[i] = randomByteGenerator()
-            }
-            return array
-        }
-
+        return array
+    }
+    
+    func testExtensionArrayUInt8AddingOperatorTimeConsuming() {
         let total = 100000
         typealias Element = ([UInt8], UInt8)
         var testNumbers = [Element]()
@@ -403,6 +403,43 @@ final class JanyeeUtiltyTests: XCTestCase {
         XCTAssertFalse(arr18 >= arr19)
         XCTAssertTrue(arr18 < arr19)
         XCTAssertTrue(arr18 <= arr19)
+    }
+    
+    func testExtensionArrayUInt8SubtractingOperator() {
+        XCTAssertTrue([UInt8]([1, 4]) - 20 == [240])
+        XCTAssertTrue([UInt8]([200, 100, 155]) - 156 == [200, 99, 255])
+        XCTAssertTrue([UInt8]([1, 0, 25]) - 88 == [255, 193])
+        XCTAssertTrue([UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 29, 0]) - 255 == [UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 28, 1]))
+        XCTAssertTrue([UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 29, 254]) - 255 == [UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 28, 255]))
+        XCTAssertTrue([UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 28, 1]) - 0 == [UInt8]([7, 203, 14, 10, 32, 199, 235, 115, 255, 107, 28, 1]))
+        XCTAssertTrue([UInt8]([1, 0, 0, 254]) - 255 == [255, 255, 255])
+        XCTAssertTrue([UInt8]([123, 255]) - 1 == [123, 254])
+        XCTAssertTrue([UInt8]([124, 0]) - 1 == [123, 255])
+        XCTAssertTrue([UInt8]([1, 0, 0]) - 1 == [255, 255])
+        XCTAssertTrue([UInt8]([125, 0]) - 1 == [124, 255])
+        XCTAssertTrue([UInt8]([126, 0]) - 1 == [125, 255])
+        XCTAssertTrue([UInt8]([99, 0, 0, 0, 0]) - 1 == [98, 255, 255, 255, 255])
+        XCTAssertTrue([UInt8]([1, 0, 0, 0, 0, 0]) - 1 == [255, 255, 255, 255, 255])
+        XCTAssertTrue([UInt8]([1, 0, 0, 0, 0, 1]) - 2 == [255, 255, 255, 255, 255])
+        XCTAssertTrue([UInt8]([1, 0, 0, 0, 0, 2]) - 3 == [255, 255, 255, 255, 255])
+    }
+    
+    func testArrayUInt8AddingAndSubtractingOperatorSymmetry() {
+        let total = 100000
+        typealias Element = ([UInt8], UInt8)
+        var testNumbers = [Element]()
+        for _ in 1...total {
+            testNumbers.append((byteArrayGenerator(), randomByteGenerator()))
+        }
+        
+        for item in testNumbers {
+            let r = item.0 + item.1
+            if r - item.1 == item.0 {
+                XCTAssertTrue(true)
+            } else {
+                XCTAssertFalse(false, "r = \(r), item.0 = \(item.0), item.1 = \(item.1), r - item.1 = \(r - item.1)")
+            }
+        }
     }
     
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
