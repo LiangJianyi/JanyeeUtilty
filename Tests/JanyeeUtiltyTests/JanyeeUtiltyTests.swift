@@ -442,6 +442,60 @@ final class JanyeeUtiltyTests: XCTestCase {
         }
     }
     
+    func testExtensionArrayUInt8AdditionAssignmentOperator() {
+        var byte1: [UInt8] = [228, 184, 191]
+        var byte2: [UInt8] = [98, 255, 255]
+        var byte3: [UInt8] = [1]
+        var byte4: [UInt8] = [100]
+        var byte5: [UInt8] = [255]
+        var byte6: [UInt8] = [200, 255, 255, 255, 255, 255, 255, 255, 255]
+        var byte7: [UInt8] = [1, 2, 3]
+        byte1 += 1
+        XCTAssertEqual(byte1, [UInt8]([228, 184, 192]))
+        byte1 += 1
+        byte1 += 1
+        XCTAssertEqual(byte1, [UInt8]([228, 184, 194]))
+        byte1 += 1
+        byte1 += 1
+        byte1 += 1
+        XCTAssertEqual(byte1, [UInt8]([228, 184, 197]))
+        byte2 += 1
+        XCTAssertEqual(byte2, [UInt8]([99, 0, 0]))
+        byte3 += 100
+        XCTAssertEqual(byte3, [UInt8]([101]))
+        byte4 += 155
+        XCTAssertEqual(byte4, [UInt8]([255]))
+        byte4 += 156
+        XCTAssertEqual(byte4, [UInt8]([255]) + 156)
+        byte5 += 1
+        XCTAssertEqual(byte5, [UInt8]([1, 0]))
+        byte5 += 2
+        XCTAssertEqual(byte5, [UInt8]([1, 0]) + 2)
+        byte6 += 1
+        XCTAssertEqual(byte6, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 0]))
+        byte6 += 55
+        XCTAssertEqual(byte6, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 55]))
+        byte6 += 56
+        XCTAssertEqual(byte6, [UInt8]([201, 0, 0, 0, 0, 0, 0, 0, 111]))
+        byte6 += 255
+        XCTAssertEqual(byte6, [UInt8]([201, 0, 0, 0, 0, 0, 0, 1, 110]))
+        byte1 += 0
+        XCTAssertEqual(byte1, byte1)
+        byte2 += 0
+        XCTAssertEqual(byte2, byte2)
+        byte3 += 0
+        XCTAssertEqual(byte3, byte3)
+        byte4 += 0
+        XCTAssertEqual(byte4, byte4)
+        byte5 += 0
+        XCTAssertEqual(byte5, byte5)
+        byte6 += 0
+        XCTAssertEqual(byte6, byte6)
+        byte7 += 0
+        XCTAssertEqual(byte7, byte7)
+        
+    }
+    
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
 //    func testParallelMap() {
 //        for striding in 2...10 {
