@@ -208,42 +208,47 @@ public class JanyeeUtilty {
 // 给 [UInt8] 添加算术运算符与关系运算符
 extension Array where Element == UInt8 {
     public static func +(lhs: Self, rhs: Element) -> Self {
-        var arr = lhs
-        var overflow = false
-        for i in (0..<arr.count).reversed() {
-            if overflow == false {
-                let tmp = arr[i].addingReportingOverflow(rhs)
-                arr[i] = tmp.partialValue
-                if tmp.overflow {
-                    overflow = true
-                    continue
+        if lhs.count > 0 {
+            var arr = lhs
+            var overflow = false
+            for i in (0..<arr.count).reversed() {
+                if overflow == false {
+                    let tmp = arr[i].addingReportingOverflow(rhs)
+                    arr[i] = tmp.partialValue
+                    if tmp.overflow {
+                        overflow = true
+                        continue
+                    } else {
+                        break
+                    }
                 } else {
-                    break
-                }
-            } else {
-                let tmp = arr[i].addingReportingOverflow(1)
-                arr[i] = tmp.partialValue
-                if tmp.overflow {
-                    overflow = true
-                    continue
-                } else {
-                    overflow = false
-                    break
+                    let tmp = arr[i].addingReportingOverflow(1)
+                    arr[i] = tmp.partialValue
+                    if tmp.overflow {
+                        overflow = true
+                        continue
+                    } else {
+                        overflow = false
+                        break
+                    }
                 }
             }
-        }
-        if overflow {
-            arr.append(0)
-            if arr.count > 1 {
-                for index in (0...arr.count - 2).reversed() {
-                    arr[index + 1] = arr[index]
+            if overflow {
+                arr.append(0)
+                if arr.count > 1 {
+                    for index in (0...arr.count - 2).reversed() {
+                        arr[index + 1] = arr[index]
+                    }
+                } else {
+                    arr[1] = arr[0]
                 }
-            } else {
-                arr[1] = arr[0]
+                arr[0] = 1
             }
-            arr[0] = 1
+            arr.removePrefixZero()
+            return arr
+        } else {
+            return [0 + rhs]
         }
-        return arr
     }
     
     public static func -(lhs: Self, rhs: Element) -> Self {
@@ -276,6 +281,79 @@ extension Array where Element == UInt8 {
             return arr
         } else {
             return [0 - rhs]
+        }
+    }
+    
+    public static func +=(lhs: inout Self, rhs: Element) {
+        if lhs.count > 0 {
+            lhs.removePrefixZero()
+            var overflow = false
+            for i in (0..<lhs.count).reversed() {
+                if overflow == false {
+                    let tmp = lhs[i].addingReportingOverflow(rhs)
+                    lhs[i] = tmp.partialValue
+                    if tmp.overflow {
+                        overflow = true
+                        continue
+                    } else {
+                        break
+                    }
+                } else {
+                    let tmp = lhs[i].addingReportingOverflow(1)
+                    lhs[i] = tmp.partialValue
+                    if tmp.overflow {
+                        overflow = true
+                        continue
+                    } else {
+                        overflow = false
+                        break
+                    }
+                }
+            }
+            if overflow {
+                lhs.append(0)
+                if lhs.count > 1 {
+                    for index in (0...lhs.count - 2).reversed() {
+                        lhs[index + 1] = lhs[index]
+                    }
+                } else {
+                    lhs[1] = lhs[0]
+                }
+                lhs[0] = 1
+            }
+        } else {
+            lhs = [0 + rhs]
+        }
+    }
+    
+    public static func -=(lhs: inout Self, rhs: Element) {
+        if lhs.count > 0 {
+            var overflow = false
+            for i in (0..<lhs.count).reversed() {
+                if overflow == false {
+                    let tmp = lhs[i].subtractingReportingOverflow(rhs)
+                    lhs[i] = tmp.partialValue
+                    if tmp.overflow {
+                        overflow = true
+                        continue
+                    } else {
+                        break
+                    }
+                } else {
+                    let tmp = lhs[i].subtractingReportingOverflow(1)
+                    lhs[i] = tmp.partialValue
+                    if tmp.overflow {
+                        overflow = true
+                        continue
+                    } else {
+                        overflow = false
+                        break
+                    }
+                }
+            }
+            lhs.removePrefixZero()
+        } else {
+            lhs = [0 - rhs]
         }
     }
     
