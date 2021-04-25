@@ -496,6 +496,33 @@ final class JanyeeUtiltyTests: XCTestCase {
         
     }
     
+    func testExtensionArrayUInt8SubtractingAssignmentOperator() {
+        var byte1: [UInt8] = [1, 0, 0, 254]
+        var byte2: [UInt8] = [1, 0, 25]
+        var byte3: [UInt8] = [255, 193]
+        byte1 -= 255
+        XCTAssertEqual(byte1, [255, 255, 255])
+        byte2 -= 88
+        XCTAssertEqual(byte2, [255,193])
+        byte3 -= 3
+        XCTAssertEqual(byte3, [255, 190])
+        byte3 -= 200
+        XCTAssertEqual(byte3, [254, 246])
+    }
+    
+    func testExtensionArrayUInt8AddingOtherArray()  {
+        var byte1: [UInt8] = [1, 2]
+        var byte2: [UInt8] = [255, 255]
+        var byte3: [UInt8] = [255, 128, 60]
+        var byte4: [UInt8] = [212, 255, 199]
+        var byte5: [UInt8] = [3, 4]
+        var byte6: [UInt8] = []
+        var byte7: [UInt8] = [255, 200]
+        var byte8: [UInt8] = [255, 255, 255]
+        var byte9: [UInt8] = [255, 255, 255, 255, 255]
+        var byte10: [UInt8] = [255, 255, 255, 255, 255, 255]
+    }
+    
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
 //    func testParallelMap() {
 //        for striding in 2...10 {
