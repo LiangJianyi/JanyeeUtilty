@@ -269,9 +269,11 @@ extension Array where Element == UInt8 {
                             overflow = tmp.overflow
                             j -= 1
                         } else {
-                            let tmp = arr[i].addingReportingOverflow(1)
-                            arr[i] = tmp.partialValue
-                            overflow = tmp.overflow
+                            if overflow {
+                                let tmp = arr[i].addingReportingOverflow(1)
+                                arr[i] = tmp.partialValue
+                                overflow = tmp.overflow
+                            }
                         }
                     }
                     if overflow {
@@ -300,9 +302,11 @@ extension Array where Element == UInt8 {
                             overflow = tmp.overflow
                             j -= 1
                         } else {
-                            let tmp = arr[i].addingReportingOverflow(1)
-                            arr[i] = tmp.partialValue
-                            overflow = tmp.overflow
+                            if overflow {
+                                let tmp = arr[i].addingReportingOverflow(1)
+                                arr[i] = tmp.partialValue
+                                overflow = tmp.overflow
+                            }
                         }
                     }
                     if overflow {
