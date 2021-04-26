@@ -260,7 +260,7 @@ extension Array where Element == UInt8 {
                     var j = lhs.count - 1
                     for i in (0..<arr.count).reversed() {
                         if j > -1 {
-                            let tmp = arr[i].addingReportingOverflow(lhs[i])
+                            let tmp = arr[i].addingReportingOverflow(lhs[j])
                             if overflow == false {
                                 arr[i] = tmp.partialValue
                             } else {
@@ -291,7 +291,7 @@ extension Array where Element == UInt8 {
                     var j = rhs.count - 1
                     for i in (0..<arr.count).reversed() {
                         if j > -1 {
-                            let tmp = arr[i].addingReportingOverflow(rhs[i])
+                            let tmp = arr[i].addingReportingOverflow(rhs[j])
                             if overflow == false {
                                 arr[i] = tmp.partialValue
                             } else {
