@@ -251,6 +251,108 @@ extension Array where Element == UInt8 {
         }
     }
     
+    public static func +(lhs: Self, rhs: Self) -> Self {
+        if lhs.count > 0 {
+            if rhs.count > 0 {
+                var overflow = false
+                if rhs.count > lhs.count {
+                    var arr = rhs
+                    var j = lhs.count - 1
+                    for i in (0..<arr.count).reversed() {
+                        if j > -1 {
+                            let tmp = arr[i].addingReportingOverflow(lhs[i])
+                            if overflow == false {
+                                arr[i] = tmp.partialValue
+                            } else {
+                                arr[i] = tmp.partialValue + 1
+                            }
+                            overflow = tmp.overflow
+                            j -= 1
+                        } else {
+                            let tmp = arr[i].addingReportingOverflow(1)
+                            arr[i] = tmp.partialValue
+                            overflow = tmp.overflow
+                        }
+                    }
+                    if overflow {
+                        arr.append(0)
+                        if arr.count > 1 {
+                            for index in (0...arr.count - 2).reversed() {
+                                arr[index + 1] = arr[index]
+                            }
+                        } else {
+                            arr[1] = arr[0]
+                        }
+                        arr[0] = 1
+                    }
+                    return arr
+                } else if lhs.count > rhs.count {
+                    var arr = lhs
+                    var j = rhs.count - 1
+                    for i in (0..<arr.count).reversed() {
+                        if j > -1 {
+                            let tmp = arr[i].addingReportingOverflow(rhs[i])
+                            if overflow == false {
+                                arr[i] = tmp.partialValue
+                            } else {
+                                arr[i] = tmp.partialValue + 1
+                            }
+                            overflow = tmp.overflow
+                            j -= 1
+                        } else {
+                            let tmp = arr[i].addingReportingOverflow(1)
+                            arr[i] = tmp.partialValue
+                            overflow = tmp.overflow
+                        }
+                    }
+                    if overflow {
+                        arr.append(0)
+                        if arr.count > 1 {
+                            for index in (0...arr.count - 2).reversed() {
+                                arr[index + 1] = arr[index]
+                            }
+                        } else {
+                            arr[1] = arr[0]
+                        }
+                        arr[0] = 1
+                    }
+                    return arr
+                } else {
+                    var arr = lhs
+                    for i in (0..<arr.count).reversed() {
+                        let tmp = arr[i].addingReportingOverflow(rhs[i])
+                        if overflow == false {
+                            arr[i] = tmp.partialValue
+                        } else {
+                            arr[i] = tmp.partialValue + 1
+                        }
+                        overflow = tmp.overflow
+                    }
+                    if overflow {
+                        arr.append(0)
+                        if arr.count > 1 {
+                            for index in (0...arr.count - 2).reversed() {
+                                arr[index + 1] = arr[index]
+                            }
+                        } else {
+                            arr[1] = arr[0]
+                        }
+                        arr[0] = 1
+                    }
+                    return arr
+                }
+            } else {
+                return lhs
+            }
+        } else {
+            if rhs.count > 0 {
+                return rhs
+            } else {
+                return []
+            }
+        }
+    }
+    
     public static func -(lhs: Self, rhs: Element) -> Self {
         if lhs.count > 0 {
             var arr = lhs
