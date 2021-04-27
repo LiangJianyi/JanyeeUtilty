@@ -540,6 +540,36 @@ final class JanyeeUtiltyTests: XCTestCase {
         XCTAssertTrue(arr13 + arr10 == [1, 0, 0, 255, 255, 255, 255, 254])
     }
     
+    func testExtensionArrayUInt8SubtractingOtherArray() {
+        let arr1: [UInt8] = [107, 254, 112, 86, 99, 219, 64, 32, 16]
+        let arr2: [UInt8] = [100, 255, 255, 255]
+        let arr3: [UInt8] = [1, 2]
+        let arr4: [UInt8] = [3, 4]
+        let arr5: [UInt8] = [255, 255]
+        let arr6: [UInt8] = [255, 128, 60]
+        let arr7: [UInt8] = [255, 200]
+        let arr8: [UInt8] = [212, 255, 199]
+        let arr9: [UInt8] = [255, 255, 255]
+        let arr10: [UInt8] = [255, 255, 255, 255, 255]
+        let arr11: [UInt8] = [255, 255, 255, 255, 255, 55, 255, 167, 0, 233, 200, 0, 100, 100]
+        let arr12: [UInt8] = [255, 111, 98, 64, 85, 0, 0, 0, 0, 254, 172, 1, 49, 79]
+        let arr13: [UInt8] = [255, 255, 255, 255, 255, 255, 255]
+        
+        XCTAssertTrue([UInt8]([107, 254, 112, 86, 100, 64, 64, 32, 15]) - arr2 == arr1)
+        XCTAssertTrue([UInt8]([107, 254, 112, 86, 100, 64, 64, 32, 15]) - arr1 == arr2)
+        XCTAssertTrue([UInt8]([4, 6]) - arr4 == arr3)
+        XCTAssertTrue([UInt8]([4, 6]) - arr3 == arr4)
+        XCTAssertTrue(arr5 - arr5 == [0])
+        XCTAssertTrue([UInt8]([1, 0, 128, 4]) - arr7 == arr6)
+        XCTAssertTrue([UInt8]([1, 0, 128, 4]) - arr6 == arr7)
+        XCTAssertTrue([UInt8]([1, 212, 255, 198]) - arr9 == arr8)
+        XCTAssertTrue([UInt8]([1, 212, 255, 198]) - arr8 == arr9)
+        XCTAssertTrue(arr10 - arr10 == [0])
+        XCTAssertTrue([UInt8]([1, 255, 111, 98, 64, 84, 55, 255, 167, 1, 232, 116, 1, 149, 179]) - arr12 == arr11)
+        XCTAssertTrue([UInt8]([1, 0, 0, 255, 255, 255, 255, 254]) - arr13 == arr10)
+        XCTAssertTrue([UInt8]([1, 0, 0, 255, 255, 255, 255, 254]) - arr10 == arr13)
+    }
+    
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
 //    func testParallelMap() {
 //        for striding in 2...10 {

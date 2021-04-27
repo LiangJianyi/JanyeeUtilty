@@ -390,6 +390,46 @@ extension Array where Element == UInt8 {
         }
     }
     
+    public static func -(lhs: Self, rhs: Self) -> Self {
+        if lhs >= rhs {
+            var arr = lhs
+            var overflow = false
+            var j = rhs.count - 1
+            for i in (0..<arr.count).reversed() {
+                if j > -1 {
+                    if overflow == false {
+                        let tmp = arr[i].subtractingReportingOverflow(rhs[j])
+                        arr[i] = tmp.partialValue
+                        overflow = tmp.overflow
+                    } else {
+                        var tmp = arr[i].subtractingReportingOverflow(1)
+                        arr[i] = tmp.partialValue
+                        tmp = arr[i].subtractingReportingOverflow(rhs[j])
+                        arr[i] = tmp.partialValue
+                        overflow = tmp.overflow
+                    }
+                    j -= 1
+                } else {
+                    if overflow {
+                        let tmp = arr[i].subtractingReportingOverflow(1)
+                        arr[i] = tmp.partialValue
+                        overflow = tmp.overflow
+                    } else {
+                        break
+                    }
+                }
+            }
+            arr.removePrefixZero()
+            if arr.count == 0 {
+                return [0]
+            } else {
+                return arr
+            }
+        } else {
+            fatalError("Arithmetic operation '\(lhs) + \(rhs)' (on type '[UInt8]') results in an overflow.")
+        }
+    }
+    
     public static func +=(lhs: inout Self, rhs: Element) {
         if lhs.count > 0 {
             lhs.removePrefixZero()
