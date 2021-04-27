@@ -511,16 +511,33 @@ final class JanyeeUtiltyTests: XCTestCase {
     }
     
     func testExtensionArrayUInt8AddingOtherArray()  {
-        var byte1: [UInt8] = [1, 2]
-        var byte2: [UInt8] = [255, 255]
-        var byte3: [UInt8] = [255, 128, 60]
-        var byte4: [UInt8] = [212, 255, 199]
-        var byte5: [UInt8] = [3, 4]
-        var byte6: [UInt8] = []
-        var byte7: [UInt8] = [255, 200]
-        var byte8: [UInt8] = [255, 255, 255]
-        var byte9: [UInt8] = [255, 255, 255, 255, 255]
-        var byte10: [UInt8] = [255, 255, 255, 255, 255, 255]
+        let arr1: [UInt8] = [107, 254, 112, 86, 99, 219, 64, 32, 16]
+        let arr2: [UInt8] = [100, 255, 255, 255]
+        let arr3: [UInt8] = [1, 2]
+        let arr4: [UInt8] = [3, 4]
+        let arr5: [UInt8] = [255, 255]
+        let arr6: [UInt8] = [255, 128, 60]
+        let arr7: [UInt8] = [255, 200]
+        let arr8: [UInt8] = [212, 255, 199]
+        let arr9: [UInt8] = [255, 255, 255]
+        let arr10: [UInt8] = [255, 255, 255, 255, 255]
+        let arr11: [UInt8] = [255, 255, 255, 255, 255, 55, 255, 167, 0, 233, 200, 0, 100, 100]
+        let arr12: [UInt8] = [255, 111, 98, 64, 85, 0, 0, 0, 0, 254, 172, 1, 49, 79]
+        let arr13: [UInt8] = [255, 255, 255, 255, 255, 255, 255]
+        
+        XCTAssertTrue(arr1 + arr2 == [107, 254, 112, 86, 100, 64, 64, 32, 15])
+        XCTAssertTrue(arr2 + arr1 == [107, 254, 112, 86, 100, 64, 64, 32, 15])
+        XCTAssertTrue(arr3 + arr4 == [4, 6])
+        XCTAssertTrue(arr4 + arr3 == [4, 6])
+        XCTAssertTrue(arr5 + arr5 == [1, 255, 254])
+        XCTAssertTrue(arr6 + arr7 == [1, 0, 128, 4])
+        XCTAssertTrue(arr7 + arr6 == [1, 0, 128, 4])
+        XCTAssertTrue(arr8 + arr9 == [1, 212, 255, 198])
+        XCTAssertTrue(arr9 + arr8 == [1, 212, 255, 198])
+        XCTAssertTrue(arr10 + arr10 == [1, 255, 255, 255, 255, 254])
+        XCTAssertTrue(arr11 + arr12 == [1, 255, 111, 98, 64, 84, 55, 255, 167, 1, 232, 116, 1, 149, 179])
+        XCTAssertTrue(arr10 + arr13 == [1, 0, 0, 255, 255, 255, 255, 254])
+        XCTAssertTrue(arr13 + arr10 == [1, 0, 0, 255, 255, 255, 255, 254])
     }
     
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
