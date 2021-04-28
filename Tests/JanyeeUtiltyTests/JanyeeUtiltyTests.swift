@@ -559,15 +559,52 @@ final class JanyeeUtiltyTests: XCTestCase {
         XCTAssertTrue([UInt8]([107, 254, 112, 86, 100, 64, 64, 32, 15]) - arr1 == arr2)
         XCTAssertTrue([UInt8]([4, 6]) - arr4 == arr3)
         XCTAssertTrue([UInt8]([4, 6]) - arr3 == arr4)
-        XCTAssertTrue(arr5 - arr5 == [0])
         XCTAssertTrue([UInt8]([1, 0, 128, 4]) - arr7 == arr6)
         XCTAssertTrue([UInt8]([1, 0, 128, 4]) - arr6 == arr7)
         XCTAssertTrue([UInt8]([1, 212, 255, 198]) - arr9 == arr8)
         XCTAssertTrue([UInt8]([1, 212, 255, 198]) - arr8 == arr9)
-        XCTAssertTrue(arr10 - arr10 == [0])
         XCTAssertTrue([UInt8]([1, 255, 111, 98, 64, 84, 55, 255, 167, 1, 232, 116, 1, 149, 179]) - arr12 == arr11)
         XCTAssertTrue([UInt8]([1, 0, 0, 255, 255, 255, 255, 254]) - arr13 == arr10)
         XCTAssertTrue([UInt8]([1, 0, 0, 255, 255, 255, 255, 254]) - arr10 == arr13)
+        XCTAssertTrue(arr1 - arr1 == [0])
+        XCTAssertTrue(arr2 - arr2 == [0])
+        XCTAssertTrue(arr3 - arr3 == [0])
+        XCTAssertTrue(arr4 - arr4 == [0])
+        XCTAssertTrue(arr5 - arr5 == [0])
+        XCTAssertTrue(arr6 - arr6 == [0])
+        XCTAssertTrue(arr7 - arr7 == [0])
+        XCTAssertTrue(arr8 - arr8 == [0])
+        XCTAssertTrue(arr9 - arr9 == [0])
+        XCTAssertTrue(arr10 - arr10 == [0])
+        XCTAssertTrue(arr11 - arr11 == [0])
+        XCTAssertTrue(arr12 - arr12 == [0])
+        XCTAssertTrue(arr13 - arr13 == [0])
+    }
+    
+    private class Items {
+        let bytes1: [UInt8]
+        let bytes2: [UInt8]
+        lazy var bytes3: [UInt8] = self.bytes1 + self.bytes2
+        init(_ b1: [UInt8], _ b2: [UInt8]) {
+            self.bytes1 = b1
+            self.bytes2 = b2
+        }
+    }
+    
+    func testExtensionArrayUInt8SubtractingOtherArray2() {
+        let total = 10000
+        var testNumbers = [Items]()
+        for _ in 1...total {
+            testNumbers.append(Items(byteArrayGenerator(), byteArrayGenerator()))
+        }
+        
+        for item in testNumbers {
+            if item.bytes3 - item.bytes2 == item.bytes1 {
+                XCTAssertTrue(true)
+            } else {
+                XCTAssertFalse(false, "item.bytes3 = \(item.bytes3), item.bytes1 = \(item.bytes1), item.bytes2 = \(item.bytes2), item.bytes3 - item.bytes2 = \(item.bytes3 - item.bytes2)")
+            }
+        }
     }
     
     // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
