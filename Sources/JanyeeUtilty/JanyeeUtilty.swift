@@ -391,32 +391,36 @@ extension Array where Element == UInt8 {
     }
     
     public static func -(lhs: Self, rhs: Self) -> Self {
-        if lhs >= rhs {
-            var arr = lhs
-            var overflow = false
-            var j = rhs.count - 1
-            for i in (0..<arr.count).reversed() {
-                if j > -1 {
-                    if overflow == false {
-                        let tmp = arr[i].subtractingReportingOverflow(rhs[j])
-                        arr[i] = tmp.partialValue
-                        overflow = tmp.overflow
-                    } else {
-                        var tmp = arr[i].subtractingReportingOverflow(1)
-                        arr[i] = tmp.partialValue
-                        tmp = arr[i].subtractingReportingOverflow(rhs[j])
-                        arr[i] = tmp.partialValue
-                        overflow = tmp.overflow
-                    }
-                    j -= 1
-                } else {
-                    if overflow {
-                        let tmp = arr[i].subtractingReportingOverflow(1)
-                        arr[i] = tmp.partialValue
-                        overflow = tmp.overflow
+        func carryOver(array: inout Self, index: Self.Index) {
+            if array.first! > 0 {
+                var index = index
+                repeat {
+                    let tmp = array[index].subtractingReportingOverflow(1)
+                    array[index] = tmp.partialValue
+                    if tmp.overflow {
+                        index -= 1
                     } else {
                         break
                     }
+                } while true
+            } else {
+                fatalError("Arithmetic overflow. array=\(array)")
+            }
+        }
+        
+        if lhs >= rhs {
+            var arr = lhs
+            var j = rhs.count - 1
+            for i in (0..<arr.count).reversed() {
+                if j > -1 {
+                    let tmp = arr[i].subtractingReportingOverflow(rhs[j])
+                    if tmp.overflow {
+                        carryOver(array: &arr, index: i - 1)
+                    }
+                    arr[i] = tmp.partialValue
+                    j -= 1
+                } else {
+                    break
                 }
             }
             arr.removePrefixZero()
