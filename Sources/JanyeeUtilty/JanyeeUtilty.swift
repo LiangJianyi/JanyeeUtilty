@@ -254,94 +254,38 @@ extension Array where Element == UInt8 {
     public static func +(lhs: Self, rhs: Self) -> Self {
         if lhs.count > 0 {
             if rhs.count > 0 {
-                var overflow = false
+                func add(_ x: Self, _ y: Self) -> Self {
+                    var arr = x
+                    var j = y.count - 1
+                    for i in (0..<arr.count).reversed() {
+                        if j > -1 {
+                            let tmp = arr[i].addingReportingOverflow(y[j])
+                            if tmp.overflow == false {
+                                arr[i] = tmp.partialValue
+                            } else {
+                                arr[i] = tmp.partialValue
+                                arr.carryForward(index: i - 1)
+                            }
+                            j -= 1
+                        }
+                    }
+                    return arr
+                }
+                
                 if rhs.count > lhs.count {
-                    var arr = rhs
-                    var j = lhs.count - 1
-                    for i in (0..<arr.count).reversed() {
-                        if j > -1 {
-                            let tmp = arr[i].addingReportingOverflow(lhs[j])
-                            if overflow == false {
-                                arr[i] = tmp.partialValue
-                            } else {
-                                arr[i] = tmp.partialValue + 1
-                            }
-                            overflow = tmp.overflow
-                            j -= 1
-                        } else {
-                            if overflow {
-                                let tmp = arr[i].addingReportingOverflow(1)
-                                arr[i] = tmp.partialValue
-                                overflow = tmp.overflow
-                            }
-                        }
-                    }
-                    if overflow {
-                        arr.append(0)
-                        if arr.count > 1 {
-                            for index in (0...arr.count - 2).reversed() {
-                                arr[index + 1] = arr[index]
-                            }
-                        } else {
-                            arr[1] = arr[0]
-                        }
-                        arr[0] = 1
-                    }
-                    return arr
+                    return add(rhs, lhs)
                 } else if lhs.count > rhs.count {
-                    var arr = lhs
-                    var j = rhs.count - 1
-                    for i in (0..<arr.count).reversed() {
-                        if j > -1 {
-                            let tmp = arr[i].addingReportingOverflow(rhs[j])
-                            if overflow == false {
-                                arr[i] = tmp.partialValue
-                            } else {
-                                arr[i] = tmp.partialValue + 1
-                            }
-                            overflow = tmp.overflow
-                            j -= 1
-                        } else {
-                            if overflow {
-                                let tmp = arr[i].addingReportingOverflow(1)
-                                arr[i] = tmp.partialValue
-                                overflow = tmp.overflow
-                            }
-                        }
-                    }
-                    if overflow {
-                        arr.append(0)
-                        if arr.count > 1 {
-                            for index in (0...arr.count - 2).reversed() {
-                                arr[index + 1] = arr[index]
-                            }
-                        } else {
-                            arr[1] = arr[0]
-                        }
-                        arr[0] = 1
-                    }
-                    return arr
+                    return add(lhs, rhs)
                 } else {
                     var arr = lhs
                     for i in (0..<arr.count).reversed() {
                         let tmp = arr[i].addingReportingOverflow(rhs[i])
-                        if overflow == false {
+                        if tmp.overflow == false {
                             arr[i] = tmp.partialValue
                         } else {
-                            arr[i] = tmp.partialValue + 1
+                            arr[i] = tmp.partialValue
+                            arr.carryForward(index: i - 1)
                         }
-                        overflow = tmp.overflow
-                    }
-                    if overflow {
-                        arr.append(0)
-                        if arr.count > 1 {
-                            for index in (0...arr.count - 2).reversed() {
-                                arr[index + 1] = arr[index]
-                            }
-                        } else {
-                            arr[1] = arr[0]
-                        }
-                        arr[0] = 1
                     }
                     return arr
                 }
@@ -391,23 +335,6 @@ extension Array where Element == UInt8 {
     }
     
     public static func -(lhs: Self, rhs: Self) -> Self {
-        func carryOver(array: inout Self, index: Self.Index) {
-            if array.first! > 0 {
-                var index = index
-                repeat {
-                    let tmp = array[index].subtractingReportingOverflow(1)
-                    array[index] = tmp.partialValue
-                    if tmp.overflow {
-                        index -= 1
-                    } else {
-                        break
-                    }
-                } while true
-            } else {
-                fatalError("Arithmetic overflow. array=\(array)")
-            }
-        }
-        
         if lhs >= rhs {
             var arr = lhs
             var j = rhs.count - 1
@@ -415,7 +342,7 @@ extension Array where Element == UInt8 {
                 if j > -1 {
                     let tmp = arr[i].subtractingReportingOverflow(rhs[j])
                     if tmp.overflow {
-                        carryOver(array: &arr, index: i - 1)
+                        arr.carryBack(index: i - 1)
                     }
                     arr[i] = tmp.partialValue
                     j -= 1
@@ -572,6 +499,47 @@ extension Array where Element == UInt8 {
             return true
         } else {
             return false
+        }
+    }
+    
+    // 私有的工具函数，进位加一
+    private mutating func carryForward(index: Self.Index) {
+        for i in (0...index).reversed() {
+            let tmp = self[i].addingReportingOverflow(1)
+            self[i] = tmp.partialValue
+            if tmp.overflow == false {
+                break
+            } else {
+                if i == 0 {
+                    self.append(0)
+                    if self.count > 1 {
+                        for index in (0...self.count - 2).reversed() {
+                            self[index + 1] = self[index]
+                        }
+                    } else {
+                        self[1] = self[0]
+                    }
+                    self[0] = 1
+                }
+            }
+        }
+    }
+    
+    // 私有的工具函数，退位减一
+    private mutating func carryBack(index: Self.Index) {
+        if self.first! > 0 {
+            var index = index
+            repeat {
+                let tmp = self[index].subtractingReportingOverflow(1)
+                self[index] = tmp.partialValue
+                if tmp.overflow {
+                    index -= 1
+                } else {
+                    break
+                }
+            } while true
+        } else {
+            fatalError("Arithmetic overflow. array=\(self)")
         }
     }
     
