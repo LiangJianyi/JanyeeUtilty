@@ -6,8 +6,9 @@ final class DirectedGraphTests: XCTestCase {
     var directedGraph2 = makeDirectedGraph2()
     var directedGraph3 = makeDirectedGraph3()
     var directedGraph4 = makeDirectedGraph4()
+    var directedGraph5 = makeDirectedGraph5()
     
-    func checkAdjustOfGraph1() {
+    func testAdjustOfGraph1() {
         XCTAssertTrue(directedGraph1.adjust[0].sorted() == [6, 2, 1, 5].sorted())
         XCTAssertFalse(directedGraph1.adjust[1] == [0])
         XCTAssertFalse(directedGraph1.adjust[2] == [0])
@@ -34,7 +35,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssertTrue(directedGraph1.adjust[12] == [])
     }
     
-    func checkAdjustOfReverseGraph1() {
+    func testAdjustOfReverseGraph1() {
         let reverseDigraph1 = directedGraph1.reverse()
         XCTAssertTrue(reverseDigraph1.adjust[0] == [])
         XCTAssertTrue(reverseDigraph1.adjust[1] == [0])
@@ -51,7 +52,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssertTrue(reverseDigraph1.adjust[12].sorted() == [9, 11].sorted())
     }
     
-    func checkAdjustOfGraph2() {
+    func testAdjustOfGraph2() {
         XCTAssert(directedGraph2.adjust[0].sorted() == [5, 1, 2].sorted())
         XCTAssert(directedGraph2.adjust[1] == [2])
         XCTAssert(directedGraph2.adjust[2].sorted() == [4, 3].sorted())
@@ -62,7 +63,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssertTrue(directedGraph2.adjust[5] == [])
     }
     
-    func checkAdjustOfGraph3() {
+    func testAdjustOfGraph3() {
         XCTAssert(directedGraph3.adjust[0].sorted() == [6, 2, 1, 5, 30].sorted())
         XCTAssert(directedGraph3.adjust[1] == [])
         XCTAssert(directedGraph3.adjust[2] == [])
@@ -102,7 +103,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssert(directedGraph3.adjust[36].sorted() == [35, 29].sorted())
     }
     
-    func checkAdjustOfReverseGraph3() {
+    func testAdjustOfReverseGraph3() {
         let reverseDigraph3 = directedGraph3.reverse()
         XCTAssert(reverseDigraph3.adjust[0] == [])
         XCTAssert(reverseDigraph3.adjust[1] == [0])
@@ -143,7 +144,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssert(reverseDigraph3.adjust[36] == [])
     }
     
-    func graph2DFSTest() {
+    func testGraph2DFS() {
         // 检测路径中每个路过的顶点是否都和起点 source 连通。
         // 如果 path 包含一个传递给 hasPathTo 并返回 false 的顶点，那么证明这个顶点不可达。
         // 当路径中有一个顶点与 source 不连通，那么这个 path 的设计有问题。
@@ -278,7 +279,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssertFalse(depthFirstSearch.hasPathTo(4))
     }
     
-    func graph2BFSTest() {
+    func testGraph2BFS() {
         print("graph2BFSTest...")
         let bfs = directedGraph2.breadthFirstSearcher(source: 0)
         XCTAssert(bfs.pathTo(0) == [0])
@@ -289,7 +290,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssert(bfs.pathTo(5) == [5, 0])
     }
     
-    func graph3DFSTest() {
+    func testGraph3DFS() {
         let connectedVertexesCollection: [Int:Set<Int>] = [
             0:Set<Int>([0, 1, 2, 3, 4, 5, 6, 30]),
             1:Set<Int>([1]),
@@ -339,13 +340,13 @@ final class DirectedGraphTests: XCTestCase {
         }
     }
     
-    func graph3BFSTest() {
+    func testGraph3BFS() {
         let bfs = directedGraph3.breadthFirstSearcher(source: 0)
         XCTAssert(bfs.pathTo(0) == [0])
     }
     
     // 测试 graph3 所有顶点的度数
-    func graph3DegreeTest() {
+    func testGraph3Degree() {
         XCTAssert(directedGraph3.degree(vertex: 0) == 5)
         XCTAssert(directedGraph3.degree(vertex: 1) == 1)
         XCTAssert(directedGraph3.degree(vertex: 2) == 1)
@@ -385,7 +386,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssert(directedGraph3.degree(vertex: 36) == 2)
     }
     
-    func graph4DFSTest() {
+    func testGraph4DFS() {
         XCTAssertEqual(directedGraph4.depthFirstSearcher(source: 0).connectedVertexes().sorted(),
                        (0...40).map( {e in e} ))
         
@@ -399,14 +400,14 @@ final class DirectedGraphTests: XCTestCase {
         }
     }
     
-    func graph4BFSTest() {
+    func testGraph4BFS() {
         let bfs = directedGraph4.breadthFirstSearcher(source: 0)
         XCTAssert(bfs.pathTo(0) == [0])
     }
     
     // 检测 graph 的连通性
-    func connectedGraphTest() {
-        let dig = [directedGraph1, directedGraph2, directedGraph3, directedGraph4]
+    func testConnectedGraph() {
+        let dig = [directedGraph1, directedGraph2, directedGraph3, directedGraph4, directedGraph5]
         /*
          所有的有向图默认都是不连通的，让不连通的图变得连通的方法如下：
          使用 getNotConnectedAndConnectedVertexPairCollection 函数
@@ -419,6 +420,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssertFalse(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph2))
         XCTAssertFalse(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph3))
         XCTAssertFalse(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph4))
+        XCTAssertFalse(DepthFirstSearch<DirectedGraph>.isConnectedGraph(graph: directedGraph5))
         
         // 让 directedGraph1, directedGraph2, directedGraph3, directedGraph4 连通
         
@@ -460,27 +462,4 @@ final class DirectedGraphTests: XCTestCase {
             XCTAssertTrue(BreadthFirstSearch<DirectedGraph>.isConnectedGraph(graph: graph))
         }
     }
-    
-    func testMain() {
-        for test in Self.allTests {
-            print("Test \(test.0) start...")
-            test.1(self)()
-        }
-    }
-
-    static var allTests = [
-        ("checkAdjustOfGraph1", checkAdjustOfGraph1),
-        ("checkAdjustOfGraph2", checkAdjustOfGraph2),
-        ("checkAdjustOfGraph3", checkAdjustOfGraph3),
-        ("graph2DFSTest", graph2DFSTest),
-        ("graph3DFSTest", graph3DFSTest),
-//        ("graph4DFSTest", graph4DFSTest),
-        ("graph4BFSTest", graph4BFSTest),
-//        ("graph3DegreeTest", graph3DegreeTest),
-        ("connectedGraphTest", connectedGraphTest),
-//        ("graph2BFSTest", graph2BFSTest),
-//        ("graph3BFSTest", graph3BFSTest),
-        ("checkAdjustOfReverseGraph3", checkAdjustOfReverseGraph3),
-        ("checkAdjustOfReverseGraph1", checkAdjustOfReverseGraph1)
-    ]
 }
