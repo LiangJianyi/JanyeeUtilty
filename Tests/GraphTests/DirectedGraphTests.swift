@@ -388,16 +388,13 @@ final class DirectedGraphTests: XCTestCase {
     
     func testGraph4DFS() {
         XCTAssertEqual(directedGraph4.depthFirstSearcher(source: 0).connectedVertexes().sorted(),
-                       (0...40).map( {e in e} ))
-        
-        // 打印出发点(0...40)与目标(0...40)的交叉连接产生的路径
-        for v in 0...40 {
-            let dfs = DepthFirstSearch(graph: directedGraph4, source: v)
-            for item in 0...40 {
-                let path = dfs.pathTo(item)
-                print("\(v)-\(item) pathTo: \(path)")
-            }
-        }
+                       [0, 2, 3, 4, 5, 17])
+    }
+    
+    // 《算法》第四版 图4.2.2
+    func testGraph5DFS() {
+        let dfs = directedGraph5.depthFirstSearcher(source: 57)
+        XCTAssertFalse(dfs.hasPathTo(8))
     }
     
     func testGraph4BFS() {
