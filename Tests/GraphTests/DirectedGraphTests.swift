@@ -347,6 +347,9 @@ final class DirectedGraphTests: XCTestCase {
     
     // 测试 graph3 所有顶点的度数
     func testGraph3Degree() {
+        for v in 0...36 {
+            print("顶点 \(v) 度数：\(directedGraph3.degree(vertex: v))")
+        }
         XCTAssert(directedGraph3.degree(vertex: 0) == 5)
         XCTAssert(directedGraph3.degree(vertex: 1) == 1)
         XCTAssert(directedGraph3.degree(vertex: 2) == 1)

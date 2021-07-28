@@ -50,6 +50,20 @@ public class DirectedGraph: Graphable {
         }
     }
     
+    // 计算顶点V的度数
+    // 有向图的顶点度数不能简单的返回 adjust 的长度来表示，即：self.adjust[vertex].count
+    // 有向图的顶点有入度与出度的区别，这里需要计算入度与出度的总和
+    public func degree(vertex: Int) -> Int {
+        var d = self.adjust[vertex].count
+        for vertexes in self.adjust {
+            for v in vertexes {
+                if v == vertex {
+                    d += 1
+                }
+            }
+        }
+        return d
+    }
     // 返回深度优先搜索器
     public func depthFirstSearcher (source: Int) -> DepthFirstSearch<DirectedGraph> {
         return DepthFirstSearch(graph: self, source: source)

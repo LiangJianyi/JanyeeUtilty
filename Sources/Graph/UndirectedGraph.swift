@@ -50,6 +50,10 @@ public class UndirectedGraph: Graphable {
         }
     }
     
+    // 计算顶点V的度数
+    public func degree(vertex: Int) -> Int {
+        return self.adjust[vertex].count
+    }
     // 返回深度优先搜索器
     public func depthFirstSearcher (source: Int) -> DepthFirstSearch<UndirectedGraph> {
         return DepthFirstSearch(graph: self, source: source)

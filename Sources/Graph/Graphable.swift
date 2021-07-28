@@ -22,10 +22,6 @@ public protocol Graphable: Equatable {
 }
 
 extension Graphable {
-    // 计算顶点V的度数
-    public func degree(vertex: Int) -> Int {
-        return self.adjust[vertex].count
-    }
     // 计算所有顶点的最大度数
     public func maxDegree() -> Int {
         return (0..<self.vertex).max { (x, y) in
