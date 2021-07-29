@@ -285,7 +285,7 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssert(bfs.pathTo(0) == [0])
         XCTAssert(bfs.pathTo(1) == [1, 0])
         XCTAssert(bfs.pathTo(2) == [2, 0])
-        XCTAssert(bfs.pathTo(3) == [3, 5, 0])
+        XCTAssert(bfs.pathTo(3) == [3, 2, 0])
         XCTAssert(bfs.pathTo(4) == [4, 2, 0])
         XCTAssert(bfs.pathTo(5) == [5, 0])
     }
