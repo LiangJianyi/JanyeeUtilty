@@ -54,7 +54,7 @@ final class DirectedCycleTests: XCTestCase {
         // 添加6个副本并将它们连线产生有向环
         let dg1 = digraph.clone()
         dg1.addEdge(v: 8, w: 7)
-        dg1.addEdge(v: 1, w: 8)
+        dg1.addEdge(v: 2, w: 8)
         XCTAssertTrue(dg1.hasCycle())
         
         let dg2 = digraph.clone()
@@ -81,6 +81,15 @@ final class DirectedCycleTests: XCTestCase {
         dg6.addEdge(v: 13, w: 12)
         dg6.addEdge(v: 6, w: 13)
         XCTAssertTrue(dg6.hasCycle())
+        
+        let dg7 = digraph.clone()
+        dg7.addEdge(v: 6, w: 7)
+        XCTAssertTrue(dg7.hasCycle())
+        
+        let dg8 = digraph.clone()
+        dg8.addEdge(v: 6, w: 11)
+        dg8.addEdge(v: 11, w: 10)
+        XCTAssertTrue(dg8.hasCycle())
     }
     
     func testCycle5() {
@@ -94,5 +103,14 @@ final class DirectedCycleTests: XCTestCase {
         XCTAssertTrue(dig3.hasCycle())
         
         XCTAssertTrue(makeDirectedGraph4().hasCycle())
+        XCTAssertTrue(makeDirectedGraph5().hasCycle())
+    }
+    
+    func testCycle6() {
+        let dig = DirectedGraph()
+        dig.addEdge(v: 0, w: 30)
+        XCTAssertFalse(dig.hasCycle())
+        dig.addEdge(v: 30, w: 0)
+        XCTAssertTrue(dig.hasCycle())
     }
 }
