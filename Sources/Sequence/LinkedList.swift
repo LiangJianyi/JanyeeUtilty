@@ -56,6 +56,16 @@ public class LinkedList<Element>: Sequence {
         return copy
     }
     
+    public func removeFirst() {
+        self.first = self.first?.next
+        if let fi = self.first {
+            fi.previous = nil
+        } else {
+            self.last = nil
+        }
+        self.count -= 1
+    }
+    
     public func removeLast() {
         self.last = self.last?.previous
         if let la = self.last {
@@ -70,6 +80,13 @@ public class LinkedList<Element>: Sequence {
         self.first = nil
         self.last = nil
         self.count = 0
+    }
+    
+    public func popFirst() -> Node? {
+        let first = self.first
+        self.removeFirst()
+        first?.next = nil
+        return first
     }
     
     public func popLast() -> Node? {
