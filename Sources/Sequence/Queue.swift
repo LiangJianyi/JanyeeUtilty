@@ -1,15 +1,22 @@
 import Foundation
 
-public class Queue<Element, Seq>: Sequence where Seq: Sequence {
+public class Queue<Element, Seq>: Sequence where Seq: Sequence, Seq.Element == Element {
     private var rawSequence: Any
     
-    public private(set) var count: Int
+    public var count: Int {
+        get {
+            if let raw = rawSequence as? Array<Element> {
+                return raw.count
+            } else {
+                return (rawSequence as! LinkedList<Element>).count
+            }
+        }
+    }
     
     public typealias Element = Element
     public typealias Iterator = QueueIterator<Seq>
     
     public init() {
-        self.count = 0
         if Seq.self is Array<Element>.Type {
             self.rawSequence = [Element]()
         } else if Seq.self is LinkedList<Element>.Type {
@@ -30,13 +37,13 @@ public class Queue<Element, Seq>: Sequence where Seq: Sequence {
         }
     }
     
-    public func dequeue() -> Element {
+    public func dequeue() -> Element? {
         if let raw = rawSequence as? LinkedList<Element> {
-            return raw.popFirst()!.value
+            return raw.popLast()?.value
         } else {
             var raw = rawSequence as! Array<Element>
             // 修改 raw 不会影响 rawSequence，因为 Array 是值传递的
-            let first = raw.first!
+            let first = raw.first
             raw.removeFirst()
             rawSequence = raw
             return first
@@ -47,7 +54,7 @@ public class Queue<Element, Seq>: Sequence where Seq: Sequence {
         return QueueIterator<Seq>(queue: self)
     }
     
-    public class QueueIterator<S>: IteratorProtocol where S: Sequence {
+    public class QueueIterator<S>: IteratorProtocol where S: Sequence, S.Element == Element {
         private let queue: Queue<Element, S>
         
         init(queue: Queue<Element, S>) {
