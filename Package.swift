@@ -29,7 +29,7 @@ let package = Package(
             dependencies: ["Graph"]),
         .target(
             name: "Graph",
-            dependencies: []),
+            dependencies: ["Sequence"]),
         .target(
             name: "Sequence",
             dependencies: []),

@@ -396,9 +396,4 @@ final class QueueTests: XCTestCase {
         XCTAssertTrue(re_qa27.dequeue() == 81)
         
     }
-    
-    func testQueueable() {
-        
-        
-    }
 }
