@@ -15,7 +15,6 @@ final class QueueTests: XCTestCase {
         }
         var arr = [Int]()
         for item in queue {
-            print(item)
             arr.append(item)
         }
         XCTAssertTrue(arr == [Int](-999...999))
