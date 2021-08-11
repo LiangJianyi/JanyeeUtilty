@@ -203,6 +203,11 @@ public class JanyeeUtilty {
         }
         return dg
     }
+    // https://stackoverflow.com/a/26845710/10975306
+    public static func randomString(length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in letters.randomElement()! })
+    }
 }
 
 // 给 [UInt8] 添加算术运算符与关系运算符
