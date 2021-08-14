@@ -1,5 +1,3 @@
-import Foundation
-
 public class DirectedCycle {
     private var marked: [Bool]
     private var edgeTo: [Int?]

@@ -1,5 +1,3 @@
-import Foundation
-
 public protocol Graphable: Equatable {
     associatedtype Graph: Graphable
     var edges: Int { get }

@@ -1,4 +1,3 @@
-import Foundation
 import Sequence
 
 public class Topological {

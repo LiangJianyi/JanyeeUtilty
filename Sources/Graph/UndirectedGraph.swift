@@ -1,5 +1,3 @@
-import Foundation
-
 public class UndirectedGraph: Graphable {
     private var v: Int
     private var e: Int
