@@ -4,7 +4,7 @@ public class KosarajuSCC {
     public private(set) var id: [Int]
     public private(set) var count: Int = 0
     
-    init(digraph: DirectedGraph) {
+    public init(digraph: DirectedGraph) {
         self.marked = [Bool](repeating: false, count: digraph.vertex)
         self.id = [Int](repeating: 0, count: digraph.vertex)
         let order = DepthFirstOrder(graph: digraph.reverse())

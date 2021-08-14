@@ -6,7 +6,7 @@ public class DepthFirstOrder<G: Graphable> {
     public private(set) var post: Queue<Int, LinkedList<Int>>
     public private(set) var reversePost: Stack<Int, LinkedList<Int>>
     
-    init(graph: G) {
+    public init(graph: G) {
         self.pre = Queue<Int, LinkedList<Int>>()
         self.post = Queue<Int, LinkedList<Int>>()
         self.reversePost = Stack<Int, LinkedList<Int>>()
