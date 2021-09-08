@@ -25,18 +25,20 @@ public class DirectedGraph: Graphable {
         self.adj = [[Int]]()
     }
     public required init(tokens: [Substring]) throws {
-        self.v = Int(String(tokens[0]))!
+        self.v = try! Self.substringToInt(tokens[0])
         self.adj = Array<Array<Int>>(repeating: Array<Int>(), count: self.v)
-        self.e = Int(String(tokens[1]))!
+        let tokens1 = tokens[1].split(separator: " ")
         
-        for i in 2..<tokens.count {
-            let v_w = try tokens[i].split(separator: " ").map({ (e: Substring) throws -> Int in
-                guard let num = Int(e) else {
-                    throw GraphError.parseGraphTextError(message: "\(e) 不是一个合法的数字")
-                }
-                return num
-            })
-            self.addEdge(v: v_w.first!, w: v_w.last!)
+        if tokens1.count == 1 {
+            self.e = try! Self.substringToInt(tokens[1])
+        } else {
+            self.e = 0
+            for i in 1..<tokens.count {
+                let v_w = try! tokens[i]
+                                    .split(separator: " ")
+                                    .map({ try Self.substringToInt($0) })
+                self.addEdge(v: v_w.first!, w: v_w.last!)
+            }
         }
     }
     public convenience init(readText: String) throws {
@@ -138,6 +140,13 @@ public class DirectedGraph: Graphable {
             }
         }
         return res
+    }
+    
+    private static func substringToInt(_ s: Substring) throws -> Int {
+        guard let num = Int(s) else {
+            throw GraphError.parseGraphTextError(message: "\(s) 不是一个合法的数字")
+        }
+        return num
     }
     
     public static func == (lhs: DirectedGraph, rhs: DirectedGraph) -> Bool {

@@ -229,6 +229,19 @@ public func makeDirectedGraph5() -> DirectedGraph {
     return directedGraph5
 }
 
+public func makeDirectedGraph6() -> DirectedGraph {
+    // 《算法》第四版 union-find 算法 图 1.5.2 中等规模的连通性问题举例
+    let mediumUF: DirectedGraph
+    do {
+        mediumUF = try DirectedGraph(readText: JanyeeUtilty.readTextToFile(filename: "mediumUF.txt"))
+    } catch is GraphError {
+        fatalError("Throwing a GraphError.")
+    } catch {
+        fatalError("Unkown error.")
+    }
+    return mediumUF
+}
+
 public func makeUndirectedGraph1() -> UndirectedGraph {
     let undirectedGraph1 = UndirectedGraph()
     undirectedGraph1.addEdge(v: 0, w: 5)
@@ -330,6 +343,19 @@ public func makeUndirectedGraph4() -> UndirectedGraph {
         fatalError("Unkown error.")
     }
     return undirectedGraph4
+}
+
+public func makeUndirectedGraph5() -> UndirectedGraph {
+    // 《算法》第四版 union-find 算法 图 1.5.2 中等规模的连通性问题举例
+    let mediumUF: UndirectedGraph
+    do {
+        mediumUF = try UndirectedGraph(readText: JanyeeUtilty.readTextToFile(filename: "mediumUF.txt"))
+    } catch is GraphError {
+        fatalError("Throwing a GraphError.")
+    } catch {
+        fatalError("Unkown error.")
+    }
+    return mediumUF
 }
 
 // 测试类主体
