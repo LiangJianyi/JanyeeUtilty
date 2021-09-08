@@ -25,16 +25,16 @@ public class UndirectedGraph: Graphable {
         self.adj = [[Int]]()
     }
     public required init(tokens: [Substring]) throws {
-        self.v = try! Self.substringToInt(tokens[0])
+        self.v = try Self.substringToInt(tokens[0])
         self.adj = Array<Array<Int>>(repeating: Array<Int>(), count: self.v)
         let tokens1 = tokens[1].split(separator: " ")
         
         if tokens1.count == 1 {
-            self.e = try! Self.substringToInt(tokens[1])
+            self.e = try Self.substringToInt(tokens[1])
         } else {
             self.e = 0
             for i in 1..<tokens.count {
-                let v_w = try! tokens[i]
+                let v_w = try tokens[i]
                                     .split(separator: " ")
                                     .map({ try Self.substringToInt($0) })
                 self.addEdge(v: v_w.first!, w: v_w.last!)
