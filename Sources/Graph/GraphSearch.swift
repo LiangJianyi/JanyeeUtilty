@@ -8,7 +8,7 @@ public protocol Searchable {
     func connectedVertexes() -> [Int]
 }
 
-public class GraphSearch {
+open class GraphSearch {
     // 标记能够与 source 连通的顶点
     public var marked: [Bool]
     // 记录搜索过程中路过的顶点
