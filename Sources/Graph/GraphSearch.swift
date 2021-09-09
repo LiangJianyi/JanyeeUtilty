@@ -10,15 +10,15 @@ public protocol Searchable {
 
 public class GraphSearch {
     // 标记能够与 source 连通的顶点
-    fileprivate var marked: [Bool]
+    public var marked: [Bool]
     // 记录搜索过程中路过的顶点
-    fileprivate var edgeTo: [Int]
+    public var edgeTo: [Int]
     // 出发顶点
-    fileprivate let source: Int
+    public let source: Int
     // 连通的顶点数目
-    fileprivate var count: Int
+    public var count: Int
     
-    fileprivate init(marked: [Bool], edgeTo: [Int], source: Int, count: Int) {
+    public init(marked: [Bool], edgeTo: [Int], source: Int, count: Int) {
         self.marked = marked
         self.edgeTo = edgeTo
         self.source = source
