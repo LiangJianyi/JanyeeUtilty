@@ -33,6 +33,12 @@ public class Stack<Element, Seq>: Sequence where Seq: Sequence, Seq.Element == E
         }
     }
     
+    public var isEmpty: Bool {
+        get {
+            return self.count == 0
+        }
+    }
+    
     public typealias Element = Element
     public typealias Iterator = StackIterator<Seq>
     
