@@ -55,11 +55,16 @@ public class UndirectedGraph: Graphable {
         return self.adjust[vertex].count
     }
     // 返回深度优先搜索器
-    public func depthFirstSearcher (source: Int) -> DepthFirstSearch<UndirectedGraph> {
+    public func depthFirstSearcher(source: Int) -> DepthFirstSearch<UndirectedGraph> {
         return DepthFirstSearch(graph: self, source: source)
     }
+    // 返回深度优先搜索器
+    public func depthFirstSearcher(source: Int, mode: GraphSeachMode) -> DepthFirstSearch<UndirectedGraph> {
+        return mode == .recursion ? DepthFirstSearch(graph: self, source: source, mode: .recursion)
+                                  : DepthFirstSearch(graph: self, source: source, mode: .iteration)
+    }
     // 返回广度优先搜索器
-    public func breadthFirstSearcher (source: Int) -> BreadthFirstSearch<UndirectedGraph> {
+    public func breadthFirstSearcher(source: Int) -> BreadthFirstSearch<UndirectedGraph> {
         return BreadthFirstSearch(graph: self, source: source)
     }
     // 向现有顶点添加一条边 v-w，

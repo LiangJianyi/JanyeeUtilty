@@ -7,7 +7,7 @@ final class UndirectedGraphTests: XCTestCase {
     var undirectedGraph3 = makeUndirectedGraph3()
     var undirectedGraph4 = makeUndirectedGraph4()
     
-    func checkAdjustOfGraph1() {
+    func testAdjustOfGraph1() {
         XCTAssert(undirectedGraph1.adjust[0].sorted() == [6, 2, 1, 5].sorted(), "graph.adjust[\(0)] = \(undirectedGraph1.adjust[0])")
         XCTAssert(undirectedGraph1.adjust[1].sorted() == [0].sorted(), "graph.adjust[\(1)] = \(undirectedGraph1.adjust[1])")
         XCTAssert(undirectedGraph1.adjust[2].sorted() == [0].sorted(), "graph.adjust[\(2)] = \(undirectedGraph1.adjust[2])")
@@ -23,7 +23,7 @@ final class UndirectedGraphTests: XCTestCase {
         XCTAssert(undirectedGraph1.adjust[12].sorted() == [11, 9].sorted(), "graph.adjust[\(12)] = \(undirectedGraph1.adjust[12])")
     }
     
-    func checkAdjustOfGraph2() {
+    func testAdjustOfGraph2() {
         XCTAssert(undirectedGraph2.adjust[0].sorted() == [5, 1, 2].sorted(), "graph.adjust[\(0)] = \(undirectedGraph2.adjust[0])")
         XCTAssert(undirectedGraph2.adjust[1].sorted() == [2].sorted(), "graph.adjust[\(1)] = \(undirectedGraph2.adjust[1])")
         XCTAssert(undirectedGraph2.adjust[2].sorted() == [4, 3].sorted(), "graph.adjust[\(2)] = \(undirectedGraph2.adjust[2])")
@@ -32,7 +32,7 @@ final class UndirectedGraphTests: XCTestCase {
         XCTAssert(undirectedGraph2.adjust[5].sorted() == [0, 3].sorted(), "graph.adjust[\(5)] = \(undirectedGraph2.adjust[5])")
     }
     
-    func checkAdjustOfGraph3() {
+    func testAdjustOfGraph3() {
         XCTAssert(undirectedGraph3.adjust[0].sorted() == [6, 2, 1, 5, 30].sorted())
         XCTAssert(undirectedGraph3.adjust[1].sorted() == [0].sorted())
         XCTAssert(undirectedGraph3.adjust[2].sorted() == [0].sorted())
@@ -72,97 +72,102 @@ final class UndirectedGraphTests: XCTestCase {
         XCTAssert(undirectedGraph3.adjust[36].sorted() == [35, 29].sorted())
     }
     
-    func graph2DFSTest() {
-        let depthFirstSearch = undirectedGraph2.depthFirstSearcher(source: 0)
-//        depthFirstSearch.search(graph: graph2, v: 0)
-        XCTAssertEqual(depthFirstSearch.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
+    func testGraph2DFS() {
+        let depthFirstRecursion = undirectedGraph2.depthFirstSearcher(source: 0)
+        let depthFirstIteration = undirectedGraph2.depthFirstSearcher(source: 0, mode: .iteration)
+        XCTAssertEqual(depthFirstRecursion.connectedVertexes().sorted(), [0, 1, 2, 3, 4, 5])
+        XCTAssertEqual(depthFirstRecursion.connectedVertexes().sorted(), depthFirstIteration.connectedVertexes().sorted())
+        
         // 从 source 到 5 的路径
-        let path = depthFirstSearch.pathTo(5)
+        let path1 = depthFirstRecursion.pathTo(5)
+        let path2 = depthFirstIteration.pathTo(5)
+        
         // 检测路径中每个路过的顶点是否都和起点 source 连通。
         // 如果 path 包含一个传递给 hasPathTo 并返回 false 的顶点，那么证明这个顶点不可达。
         // 当路径中有一个顶点与 source 不连通，那么这个 path 的设计有问题。
         // 因为正确的情况下，path 中的每个顶点都是与 source 连通的。
-        XCTAssertFalse(path.contains(where: { e in depthFirstSearch.hasPathTo(e) == false }))
+        XCTAssertFalse(path1.contains(where: { e in depthFirstRecursion.hasPathTo(e) == false }))
+        XCTAssertFalse(path2.contains(where: { e in depthFirstRecursion.hasPathTo(e) == false }))
     }
     
-    func graph2BFSTest() {
+    func testGraph2BFS() {
         print("graph2BFSTest...")
         let bfs = undirectedGraph2.breadthFirstSearcher(source: 0)
-        XCTAssert(bfs.pathTo(0) == [0])
-        XCTAssert(bfs.pathTo(1) == [1, 0])
-        XCTAssert(bfs.pathTo(2) == [2, 0])
-        XCTAssert(bfs.pathTo(3) == [3, 5, 0])
-        XCTAssert(bfs.pathTo(4) == [4, 2, 0])
-        XCTAssert(bfs.pathTo(5) == [5, 0])
+        XCTAssertTrue(bfs.pathTo(0) == [0])
+        XCTAssertTrue(bfs.pathTo(1) == [1, 0])
+        XCTAssertTrue(bfs.pathTo(2) == [2, 0])
+        XCTAssertTrue(bfs.pathTo(3) == [3, 5, 0])
+        XCTAssertTrue(bfs.pathTo(4) == [4, 2, 0])
+        XCTAssertTrue(bfs.pathTo(5) == [5, 0])
     }
     
     // 测试通过 DFS 产生的路径列表中的每个 vertex 是否能与 source 连通
-    func graph2DFSPathTest() {
+    func testGraph2DFSPath() {
         for s in 0...5 {
             let dfs = undirectedGraph2.depthFirstSearcher(source: s)
             for v in 0...5 {
-                XCTAssert(dfs.hasPathTo(v))
+                XCTAssertTrue(dfs.hasPathTo(v))
             }
         }
     }
     
     // 测试通过 DFS 产生的路径列表中的每个 vertex 是否能与 source 连通
-    func graph3DFSPathTest() {
+    func testGraph3DFSPath() {
         for s in 0...36 {
             let dfs = undirectedGraph3.depthFirstSearcher(source: s)
             for v in 0...36 {
-                XCTAssert(dfs.hasPathTo(v))
+                XCTAssertTrue(dfs.hasPathTo(v))
             }
         }
     }
     
-    func graph3BFSTest() {
+    func testGraph3BFS() {
         let bfs = undirectedGraph3.breadthFirstSearcher(source: 0)
-        XCTAssert(bfs.pathTo(0) == [0])
+        XCTAssertTrue(bfs.pathTo(0) == [0])
     }
     
     // 测试 graph3 所有顶点的度数
-    func graph3DegreeTest() {
-        XCTAssert(undirectedGraph3.degree(vertex: 0) == 5)
-        XCTAssert(undirectedGraph3.degree(vertex: 1) == 1)
-        XCTAssert(undirectedGraph3.degree(vertex: 2) == 1)
-        XCTAssert(undirectedGraph3.degree(vertex: 3) == 2)
-        XCTAssert(undirectedGraph3.degree(vertex: 4) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 5) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 6) == 2)
-        XCTAssert(undirectedGraph3.degree(vertex: 7) == 1)
-        XCTAssert(undirectedGraph3.degree(vertex: 8) == 2)
-        XCTAssert(undirectedGraph3.degree(vertex: 9) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 10) == 1)
-        XCTAssert(undirectedGraph3.degree(vertex: 11) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 12) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 13) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 14) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 15) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 16) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 17) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 18) == 4)
-        XCTAssert(undirectedGraph3.degree(vertex: 19) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 20) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 21) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 22) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 23) == 2)
-        XCTAssert(undirectedGraph3.degree(vertex: 24) == 5)
-        XCTAssert(undirectedGraph3.degree(vertex: 25) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 26) == 1)
-        XCTAssert(undirectedGraph3.degree(vertex: 27) == 1)
-        XCTAssert(undirectedGraph3.degree(vertex: 28) == 4)
-        XCTAssert(undirectedGraph3.degree(vertex: 29) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 30) == 13)
-        XCTAssert(undirectedGraph3.degree(vertex: 31) == 3)
-        XCTAssert(undirectedGraph3.degree(vertex: 32) == 2)
-        XCTAssert(undirectedGraph3.degree(vertex: 33) == 2)
-        XCTAssert(undirectedGraph3.degree(vertex: 34) == 2)
-        XCTAssert(undirectedGraph3.degree(vertex: 35) == 2)
-        XCTAssert(undirectedGraph3.degree(vertex: 36) == 2)
+    func testGraph3Degree() {
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 0) == 5)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 1) == 1)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 2) == 1)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 3) == 2)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 4) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 5) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 6) == 2)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 7) == 1)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 8) == 2)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 9) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 10) == 1)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 11) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 12) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 13) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 14) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 15) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 16) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 17) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 18) == 4)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 19) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 20) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 21) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 22) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 23) == 2)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 24) == 5)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 25) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 26) == 1)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 27) == 1)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 28) == 4)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 29) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 30) == 13)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 31) == 3)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 32) == 2)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 33) == 2)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 34) == 2)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 35) == 2)
+        XCTAssertTrue(undirectedGraph3.degree(vertex: 36) == 2)
     }
     
-    func graph4DFSTest() {
+    func testGraph4DFS() {
         XCTAssertEqual(undirectedGraph4.depthFirstSearcher(source: 0).connectedVertexes().sorted(),
                        (0...40).map( {e in e} ))
         
@@ -176,13 +181,13 @@ final class UndirectedGraphTests: XCTestCase {
         }
     }
     
-    func graph4BFSTest() {
+    func testGraph4BFS() {
         let bfs = undirectedGraph4.breadthFirstSearcher(source: 0)
         XCTAssert(bfs.pathTo(0) == [0])
     }
     
     // 检测 graph 的连通性
-    func connectedGraphTest() {
+    func testConnectedGraph() {
         /// 参数 graph 表示一个图；
         /// searchWay 表示搜索方法，它接受一个闭包 (G, Int) -> SearchType，由闭包指定搜索方式（比如 dfs 或 bfs）；
         func isConnectedGraph<G: Graphable, SearchType: Searchable>(graph: G, searchWay: (G, Int) -> SearchType) -> Bool {
@@ -268,25 +273,4 @@ final class UndirectedGraphTests: XCTestCase {
                         searchWay: { (g, s) in g.breadthFirstSearcher(source: s) }
         ))
     }
-    
-    func testMain() {
-        for test in Self.allTests {
-            print("Test \(test.0) start...")
-            test.1(self)()
-        }
-    }
-
-    static var allTests = [
-        ("checkAdjustOfGraph1", checkAdjustOfGraph1),
-        ("checkAdjustOfGraph3", checkAdjustOfGraph3),
-        ("graph2DFSTest", graph2DFSTest),
-        ("graph2DFSPathTest", graph2DFSPathTest),
-        ("graph3DFSPathTest", graph3DFSPathTest),
-        ("graph4DFSTest", graph4DFSTest),
-        ("graph4BFSTest", graph4BFSTest),
-        ("graph3DegreeTest", graph3DegreeTest),
-        ("connectedGraphTest", connectedGraphTest),
-        ("graph2BFSTest", graph2BFSTest),
-        ("graph3BFSTest", graph3BFSTest),
-    ]
 }

@@ -1,3 +1,5 @@
+import Sequence
+
 public protocol Searchable {
     associatedtype Graph: Graphable
     init(graph: Graph, source: Int)
@@ -15,7 +17,7 @@ open class GraphSearch {
     public var edgeTo: [Int]
     // 出发顶点
     public let source: Int
-    // 连通的顶点数目
+    // 与 source 连通的顶点数目
     public var count: Int
     
     public init(marked: [Bool], edgeTo: [Int], source: Int, count: Int) {
@@ -24,6 +26,11 @@ open class GraphSearch {
         self.source = source
         self.count = count
     }
+}
+
+public enum GraphSeachMode {
+    case recursion
+    case iteration
 }
 
 // 深度优先搜索
@@ -35,16 +42,50 @@ public class DepthFirstSearch<G: Graphable>: GraphSearch, Searchable {
             source: source,
             count: 0
         )
-        search(graph: graph, v: super.source)
+        recursionSearch(graph: graph, v: super.source)
     }
     
-    private func search(graph: G, v: Int) {
+    public init(graph: G, source: Int, mode: GraphSeachMode) {
+        super.init(
+            marked: [Bool](repeating: false, count: graph.vertex),
+            edgeTo: [Int](repeating: 0, count: graph.vertex),
+            source: source,
+            count: 0
+        )
+        if mode == .recursion {
+            recursionSearch(graph: graph, v: super.source)
+        } else {
+            iterationSearch(graph: graph, v: super.source)
+        }
+    }
+    
+    // 递归搜索
+    private func recursionSearch(graph: G, v: Int) {
         super.marked[v] = true
         super.count += 1
         for w in graph.adjust[v] {
             if super.marked[w] == false {
                 super.edgeTo[w] = v
-                search(graph: graph, v: w)
+                recursionSearch(graph: graph, v: w)
+            }
+        }
+    }
+    
+    // 迭代搜索
+    private func iterationSearch(graph: G, v: Int) {
+        let s = Stack<Int, LinkedList<Int>>()
+        s.push(v)
+        while s.isEmpty == false {
+            let tmpVertex = s.pop()!
+            if super.marked[tmpVertex] == false {
+                super.marked[tmpVertex] = true
+                super.count += 1
+                for w in graph.adjust[tmpVertex] {
+                    if super.marked[w] == false {
+                        s.push(w)
+                        super.edgeTo[w] = v
+                    }
+                }
             }
         }
     }
