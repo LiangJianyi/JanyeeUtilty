@@ -6,6 +6,8 @@ final class UndirectedGraphTests: XCTestCase {
     var undirectedGraph2 = makeUndirectedGraph2()
     var undirectedGraph3 = makeUndirectedGraph3()
     var undirectedGraph4 = makeUndirectedGraph4()
+    var undirectedGraph5 = makeUndirectedGraph5()
+    var undirectedGraph6 = makeUndirectedGraph6()
     
     func testAdjustOfGraph1() {
         XCTAssert(undirectedGraph1.adjust[0].sorted() == [6, 2, 1, 5].sorted(), "graph.adjust[\(0)] = \(undirectedGraph1.adjust[0])")
@@ -272,5 +274,10 @@ final class UndirectedGraphTests: XCTestCase {
                         graph: undirectedGraph4,
                         searchWay: { (g, s) in g.breadthFirstSearcher(source: s) }
         ))
+    }
+    
+    func testConnectedGraph2() {
+        XCTAssertFalse(DepthFirstSearch<UndirectedGraph>.isConnectedGraph(graph: undirectedGraph5, mode: .iteration))
+        XCTAssertFalse(DepthFirstSearch<UndirectedGraph>.isConnectedGraph(graph: undirectedGraph6, mode: .iteration))
     }
 }

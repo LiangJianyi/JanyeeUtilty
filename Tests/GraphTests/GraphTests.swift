@@ -358,6 +358,20 @@ public func makeUndirectedGraph5() -> UndirectedGraph {
     return mediumUF
 }
 
+public func makeUndirectedGraph6() -> UndirectedGraph {
+    // 《算法》第四版 union-find 算法 图 1.5.2 中等规模的连通性问题举例
+    let largeUF: UndirectedGraph
+    do {
+        largeUF = try UndirectedGraph(readText: JanyeeUtilty.readTextToFile(filename: "largeUF.txt"))
+    } catch is GraphError {
+        fatalError("Throwing a GraphError.")
+    } catch {
+        fatalError("Unkown error.")
+    }
+    return largeUF
+}
+
+
 // 测试类主体
 final class GraphTests: XCTestCase {
     var directedGraph1 = makeDirectedGraph1()
