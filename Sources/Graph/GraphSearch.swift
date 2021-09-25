@@ -28,7 +28,7 @@ open class GraphSearch {
     }
 }
 
-public enum GraphSeachMode {
+public enum GraphSearchMode {
     case recursion
     case iteration
 }
@@ -45,7 +45,7 @@ public class DepthFirstSearch<G: Graphable>: GraphSearch, Searchable {
         recursionSearch(graph: graph, v: super.source)
     }
     
-    public init(graph: G, source: Int, mode: GraphSeachMode) {
+    public init(graph: G, source: Int, mode: GraphSearchMode) {
         super.init(
             marked: [Bool](repeating: false, count: graph.vertex),
             edgeTo: [Int](repeating: 0, count: graph.vertex),
@@ -129,9 +129,9 @@ public class DepthFirstSearch<G: Graphable>: GraphSearch, Searchable {
     }
     
     // 判断 Graph 是否连通
-    public static func isConnectedGraph<G: Graphable>(graph: G) -> Bool {
+    public static func isConnectedGraph<G: Graphable>(graph: G, mode: GraphSearchMode = .recursion) -> Bool {
         for s in 0..<graph.adjust.count {
-            let dfs = graph.depthFirstSearcher(source: s)
+            let dfs = graph.depthFirstSearcher(source: s, mode: mode)
             for s2 in 0..<graph.adjust.count {
                 if dfs.hasPathTo(s2) == false {
                     return false

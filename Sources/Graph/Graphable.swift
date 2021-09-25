@@ -14,6 +14,7 @@ public protocol Graphable: Equatable {
     func avgDegree() -> Double
     func numberOfSelfLoops() -> Int
     func depthFirstSearcher (source: Int) -> DepthFirstSearch<Graph>
+    func depthFirstSearcher (source: Int, mode: GraphSearchMode) -> DepthFirstSearch<Graph>
     func breadthFirstSearcher (source: Int) -> BreadthFirstSearch<Graph>
     func toString() -> String
     func clone() -> Graph

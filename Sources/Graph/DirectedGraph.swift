@@ -1,3 +1,4 @@
+import Security
 public class DirectedGraph: Graphable {
     private var v: Int
     private var e: Int
@@ -67,6 +68,9 @@ public class DirectedGraph: Graphable {
     // 返回深度优先搜索器
     public func depthFirstSearcher (source: Int) -> DepthFirstSearch<DirectedGraph> {
         return DepthFirstSearch(graph: self, source: source)
+    }
+    public func depthFirstSearcher(source: Int, mode: GraphSearchMode) -> DepthFirstSearch<DirectedGraph> {
+        fatalError("Unimplement error.")
     }
     // 返回广度优先搜索器
     public func breadthFirstSearcher (source: Int) -> BreadthFirstSearch<DirectedGraph> {

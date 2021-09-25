@@ -59,7 +59,7 @@ public class UndirectedGraph: Graphable {
         return DepthFirstSearch(graph: self, source: source)
     }
     // 返回深度优先搜索器
-    public func depthFirstSearcher(source: Int, mode: GraphSeachMode) -> DepthFirstSearch<UndirectedGraph> {
+    public func depthFirstSearcher(source: Int, mode: GraphSearchMode) -> DepthFirstSearch<UndirectedGraph> {
         return mode == .recursion ? DepthFirstSearch(graph: self, source: source, mode: .recursion)
                                   : DepthFirstSearch(graph: self, source: source, mode: .iteration)
     }
