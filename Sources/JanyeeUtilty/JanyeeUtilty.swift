@@ -55,6 +55,31 @@ extension Array {
     }
 }
 
+//
+extension Array {
+    public mutating func partialReverse(leftIndex: Array.Index, rightIndex: Array.Index) {
+        if isEmpty {
+            return
+        }
+        var left = leftIndex
+        var right = rightIndex
+        while left < right {
+          swapAt(left, right)
+          formIndex(after: &left)
+          formIndex(before: &right)
+        }
+      }
+    
+    public mutating func swapSubArray(leftRange: (startIndex: Array.Index, endIndex: Array.Index), rightRange: (startIndex: Array.Index, endIndex: Array.Index)) {
+        // 首先反转第一个子数组
+        self.partialReverse(leftIndex: leftRange.startIndex, rightIndex: leftRange.endIndex)
+        // 再反转第二个子数组
+        self.partialReverse(leftIndex: rightRange.startIndex, rightIndex: rightRange.endIndex)
+        // 反转整个数组的元素
+        self.partialReverse(leftIndex: leftRange.startIndex, rightIndex: rightRange.endIndex)
+    }
+}
+
 public class JanyeeUtilty {
     public static func currentTime() -> String {
         let date = Date()
