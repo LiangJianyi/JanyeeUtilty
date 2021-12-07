@@ -607,26 +607,28 @@ final class JanyeeUtiltyTests: XCTestCase {
         }
     }
     
-    // 暂时没有找到办法解决下面的测试导致访问错误地址引起的错误
-//    func testParallelMap() {
-//        for striding in 2...10 {
-//            var arr = [[Int64]](repeating: [Int64](repeating: 0, count: 10000), count: 10000)
-//            let timeConsuming = JanyeeUtilty.taskTimeConsuming {
-//                arr = arr.parallelMap(striding: striding) { arr in
-//                    return arr.map { e in
-//                        return e + 20
-//                    }
-//                }
-//            }
-//            print("步长为 \(striding) 的时间消耗: \(timeConsuming)")
-//            XCTAssertEqual(arr.filter { arr in
-//                return arr == [Int64](repeating: 20, count: 10000)
-//            }.count,
-//            arr.count)
-//            arr.removeAll()
-//        }
-//
-//    }
+    func testSwapSubArray() {
+        var a = [7, 101, 653, 82, 92, -57, 0, 333, 456, 978, 812]
+        a.swapSubArray(leftRange: (0, 2), rightRange: (3, 8))
+        print(a == [82, 92, -57, 0, 333, 456, 7, 101, 653, 978, 812])
+        a.swapSubArray(leftRange: (0, 9), rightRange: (10, 10))
+        print(a == [812, 82, 92, -57, 0, 333, 456, 7, 101, 653, 978])
+        print()
+
+        a = [Int](1...9)
+        a.swapSubArray(leftRange: (0, 2), rightRange: (3, 8))
+        XCTAssertTrue(a == [4, 5, 6, 7, 8, 9, 1, 2, 3])
+        a.swapSubArray(leftRange: (3, 5), rightRange: (6, 8))
+        XCTAssertTrue(a == [4, 5, 6, 1, 2, 3, 7, 8, 9])
+        a.swapSubArray(leftRange: (1, 2), rightRange: (4, 5))
+        XCTAssertTrue(a == [4, 2, 3, 1, 5, 6, 7, 8, 9])
+        a.swapSubArray(leftRange: (1, 2), rightRange: (5, 8))
+        XCTAssertTrue(a == [4, 6, 7, 8, 9, 1, 5, 2, 3])
+        print(a)
+        a.swapSubArray(leftRange: (0, 0), rightRange: (8, 8))
+        print(a)
+        print()
+    }
 
     static var allTests = [
         ("testMain", testMain),

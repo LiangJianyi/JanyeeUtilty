@@ -64,19 +64,48 @@ extension Array {
         var left = leftIndex
         var right = rightIndex
         while left < right {
-          swapAt(left, right)
-          formIndex(after: &left)
-          formIndex(before: &right)
+            swapAt(left, right)
+            formIndex(after: &left)
+            formIndex(before: &right)
         }
-      }
-    
-    public mutating func swapSubArray(leftRange: (startIndex: Array.Index, endIndex: Array.Index), rightRange: (startIndex: Array.Index, endIndex: Array.Index)) {
+    }
+        
+    public mutating func swapSubArray(leftRange: (startIndex: Array.Index, endIndex: Array.Index),
+                                      rightRange: (startIndex: Array.Index, endIndex: Array.Index)) {
         // 首先反转第一个子数组
         self.partialReverse(leftIndex: leftRange.startIndex, rightIndex: leftRange.endIndex)
         // 再反转第二个子数组
         self.partialReverse(leftIndex: rightRange.startIndex, rightIndex: rightRange.endIndex)
         // 反转整个数组的元素
         self.partialReverse(leftIndex: leftRange.startIndex, rightIndex: rightRange.endIndex)
+        // 子数组长度差
+        let leftRangeLength = leftRange.endIndex - leftRange.startIndex + 1
+        let rightRangeLength = rightRange.endIndex - rightRange.startIndex + 1
+        let subRangeLengthDifference = rightRangeLength - leftRangeLength
+        // 子数组交换后需要修改范围索引
+        let newLeftRange = (startIndex: leftRange.startIndex, endIndex: leftRange.endIndex + subRangeLengthDifference)
+        let newRightRange = (startIndex: rightRange.startIndex + subRangeLengthDifference, endIndex: rightRange.endIndex)
+        // 检测两个子数组之间是否有间隔的数组
+        let middleRangeStartIndex = newLeftRange.endIndex + 1
+        let middleRangeEndIndex = newRightRange.startIndex - 1
+        // 如果 middleRangeStartIndex 和 middleRangeEndIndex 相等，
+        // 表明间隔数组长度为1，无需反转，否则进入下面的 if 块
+        if middleRangeStartIndex != middleRangeEndIndex && middleRangeStartIndex < middleRangeEndIndex {
+            if middleRangeStartIndex > newLeftRange.endIndex {
+                if middleRangeEndIndex < newRightRange.startIndex {
+                    // 把间隔子数组反转回原来的顺序
+                    self.partialReverse(leftIndex: middleRangeStartIndex, rightIndex: middleRangeEndIndex)
+                } else {
+                    fatalError("Error: middleRangeEndIndex >= newRightRange.startIndex\n" +
+                               "middleRangeEndIndex: \(middleRangeEndIndex)\n" +
+                               "newRightRange.startIndex: \(newRightRange.startIndex)")
+                }
+            } else {
+                fatalError("Error: middleRangeStartIndex <= newLeftRange.endIndex\n" +
+                           "middleRangeStartIndex: \(middleRangeStartIndex)\n" +
+                           "newLeftRange.endIndex: \(newLeftRange.endIndex)")
+            }
+        }
     }
 }
 
