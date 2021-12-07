@@ -610,10 +610,9 @@ final class JanyeeUtiltyTests: XCTestCase {
     func testSwapSubArray() {
         var a = [7, 101, 653, 82, 92, -57, 0, 333, 456, 978, 812]
         a.swapSubArray(leftRange: (0, 2), rightRange: (3, 8))
-        print(a == [82, 92, -57, 0, 333, 456, 7, 101, 653, 978, 812])
+        XCTAssertTrue(a == [82, 92, -57, 0, 333, 456, 7, 101, 653, 978, 812])
         a.swapSubArray(leftRange: (0, 9), rightRange: (10, 10))
-        print(a == [812, 82, 92, -57, 0, 333, 456, 7, 101, 653, 978])
-        print()
+        XCTAssertTrue(a == [812, 82, 92, -57, 0, 333, 456, 7, 101, 653, 978])
 
         a = [Int](1...9)
         a.swapSubArray(leftRange: (0, 2), rightRange: (3, 8))
@@ -624,10 +623,20 @@ final class JanyeeUtiltyTests: XCTestCase {
         XCTAssertTrue(a == [4, 2, 3, 1, 5, 6, 7, 8, 9])
         a.swapSubArray(leftRange: (1, 2), rightRange: (5, 8))
         XCTAssertTrue(a == [4, 6, 7, 8, 9, 1, 5, 2, 3])
-        print(a)
         a.swapSubArray(leftRange: (0, 0), rightRange: (8, 8))
-        print(a)
-        print()
+        XCTAssertTrue(a == [3, 6, 7, 8, 9, 1, 5, 2, 4])
+    }
+    
+    func testSwapSubArray2() {
+        var a = [343, -8, 8, 1, 2, 30, 11, 55, 99, -212, -31]
+        a.swapSubArray(leftRange: (1, 7), rightRange: (9, 10))
+        XCTAssertTrue(a == [343, -212, -31, 99, -8, 8, 1, 2, 30, 11, 55])
+        a.swapSubArray(leftRange: (2, 3), rightRange: (6, 9))
+        XCTAssertTrue(a == [343, -212, 1, 2, 30, 11, -8, 8, -31, 99, 55])
+        a.swapSubArray(leftRange: (0, 6), rightRange: (8, 10))
+        XCTAssertTrue(a == [-31, 99, 55, 8, 343, -212, 1, 2, 30, 11, -8])
+        a.swapSubArray(leftRange: (0, 6), rightRange: (7, 10))
+        XCTAssertTrue(a == [2, 30, 11, -8, -31, 99, 55, 8, 343, -212, 1])
     }
 
     static var allTests = [
