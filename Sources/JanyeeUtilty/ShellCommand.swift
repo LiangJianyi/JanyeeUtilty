@@ -1,5 +1,6 @@
 import Foundation
 
+#if os(macOS)
 public struct ShellCommands {
     public static let executableURL = ProcessInfo
                                         .processInfo
@@ -80,3 +81,4 @@ public struct ShellCommands {
         }
     }
 }
+#endif
